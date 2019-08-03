@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+<!-- Application Frame and Nav -->
+{% block main %}
+    <div class="row">
+        <div class="col bg-light mx-1 rounded">
+            <div class="row bg-warning">
+                <nav>
+                    <h2>Menu</h2>
+                </nav>
+            </div>
+            <div class="row">
+                {% block content %}
+                <!-- Page Content -->
+                {% endblock %}
+            </div> 
+        </div>
+    </div>
+{% endblock %}

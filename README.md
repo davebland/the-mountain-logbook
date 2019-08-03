@@ -29,10 +29,11 @@ The application is primarily for people who will already be keeping a logbook of
 - Interactions with other users.
 
 ## Technologies
-HTML5
-CSS3
-JavaScript
-Python
+- HTML5
+- CSS3
+- JavaScript
+- Python
+    - Flask 1.1.1 and associated dependencies
 
 ## Testing
 
