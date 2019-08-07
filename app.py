@@ -6,12 +6,18 @@ app.secret_key = os.getenv("SECRET", "arandomstring")
 
 """ Route handler functions """
 
+def login_check():
+    # If user logged in return true otherwise false
+    if 'user_id' in session:
+        return True
+    return False
+
 """ Routes """
 
-@app.route('/', methods=["GET", "POST"])
-def home():
-    if request.method == "POST":
-        return redirect(url_for('login'), code=307)    
+@app.route('/')
+def index():
+    if login_check():
+        return render_template('logbook-home.html', title="Logbook Home")
     return render_template('login.html')
 
 @app.route('/login', methods=["POST"])
@@ -19,16 +25,32 @@ def login():
     if 'login-email' in request.form:
         # Set email as user_id in session
         session["user_id"] = request.form['login-email']
-        return "SESSION USER ID:" + session["user_id"]
-    return request.form
+        return redirect(url_for('index'))
+    elif 'signup-email' in request.form:
+        # Set email as user_id in session
+        session["user_id"] = request.form['signup-email']
+        return redirect(url_for('index'))
+    return 'INVALID LOGIN'
 
-@app.route('/home')
-def temp():
-    return render_template('logbook-home.html')
+@app.route('/logout')
+def logout():
+    # Destroy session and return to home
+    session.clear()
+    return redirect(url_for('index'))
 
-@app.route('/add_edit')
-def add_edit_entry():
-    return render_template('add-edit-entry.html')
+@app.route('/new')
+def new():
+    """ Generate page for new entry """
+    if login_check():
+        return render_template('update.html', title="New Entry")
+    return redirect( url_for('index') )
+
+@app.route('/update/<entry_id>')
+def update(entry_id):
+    """ Generate page to update existing entry """
+    if login_check():
+        return render_template('update.html', title="Edit Entry")
+    return redirect( url_for('index') )
 
 # Set flask parameters
 if __name__ == '__main__':

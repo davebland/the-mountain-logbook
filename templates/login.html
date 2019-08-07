@@ -12,7 +12,7 @@
             eligendi? Aliquam sunt impedit doloribus reiciendis modi molestias vero, eveniet rem nisi optio eligendi
             porro voluptates tempore? Ducimus amet ad, odit consequatur consequuntur quos qui!</p>
         <!-- Login Form -->
-        <form class="py-2" method="POST" id="form-login">
+        <form class="py-2" method="POST" id="form-login" action="{{ url_for('login') }}">
             <div class="form-group">
                 <label for="login-email" class="sr-only">Login Email Address</label>
                 <input type="email" class="form-control form-control-lg" id="login-email" name="login-email"
@@ -43,7 +43,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Sign-up form -->
-                    <form id="form-signup" method="POST">
+                    <form id="form-signup" method="POST" action="{{ url_for('login') }}">
                         <div class="form-group">
                                 <input type="email" class="form-control form-control-lg" id="signup-email" name="signup-email"
                                 placeholder="Enter email" required>
