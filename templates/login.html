@@ -1,19 +1,72 @@
 {% extends 'base.html' %}
 <!-- Login Page -->
 {% block main %}
-    <div class="row">
-        <div class="col-md-8 col-lg-6 bg-light mx-1 mx-md-auto rounded">
-            <h2>Welcome to the Mountain Logbook Online</h2>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad itaque quas, libero unde, soluta ex obcaecati aspernatur totam perspiciatis illo accusamus atque blanditiis possimus sit vitae aperiam eaque iste. Dolore eveniet a nobis saepe, eius, quaerat voluptatem aut dolores rem fugit doloribus deleniti ut cumque tenetur vitae, quas iusto pariatur? Cupiditate non veniam nostrum sed, id error vel, voluptate voluptatum quaerat omnis ut natus rerum excepturi temporibus officiis suscipit expedita possimus itaque quisquam vero maiores eligendi? Aliquam sunt impedit doloribus reiciendis modi molestias vero, eveniet rem nisi optio eligendi porro voluptates tempore? Ducimus amet ad, odit consequatur consequuntur quos qui!</p>
-            <form class="py-2">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                </div>                    
-                <button type="submit" class="btn btn-success">Login</button>
-                <button type="submit" class="btn btn-warning">Sign-Up</button>
-            </form>
+<div class="row">
+    <div class="col-md-8 col-lg-6 bg-light mx-1 mx-md-auto rounded">
+        <h2>Welcome to the Mountain Logbook Online</h2>
+        <p class="text-justify">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad itaque quas, libero unde, soluta ex obcaecati
+            aspernatur totam perspiciatis illo accusamus atque blanditiis possimus sit vitae aperiam eaque iste. Dolore
+            eveniet a nobis saepe, eius, quaerat voluptatem aut dolores rem fugit doloribus deleniti ut cumque tenetur
+            vitae, quas iusto pariatur? Cupiditate non veniam nostrum sed, id error vel, voluptate voluptatum quaerat
+            omnis ut natus rerum excepturi temporibus officiis suscipit expedita possimus itaque quisquam vero maiores
+            eligendi? Aliquam sunt impedit doloribus reiciendis modi molestias vero, eveniet rem nisi optio eligendi
+            porro voluptates tempore? Ducimus amet ad, odit consequatur consequuntur quos qui!</p>
+        <!-- Login Form -->
+        <form class="py-2" method="POST" id="form-login">
+            <div class="form-group">
+                <label for="login-email" class="sr-only">Login Email Address</label>
+                <input type="email" class="form-control form-control-lg" id="login-email" name="login-email"
+                    placeholder="Enter email" required>
+            </div>
+            <div class="row text-center">
+                <div class="col">
+                    <button type="submit" class="btn btn-success">Login</button>
+                </div>
+                <div class="col">                  
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-signup">Sign-Up</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block modals %}
+    <!-- Modal for sign-up (enter display name) -->
+    <div class="modal fade" id="modal-signup" tabindex="-1" role="dialog" aria-labelledby="modal-signup-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-signup">Enter Display Name</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Display name form -->
+                    <form id="form-signup" method="POST">
+                        <div class="form-group">
+                                <input type="email" class="form-control form-control-lg" id="signup-email" name="signup-email"
+                                placeholder="Enter email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="display-name" class="sr-only">Enter display name</label>
+                            <input type="text" class="form-control form-control-lg" id="display-name" name="display-name" placeholder="Chose a display name" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button form="form-signup" type="submit" class="btn btn-primary">Sign-Up</button>
+                </div>
+            </div>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    // Populate email field in signup for with email from login form (if entered)
+    $('#modal-signup').on('show.bs.modal', function () {
+        $('#signup-email').val($('#login-email').val());
+    })
+</script>
 {% endblock %}
