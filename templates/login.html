@@ -31,7 +31,7 @@
 </div>
 {% endblock %}
 {% block modals %}
-    <!-- Modal for sign-up (enter display name) -->
+    <!-- Modal for sign-up -->
     <div class="modal fade" id="modal-signup" tabindex="-1" role="dialog" aria-labelledby="modal-signup-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -42,7 +42,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Display name form -->
+                    <!-- Sign-up form -->
                     <form id="form-signup" method="POST">
                         <div class="form-group">
                                 <input type="email" class="form-control form-control-lg" id="signup-email" name="signup-email"
@@ -64,7 +64,7 @@
 {% endblock %}
 {% block scripts %}
 <script>
-    // Populate email field in signup for with email from login form (if entered)
+    // Populate email field in signup form with email from login form (if entered)
     $('#modal-signup').on('show.bs.modal', function () {
         $('#signup-email').val($('#login-email').val());
     })
