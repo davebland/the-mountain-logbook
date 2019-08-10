@@ -29,7 +29,22 @@
                                         </tr>
                                 </thead>
                                 <tbody>
-
+                                        <!-- Display error_messages in table if there are any -->
+                                        {% with error_messages = get_flashed_messages() %}
+                                                {% if error_messages %}                                                                                       
+                                                        {% for message in error_messages %}
+                                                                <tr><td>{{ message }}</td></tr>
+                                                        {% endfor %}
+                                                {% endif %}
+                                        {% endwith %}
+                                        <!-- Display records in table, 1 row per record -->
+                                        {% if user_records %}
+                                                {% for record in user_records %}
+                                                <tr>
+                                                        <td>{{ record }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                        {% endif %}
                                 </tbody>
                         </table>
                 </div>
@@ -66,7 +81,7 @@
 <script>
         // Populate modal with data from ajax call
         $('#modal-record').on('show.bs.modal', function () {
-                $('#record').load('{{ url_for('get', entry_id=123) }}');
+                $('#record').load('{{ url_for('get', record_id=123) }}');
         })
 </script>
 {% endblock %}
