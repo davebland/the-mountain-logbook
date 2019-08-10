@@ -52,6 +52,11 @@ def update(entry_id):
         return render_template('update.html', title="Edit Entry")
     return redirect( url_for('index') )
 
+@app.route('/get/<entry_id>')
+def get(entry_id):
+    """ Return all fields of record """
+    return "{'test' : %s }" % entry_id
+
 # Set flask parameters
 if __name__ == '__main__':
     os.environ["FLASK_ENV"] = "development"

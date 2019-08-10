@@ -22,6 +22,9 @@
                                         <th scope="col">Date</th>
                                         <th scope="col">Area</th>
                                         <th scope="col">Entry Name</th>
+                                        <th scope="col">More
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-record">MORE</button>
+                                        </th>
                                         <th scope="col">Edit/Delete Controls</th>
                                         </tr>
                                 </thead>
@@ -31,4 +34,39 @@
                         </table>
                 </div>
         </div>        
+{% endblock %}
+{% block modals %}
+    <!-- Modal for full display of record -->
+    <div class="modal fade" id="modal-record" tabindex="-1" role="dialog" aria-labelledby="modal-record-title" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-record-title">Record</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- All data points from record -->
+                    Date: <br>
+                    Name: <br>
+                    Hieght: <br>
+                    <span id="record"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Edit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script>
+        // Populate modal with data from ajax call
+        $('#modal-record').on('show.bs.modal', function () {
+                $('#record').load('{{ url_for('get', entry_id=123) }}');
+        })
+</script>
 {% endblock %}
