@@ -44,8 +44,13 @@
                                                         <td>{{ record }}</td>
                                                         <td>{{ record }}</td>
                                                         <td>{{ record }}</td>
-                                                        <td><button id="test" type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-record" data-record="{{ record }}">MORE</button></td>
-                                                        <td>{{ record }}</td>
+                                                        <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-record" data-recordid="{{ record }}">MORE</button></td>
+                                                        <td>
+                                                                <a href="{{ url_for('edit', record_id=record) }}"><button type="button" class="btn btn-warning">Edit</button></a>
+                                                                <form action="{{ url_for('delete', record_id=record) }}" method="POST">
+                                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                                </form>
+                                                        </td>
                                                 </tr>
                                                 {% endfor %}
                                         {% endif %}
@@ -85,7 +90,7 @@
 <script>
         // Populate modal with data from ajax call
         $('#modal-record').on('show.bs.modal', function () {
-                let recordId = $(event.target).data('record'); // Get record_id form record attribute of button that triggered modal
+                let recordId = $(event.target).data('recordid'); // Get record_id form record attribute of button that triggered modal
                 $('#record').load("{{ url_for('get', record_id='') }}" + recordId);
         })
 </script>

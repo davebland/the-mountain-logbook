@@ -61,6 +61,14 @@ def new():
         return render_template('new-edit.html', title="New record")
     return redirect( url_for('index') )
 
+@app.route('/add', methods=["POST"])
+def add():
+    """ Add a new record to DB """
+    if login_check():
+        # Connect to DB and add record
+        return request.form
+    return redirect( url_for('index') )
+
 @app.route('/edit/<record_id>')
 def edit(record_id):
     """ Generate page to edit an existing record """
@@ -73,7 +81,7 @@ def update(record_id):
     """ Update an existing record in DB """
     if login_check():
         # Connect to DB and update record
-        return "DB CONNECT HERE FOR UPDATE"
+        return "UPDATING " + request.form
     return redirect( url_for('index') )
 
 @app.route('/delete/<record_id>', methods=["POST"])
@@ -81,7 +89,7 @@ def delete(record_id):
     """ Delete an existing record in DB """
     if login_check():
         # Connect to DB and delete record
-        return "DB CONNECT HERE FOR DELETE"
+        return "DELETING " + record_id
     return redirect( url_for('index') )
 
 # Set flask parameters
