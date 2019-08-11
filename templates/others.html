@@ -1,0 +1,38 @@
+{% extends 'application-frame.html' %}
+<!-- View records submitted by others -->
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <!-- Dropdown to select mountain area of interest -->
+            <form onsubmit="return getAreaRecords(this);">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Select Mountain Area</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="mountainarea">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-danger">Cancel</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>        
+    </div>        
+{% endblock %}
+{% block scripts %}
+<script>
+    // Disable standard form submit behavour (don't reload page)
+    $(document).submit(function(event){
+        event.preventDefault();
+    });
+
+    // Create ajax call to get records per area and update page
+    function getAreaRecords(area_id) {
+        console.log(area_id.mountainarea.value)
+        console.log($.post('{{ url_for("get_by_area") }}', area_id.mountainarea.value));
+        return false;
+    }
+</script>
+{% endblock %}

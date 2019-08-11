@@ -92,6 +92,22 @@ def delete(record_id):
         return "DELETING " + record_id
     return redirect( url_for('index') )
 
+@app.route('/others')
+def others():
+    """ Generate page to view records submitted by others """
+    if login_check():
+        return render_template('others.html')
+    return redirect( url_for('index') )
+
+@app.route('/get/area', methods=["POST"])
+def get_by_area():
+    """ Return all records from DB for given area """
+    if login_check():
+        # Connect to DB and get records
+        return request.form
+    return redirect( url_for('index') )
+
+
 # Set flask parameters
 if __name__ == '__main__':
     os.environ["FLASK_ENV"] = "development"
