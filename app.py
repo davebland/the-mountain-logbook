@@ -12,14 +12,31 @@ def login_check():
         return True
     return False
 
-# ROUTES
+def get_records(record_id = None, user_id = None, area_id = None):
+    """ Get records from DB according to priority record_id, area_id, user_id """
+    if record_id:
+        # Get a single record
+        return "YOU ARE REQUESTING RECORD %s" % record_id
+    elif area_id and not user_id:
+        # Get all records for given area
+        return "YOU ARE REQUESTING RECORDS FOR AREA %s" % area_id
+    elif user_id and not area_id:
+        # Get all records for given user
+        return "YOU ARE REQUESTING RECORDS FOR USER %s" % user_id
+    elif user_id and area_id:
+        # Get all records for given user and given area
+        return "YOU ARE REQUESTING RECORDS FOR USER %s FOR AREA %s" % (user_id, area_id)
+    else:
+        return "ERROR - No record_id, area_id or user_id supplied"
+
+# ROUTES (main)
 
 @app.route('/')
 def index():
     """ Main route returning app homepage or else login page """
     if login_check():
         # Get record set for user if any exist, otherwise return no record flash
-        record_set = "RECORDS FROM DB"
+        record_set = get_records("", 123, 456)
         if record_set:
             return render_template('logbook-home.html', title="Logbook Home", user_records=record_set)
         else:
@@ -47,26 +64,13 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route('/get/<record_id>')
-def get(record_id):
-    """ Get a record and return all fields """
-    if login_check():
-        return "YOUR REQUESTED: %s" % record_id
-    return redirect( url_for('index') )
+# ROUTES (generate views)
 
 @app.route('/new')
 def new():
     """ Generate page for entry of a new record """
     if login_check():
         return render_template('new-edit.html', title="New record")
-    return redirect( url_for('index') )
-
-@app.route('/add', methods=["POST"])
-def add():
-    """ Add a new record to DB """
-    if login_check():
-        # Connect to DB and add record
-        return request.form
     return redirect( url_for('index') )
 
 @app.route('/edit/<record_id>')
@@ -76,22 +80,6 @@ def edit(record_id):
         return render_template('new-edit.html', title="Edit record", record=record_id)
     return redirect( url_for('index') )
 
-@app.route('/update/<record_id>', methods=["POST"])
-def update(record_id):
-    """ Update an existing record in DB """
-    if login_check():
-        # Connect to DB and update record
-        return "UPDATING " + request.form
-    return redirect( url_for('index') )
-
-@app.route('/delete/<record_id>', methods=["POST"])
-def delete(record_id):
-    """ Delete an existing record in DB """
-    if login_check():
-        # Connect to DB and delete record
-        return "DELETING " + record_id
-    return redirect( url_for('index') )
-
 @app.route('/others')
 def others():
     """ Generate page to view records submitted by others """
@@ -99,14 +87,70 @@ def others():
         return render_template('others.html')
     return redirect( url_for('index') )
 
-@app.route('/get/area', methods=["POST"])
-def get_by_area():
-    """ Return all records from DB for given area """
+# ROUTES (retrieve data)
+
+@app.route('/get/records', methods=['POST'])
+def get():
+    """ Return records from DB according to record_id, area_id or user_id in post data (return all fields) """
     if login_check():
-        # Connect to DB and get records
-        return request.form
+        return get_records(request.form)
     return redirect( url_for('index') )
 
+@app.route('/get/areas')
+def get_areas():
+    """ Return all areas in DB """
+    return "REQUESTED LIST OF ALL AREAS"
+
+# ROUTES (create data)
+
+@app.route('/create/<create_type>', methods=["POST"])
+def create(create_type):
+    """ Insert new data into DB """
+    if login_check():
+        # Connect to DB and add new user, record or area according to type specified
+        if create_type == "user":
+            return "CREATING A USER"
+        elif create_type == "record":
+            return "CREATING A RECORD"
+        elif create_type == "area":
+            return "CREATING AN AREA"
+        else:
+            return "ERROR - none or incorrect type supplied"
+    return redirect( url_for('index') )
+
+# ROUTES (update data)
+
+@app.route('/update/<update_type>/<entity_id>', methods=["POST"])
+def update(update_type, entity_id):
+    """ Update existing data in DB """
+    if login_check():
+        # Connect to DB and update entity_id of user, record or area according to type specified
+        if update_type == "user":
+            return "UPDATING A USER %s " % entity_id
+        elif update_type == "record":
+            return "UPDATING A RECORD %s " % entity_id
+        elif update_type == "area":
+            return "UPDATING AN AREA %s " % entity_id
+        else:
+            return "ERROR - none or incorrect type supplied"
+    return redirect( url_for('index') )
+
+# ROUTES (delete data)
+
+@app.route('/delete/<delete_type>/<entity_id>', methods=["POST"])
+def delete(delete_type, entity_id):
+    """ Delete data in DB """
+    if login_check():
+        # Connect to DB and delete user, record or area with entity_id according to type specified
+        if update_type == "user":
+            return "DELETING A USER %s " % entity_id
+        elif update_type == "record":
+            return "DELETING A RECORD %s " % entity_id
+        elif update_type == "area":
+            return "DELETING AN AREA %s " % entity_id
+        else:
+            return "ERROR - none or incorrect type supplied"
+    return redirect( url_for('index') )
 
 # Set flask parameters
 if __name__ == '__main__':
