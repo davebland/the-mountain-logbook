@@ -7,18 +7,24 @@
             <form onsubmit="return getAreaRecords(this);">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select Mountain Area</label>
-                    <select class="form-control" id="exampleFormControlSelect1" name="mountainarea">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select class="form-control" id="exampleFormControlSelect1" name="area_id" required>
+                        <!-- If area list exists populate the select, otherwise display an error message -->
+                        {% if area_list %}
+                            {% for area in area_list %}
+                            <option value="{{ area.area_id }}">{{ area.area_name }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option disabled>Sorry, no areas found</option>
+                        {% endif %}                        
                     </select>
                 </div>
                 <button type="button" class="btn btn-danger">Cancel</button>
                 <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>        
+    </div>
+    <div class="row">
+        <div id="table-records"></div>
     </div>        
 {% endblock %}
 {% block scripts %}
@@ -29,10 +35,12 @@
     });
 
     // Create ajax call to get records per area and update page
-    function getAreaRecords(area_id) {
-        console.log(area_id.mountainarea.value)
-        console.log($.post('{{ url_for("get_by_area") }}', area_id.mountainarea.value));
-        return false;
+    function getAreaRecords(areaForm) {
+        console.log(areaForm.area_id.value)
+        $.post("{{ url_for('get') }}", {'record_id' : '', 'user_id' : '', 'area_id' : areaForm.area_id.value}, function(result) {                        
+                        // If request for data successful then set contents of page
+                        $('#table-records').text(result)
+                })
     }
 </script>
 {% endblock %}

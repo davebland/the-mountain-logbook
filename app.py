@@ -29,6 +29,11 @@ def get_records(record_id = None, user_id = None, area_id = None):
     else:
         return "ERROR - No record_id, area_id or user_id supplied"
 
+def get_areas():
+    """ Connect to DB and return dict containing all area ids and names """
+    test_data = ({'area_id' : 'testarea1_id', 'area_name' : 'testarea1_name'}, {'area_id' : 'testarea2_id', 'area_name' : 'testarea2_name'}, {'area_id' : 'testarea3_id', 'area_name' : 'testarea3_name'})
+    return test_data
+
 # ROUTES (main)
 
 @app.route('/')
@@ -84,7 +89,7 @@ def edit_record(record_id):
 def others():
     """ Generate page to view records submitted by others """
     if login_check():
-        return render_template('others.html')
+        return render_template('others.html', area_list=get_areas())
     return redirect( url_for('index') )
 
 # ROUTES (retrieve data)
@@ -95,11 +100,6 @@ def get():
     if login_check():
         return get_records(request.form['record_id'], request.form['user_id'], request.form['area_id'])
     return redirect( url_for('index') )
-
-@app.route('/get/areas')
-def get_areas():
-    """ Return all areas in DB """
-    return "REQUESTED LIST OF ALL AREAS"
 
 # ROUTES (create data)
 
