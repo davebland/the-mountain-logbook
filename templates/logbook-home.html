@@ -46,8 +46,8 @@
                                                         <td>{{ record }}</td>
                                                         <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-record" data-recordid="{{ record }}">MORE</button></td>
                                                         <td>
-                                                                <a href="{{ url_for('edit', record_id=record) }}"><button type="button" class="btn btn-warning">Edit</button></a>
-                                                                <form action="{{ url_for('delete', record_id=record) }}" method="POST">
+                                                                <a href="{{ url_for('edit_record', record_id=record) }}"><button type="button" class="btn btn-warning">Edit</button></a>
+                                                                <form action="{{ url_for('delete', delete_type='record', entity_id=record) }}">
                                                                         <button type="submit" class="btn btn-danger">Delete</button>
                                                                 </form>
                                                         </td>
@@ -91,7 +91,10 @@
         // Populate modal with data from ajax call
         $('#modal-record').on('show.bs.modal', function () {
                 let recordId = $(event.target).data('recordid'); // Get record_id form record attribute of button that triggered modal
-                $('#record').load("{{ url_for('get', record_id='') }}" + recordId);
+                $.post("{{ url_for('get') }}", {'record_id' : recordId, 'user_id' : '', 'area_id' : ''}, function(result) {                        
+                        // If request for data successful then set contents of modal
+                        $('#record').text(result)
+                })
         })
 </script>
 {% endblock %}

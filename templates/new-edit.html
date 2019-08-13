@@ -3,11 +3,11 @@
 {% block content %}
     <div class="row">
         <div class="col">
-            <!-- If editing an existing record call update function else call new function -->
+            <!-- If editing an existing record call update function else call create function -->
             {% if record %}
-            <form action="{{ url_for('update', record_id=record) }}" method="POST">
+            <form action="{{ url_for('update', update_type='record', entity_id=record) }}" method="POST">
             {% else %}
-            <form action="{{ url_for('add') }}" method="POST">
+            <form action="{{ url_for('create', create_type='record') }}" method="POST">
             {% endif %}                        
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>

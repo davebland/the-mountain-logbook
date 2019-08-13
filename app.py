@@ -73,8 +73,8 @@ def new():
         return render_template('new-edit.html', title="New record")
     return redirect( url_for('index') )
 
-@app.route('/edit/<record_id>')
-def edit(record_id):
+@app.route('/edit/record/<record_id>')
+def edit_record(record_id):
     """ Generate page to edit an existing record """
     if login_check():
         return render_template('new-edit.html', title="Edit record", record=record_id)
@@ -93,7 +93,7 @@ def others():
 def get():
     """ Return records from DB according to record_id, area_id or user_id in post data (return all fields) """
     if login_check():
-        return get_records(request.form)
+        return get_records(request.form['record_id'], request.form['user_id'], request.form['area_id'])
     return redirect( url_for('index') )
 
 @app.route('/get/areas')
@@ -115,7 +115,7 @@ def create(create_type):
         elif create_type == "area":
             return "CREATING AN AREA"
         else:
-            return "ERROR - none or incorrect type supplied"
+            return "CREATING ERROR - none or incorrect type supplied"
     return redirect( url_for('index') )
 
 # ROUTES (update data)
@@ -132,24 +132,24 @@ def update(update_type, entity_id):
         elif update_type == "area":
             return "UPDATING AN AREA %s " % entity_id
         else:
-            return "ERROR - none or incorrect type supplied"
+            return "UPDATING ERROR - none or incorrect type supplied"
     return redirect( url_for('index') )
 
 # ROUTES (delete data)
 
-@app.route('/delete/<delete_type>/<entity_id>', methods=["POST"])
+@app.route('/delete/<delete_type>/<entity_id>')
 def delete(delete_type, entity_id):
     """ Delete data in DB """
     if login_check():
         # Connect to DB and delete user, record or area with entity_id according to type specified
-        if update_type == "user":
+        if delete_type == "user":
             return "DELETING A USER %s " % entity_id
-        elif update_type == "record":
+        elif delete_type == "record":
             return "DELETING A RECORD %s " % entity_id
-        elif update_type == "area":
+        elif delete_type == "area":
             return "DELETING AN AREA %s " % entity_id
         else:
-            return "ERROR - none or incorrect type supplied"
+            return "DELETING ERROR - none or incorrect type supplied"
     return redirect( url_for('index') )
 
 # Set flask parameters
