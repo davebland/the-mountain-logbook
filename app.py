@@ -89,7 +89,7 @@ def edit_record(record_id):
 def others():
     """ Generate page to view records submitted by others """
     if login_check():
-        return render_template('others.html', area_list=get_areas())
+        return render_template('others.html', title="Others Page", area_list=get_areas())
     return redirect( url_for('index') )
 
 # ROUTES (retrieve data)

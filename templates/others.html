@@ -4,10 +4,11 @@
     <div class="row">
         <div class="col">
             <!-- Dropdown to select mountain area of interest -->
-            <form onsubmit="return getAreaRecords(this);">
+            <form>
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select Mountain Area</label>
-                    <select class="form-control" id="exampleFormControlSelect1" name="area_id" required>
+                    <select class="form-control" id="select-form-area-name" name="area_id" onchange="getAreaRecords()" required>
+                        <option selected disabled hidden>Select an area...</option>
                         <!-- If area list exists populate the select, otherwise display an error message -->
                         {% if area_list %}
                             {% for area in area_list %}
@@ -18,8 +19,6 @@
                         {% endif %}                        
                     </select>
                 </div>
-                <button type="button" class="btn btn-danger">Cancel</button>
-                <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>        
     </div>
@@ -35,9 +34,10 @@
     });
 
     // Create ajax call to get records per area and update page
-    function getAreaRecords(areaForm) {
-        console.log(areaForm.area_id.value)
-        $.post("{{ url_for('get') }}", {'record_id' : '', 'user_id' : '', 'area_id' : areaForm.area_id.value}, function(result) {                        
+    function getAreaRecords() {
+        let areaIdSelected = $('#select-form-area-name').val()        
+        //console.log(areaForm.area_id.value)
+        $.post("{{ url_for('get') }}", {'record_id' : '', 'user_id' : '', 'area_id' : areaIdSelected}, function(result) {                        
                         // If request for data successful then set contents of page
                         $('#table-records').text(result)
                 })
