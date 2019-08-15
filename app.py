@@ -75,14 +75,21 @@ def logout():
 def new():
     """ Generate page for entry of a new record """
     if login_check():
-        return render_template('new-edit.html', title="New record")
+        return render_template('new-edit.html', title="New record", area_list=get_areas())
     return redirect( url_for('index') )
 
 @app.route('/edit/record/<record_id>')
 def edit_record(record_id):
     """ Generate page to edit an existing record """
     if login_check():
-        return render_template('new-edit.html', title="Edit record", record=record_id)
+        return render_template('new-edit.html', title="Edit record", record=record_id, area_list=get_areas())
+    return redirect( url_for('index') )
+
+@app.route('/edit/areas')
+def edit_areas():
+    """ Generate page to edit areas """
+    if login_check():
+        return render_template('edit-areas.html', title="Edit Areas", area_list=get_areas())
     return redirect( url_for('index') )
 
 @app.route('/others')
@@ -113,6 +120,10 @@ def create(create_type):
         elif create_type == "record":
             return "CREATING A RECORD"
         elif create_type == "area":
+            # If reload requested in arguments this is a request from edit page rather than modal form
+            if request.args.get('reload_page'):
+                flash("CREATING AN AREA")
+                return redirect( url_for('edit_areas') )
             return "CREATING AN AREA"
         else:
             return "CREATING ERROR - none or incorrect type supplied"
@@ -130,7 +141,8 @@ def update(update_type, entity_id):
         elif update_type == "record":
             return "UPDATING A RECORD %s " % entity_id
         elif update_type == "area":
-            return "UPDATING AN AREA %s " % entity_id
+            flash("UPDATING AN AREA %s " % entity_id)
+            return redirect( url_for('edit_areas') )
         else:
             return "UPDATING ERROR - none or incorrect type supplied"
     return redirect( url_for('index') )

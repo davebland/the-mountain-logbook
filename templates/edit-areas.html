@@ -1,0 +1,64 @@
+{% extends 'application-frame.html' %}
+<!-- Edit and add mountain areas -->
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <!-- Flashed or other message Area -->
+            <div id="message-area">
+                {% with error_messages = get_flashed_messages() %}
+                        {% if error_messages %}                                                                                       
+                                {% for message in error_messages %}
+                                        {{ message }}
+                                {% endfor %}
+                        {% endif %}
+                {% endwith %}
+            </div>
+            <!-- Dropdown to select existing mountain area -->
+            <form id="form-select-area">
+                <div class="form-group">
+                    <label for="select-form-area-name">Select Mountain Area</label>
+                    <select class="form-control" id="select-form-area-name" name="area_id" onchange="getAreaRecords()" required>
+                        <option selected disabled hidden>Select an area...</option>
+                        <!-- If area list exists populate the select, otherwise display an error message -->
+                        {% if area_list %}
+                            {% for area in area_list %}
+                            <option value="{{ area.area_id }}">{{ area.area_name }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option disabled>Sorry, no areas found</option>
+                        {% endif %}                        
+                    </select>
+                </div>
+            </form>
+            <!-- Form to edit mountain area -->
+            <form id="form-edit-area" action="{{ url_for('create', create_type='area', reload_page=True) }}" method="POST">
+                <div class="form-group">
+                    <label for="input-new-area-name">Area Name</label>
+                    <input type="text" class="form-control" id="input-new-area-name" name="area_name" placeholder="Enter an area name" required>
+                    <button id="button-submit-edit-form" type="submit" class="btn btn-warning">Create Area</button>
+                </div>
+            </form>
+        </div>        
+    </div>      
+{% endblock %}
+{% block scripts %}
+<script>
+    // Disable select form submit behavour (don't reload page)
+    $('#form-select-area').submit(function(event){
+        event.preventDefault();
+    });
+
+    // Create ajax call to get records per area and update page
+    function getAreaRecords() {
+        let areaIdSelected = $('#select-form-area-name').val()        
+        $.post("{{ url_for('get') }}", {'record_id' : '', 'user_id' : '', 'area_id' : areaIdSelected}, function(result) {                        
+                        // If request for data successful then set contents of edit form and change action
+                        $('#input-new-area-name').val(result);
+                        let updateAreaUrl = "{{ url_for('update', update_type='area', entity_id='') }}";
+                        updateAreaUrl += result;
+                        $('#form-edit-area').attr('action', updateAreaUrl);
+                        $('#button-submit-edit-form').text('Edit');
+                })
+    }
+</script>
+{% endblock %}

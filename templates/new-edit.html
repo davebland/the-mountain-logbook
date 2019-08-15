@@ -22,9 +22,74 @@
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
                 </div>
+                <label for="select-area-name">Mountain Area</label>
+                <select class="form-control" id="select-area-name" name="area_id" required>                                        
+                    <!-- Populate the select with area from the record if exist then add other options from DB, otherwise display an error message -->
+                    {% if record %}
+                        <option value="{{ record }}" selected>{{ record }}</option>
+                    {% else %}
+                        <option selected disabled hidden>Select an area...</option>
+                    {% endif %}
+                    {% if area_list %}                    
+                        {% for area in area_list %}
+                        <option value="{{ area.area_id }}">{{ area.area_name }}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option disabled>Sorry, no areas found</option>
+                    {% endif %}                        
+                </select>
+                <!-- Add new area button (to modal) -->
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-add-new-area">Add a new area</button>
                 <a href="{{ url_for('index') }}"><button type="button" class="btn btn-danger">Cancel</button></a>
                 <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>        
     </div>        
+{% endblock %}
+{% block modals %}
+    <!-- Modal to add new area -->
+    <div class="modal fade" id="modal-add-new-area" tabindex="-1" role="dialog" aria-labelledby="modal-area-title" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-area-title">Add an Area</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form to add an area name to DB -->
+                    <form id="form-new-area" onsubmit="return addNewArea(this);">
+                        <div class="form-group">
+                            <label for="input-new-area-name">Area Name</label>
+                            <input type="text" class="form-control" id="input-new-area-name" name="area_name" placeholder="Enter an area name" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                    <button form="form-new-area" type="submit" class="btn btn-warning">Add</button>                  
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    // Disable standard form submit behavour (don't reload page)
+    $(document).submit(function(event){
+        event.preventDefault();
+    });
+
+    // Create ajax call to add new area to DB, close modal and update page
+    function addNewArea(newAreaForm) {
+        let newAreaName = newAreaForm.area_name.value;
+        let createAreaUrl = "{{ url_for('create', create_type='area') }}"
+        $.post(createAreaUrl, {'area_name' : newAreaName}, function(result) {                        
+                        // If post request successful then close modal and add area to select
+                        $('#modal-add-new-area').modal('hide')
+                        $('#select-area-name').append(`<option value="${result}" selected>${result}</option>`)
+                })      
+    }
+</script>
 {% endblock %}
