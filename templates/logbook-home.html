@@ -31,7 +31,7 @@
                                         {% with error_messages = get_flashed_messages() %}
                                                 {% if error_messages %}                                                                                       
                                                         {% for message in error_messages %}
-                                                                <tr><td>{{ message }}</td></tr>
+                                                                <tr><td id="message-area">{{ message }}</td></tr>
                                                         {% endfor %}
                                                 {% endif %}
                                         {% endwith %}

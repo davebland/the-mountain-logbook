@@ -1,5 +1,28 @@
+/* MAIN SITE STYLES */
+
+/* CONTAINERS */
+
 footer {
     position: absolute;
     bottom: 0;
     right: 0;
+}
+
+/* TYPOGRAPHY */
+
+.header-text {
+    font-size: 1.3em !important;
+}
+
+@media (min-width: 768px) {
+    .header-text {
+        font-size: 2.5em !important;
+    }
+}
+
+/* ALERTS */
+
+#message-area {
+    color: red;
+    background-color: orange;
 }

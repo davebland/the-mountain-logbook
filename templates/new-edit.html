@@ -77,7 +77,7 @@
 {% block scripts %}
 <script>
     // Disable standard form submit behavour (don't reload page)
-    $(document).submit(function(event){
+    $('#form-new-area').submit(function(event){
         event.preventDefault();
     });
 

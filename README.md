@@ -34,6 +34,10 @@ The application is primarily for people who will already be keeping a logbook of
 - JavaScript
 - Python
     - Flask 1.1.1 and associated dependencies
+- Libraries
+    - JQuery
+    - Bootstrap
+    - Google Material Icons - https://material.io/resources/icons
 
 ## Testing
 
