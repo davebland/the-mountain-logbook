@@ -25,8 +25,10 @@ The application is primarily for people who will already be keeping a logbook of
 
 ## Future Additions
 - Directly connect to 'Mountain-Training.org' (UK governing body) website for import into thier CMS for candidate assessment.
-- Add pre dictated highest points (mountain summits) that users can select.
+- Add pre-dictated highest points (mountain summits) that users can select.
 - Interactions with other users.
+- Link a log entry with another user in the system
+- Record waypoint coordinates and map these
 
 ## Technologies
 - HTML5

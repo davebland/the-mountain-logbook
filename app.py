@@ -118,12 +118,12 @@ def create(create_type):
         if create_type == "user":
             return "CREATING A USER"
         elif create_type == "record":
-            flash("CREATING A RECORD")
+            flash("CREATING A RECORD: {}".format(request.form))
             return redirect( url_for('index') )
         elif create_type == "area":
             # If reload requested in arguments this is a request from edit page rather than modal form
             if request.args.get('reload_page'):
-                flash("CREATING AN AREA")
+                flash("CREATING AN AREA: {}".format(request.form))
                 return redirect( url_for('edit_areas') )
             return "CREATING AN AREA"
         else:
