@@ -27,6 +27,28 @@ footer {
     background-color: orange;
 }
 
+/* FORMS */
+
+#inputs-highest-point-os input[type="number"] {
+    width: 40%;
+    margin: auto;
+}
+
+#inputs-highest-point-latlong input[type="number"] {
+    width: 45%;
+    margin: auto;
+}
+
+#input-duration::before {
+    content: "1";
+    padding-right: 5px;
+}
+
+#input-duration::after {
+    content: "24";
+    padding-left: 5px;
+}
+
 /* ANIMATIONS */
 
 .animate-rotate {

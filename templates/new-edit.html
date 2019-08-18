@@ -9,120 +9,135 @@
             <form action="{{ url_for('update', update_type='record', entity_id=record) }}" method="POST">
             {% else %}
             <form action="{{ url_for('create', create_type='record') }}" method="POST">
-            {% endif %}                        
-            <div class="form-row">
-                <div class="col-lg">
-                    <!-- Date -->
-                    <label for="input-date">Date</label>
-                    <input type="date" class="form-control" id="input-date" name="date" placeholder="date" value="{{ record }}">
-                </div>
-                <div class="col-lg">
-                    <!-- Mountain Area -->
-                    <label for="select-area-name">Mountain Area</label>
-                    <div class="form-inline">
-                        <select class="form-control" id="select-area-name" name="area_id" required>                                        
-                            <!-- Populate the select with area from the record if exist then add other options from DB, otherwise display an error message -->
-                            {% if record %}
-                                <option value="{{ record }}" selected>{{ record }}</option>
-                            {% else %}
-                                <option selected disabled hidden>Select an area...</option>
-                            {% endif %}
-                            {% if area_list %}                    
-                                {% for area in area_list %}
-                                <option value="{{ area.area_id }}">{{ area.area_name }}</option>
-                                {% endfor %}
-                            {% else %}
-                                <option disabled>Sorry, no areas found</option>
-                            {% endif %}                        
-                        </select>
-                        <!-- Add new area button (to modal) -->
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-add-new-area">Add a new area</button>
-                    </div>                    
-                </div>
-            </div>                            
-                <div class="form-group">
-                    <!-- Entry Name -->
-                    <label for="input-entry-name">Entry Name</label>
-                    <input type="text" class="form-control" id="input-entry-name" name="entry_name" placeholder="Entry Name" value="{{ record }}">
-                </div>
-                <div class="form-group">
-                    <!-- Primary Terrain -->
-                    <label for="select-primary-terrain">Primary Terrain</label>
-                    <select class="form-control" id="select-primary-terrain" name="primary_terrain">
-                        {% if record %}
-                            <option value="{{ record }}" selected>{{ record }}</option>
-                        {% else %}
-                            <option selected disabled hidden>Select terrain...</option>
-                        {% endif %}
-                        <option>Mountain</option>
-                        <option>Hill</option>
-                        <option>Moorland</option>
-                        <option>Coastal</option>                        
-                    </select>                    
+            {% endif %}
+                <div class="form-row">
+                    <div class="form-group">
+                        <!-- Entry Name -->
+                        <label for="input-entry-name">Entry Name</label>
+                        <input type="text" class="form-control form-control-lg" id="input-entry-name" name="entry_name" size="100%" splaceholder="Entry Name" value="{{ record }}">
+                    </div>    
+                </div>                        
+                <div class="form-row">                    
+                    <div class="col-lg">
+                        <div class="form-group">
+                            <!-- Date -->
+                            <label for="input-date">Date</label>
+                            <input type="date" class="form-control" id="input-date" name="date" placeholder="date" value="{{ record }}">
+                        </div>
+                        <!-- Mountain Area -->
+                        <div class="form-group">
+                            <label for="select-area-name">Mountain Area</label>
+                            <select class="form-control" id="select-area-name" name="area_id" required>                                        
+                                <!-- Populate the select with area from the record if exist then add other options from DB, otherwise display an error message -->
+                                {% if record %}
+                                    <option value="{{ record }}" selected>{{ record }}</option>
+                                {% else %}
+                                    <option selected disabled hidden>Select an area...</option>
+                                {% endif %}
+                                {% if area_list %}                    
+                                    {% for area in area_list %}
+                                    <option value="{{ area.area_id }}">{{ area.area_name }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option disabled>Sorry, no areas found</option>
+                                {% endif %}                        
+                            </select>
+                            <!-- Add new area button (to modal) -->
+                            <div class="text-right">
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-add-new-area">Add a new area</button>
+                            </div>                            
+                        </div>                                        
+                        <div class="form-group">
+                            <!-- Primary Terrain -->
+                            <label for="select-primary-terrain">Primary Terrain</label>
+                            <select class="form-control" id="select-primary-terrain" name="primary_terrain">
+                                {% if record %}
+                                    <option value="{{ record }}" selected>{{ record }}</option>
+                                {% else %}
+                                    <option selected disabled hidden>Select terrain...</option>
+                                {% endif %}
+                                <option>Mountain</option>
+                                <option>Hill</option>
+                                <option>Moorland</option>
+                                <option>Coastal</option>                        
+                            </select>                    
+                        </div>
+                        <div class="form-group">
+                            <!-- Duration -->
+                            <label for="input-duration">Duration (hours)</label>
+                            <input type="range" class="custom-range" id="input-duration" name="duration" min="1" max="24" step="1" value="{{ record }}">
+                            <div class="text-center"><span class="" id="feedback-duration-value">*</span> hrs</div>
+                        </div>
+                        <div class="form-group">
+                            <!-- Distance -->
+                            <label for="input-distance">Distance</label>
+                            <input type="number" class="form-control" id="input-distance" name="distance" value="{{ record }}">                    
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <!-- Highest Point -->
+                        <div class="form-group">
+                            <label for="input-highest-point-name">Summit Name</label>
+                            <input type="text" class="form-control" id="input-highest-point-name" name="highest_point_name" placeholder="HP Name" value="{{ record }}">
+                        </div>
+                        <div class="form-row">
+                            <div class="col-2">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="switch-os-latlong" onchange="toggleHighestPointCoords();">
+                                    <label class="custom-control-label" for="switch-os-latlong">OS or Lat/Long</label>
+                                </div>
+                            </div>
+                            <div class="col-10">
+                                <div id="inputs-highest-point-os" class="form-inline">
+                                    <input type="text" class="form-control" id="input-os-grid" name="highest_point_os_grid" placeholder="OS grid" size="2" maxlength="2" value="{{ record }}">
+                                    <input type="number" class="form-control" id="input-os-eastings" name="highest_point_os_eastings" placeholder="Eastings" value="{{ record }}">
+                                    <input type="number" class="form-control" id="input-os-northings" name="highest_point_os_northings" placeholder="Northings" value="{{ record }}">
+                                </div>
+                                <div id="inputs-highest-point-latlong" class="form-inline">                        
+                                    <input type="number" class="form-control" id="input-latitude" name="highest_point_latitude" placeholder="Latitude" value="{{ record }}">
+                                    <input type="number" class="form-control" id="input-longitude" name="highest_point_longitude" placeholder="Longitude" value="{{ record }}">
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="form-group">
+                            <!-- Additional Summits -->
+                            <label for="textarea-additional-summits">Additional Summits</label>
+                            <textarea class="form-control" id="textarea-additional-summits" name="additional_summits" rows="3" value="{{ record }}"></textarea>                    
+                        </div>
+                        <div class="form-group">
+                            <!-- Weather -->
+                            <label for="input-eather">Weather</label>
+                            <input type="text" class="form-control" id="input-weather" name="weather" placeholder="Weather" value="{{ record }}">                    
+                        </div>
+                        <div class="form-group">
+                            <!-- Participation -->
+                            <label for="select-participation">Participation</label>
+                            <select class="form-control" id="select-participation" name="participation">
+                                {% if record %}
+                                    <option value="{{ record }}" selected>{{ record }}</option>
+                                {% else %}
+                                    <option selected disabled hidden>Select participation...</option>
+                                {% endif %}
+                                <option>Leader</option>
+                                <option>Assistant Leader</option>
+                                <option>Group Member</option>
+                                <option>Casual</option>                        
+                            </select>                    
+                        </div>
+                        <div class="form-group">
+                            <!-- Group Members -->
+                            <label for="textarea-group-members">Group Members</label>
+                            <textarea class="form-control" id="textarea-group-members" name="group_members" rows="3" value="{{ record }}"></textarea>                    
+                        </div>
+                    </div>
                 </div>
                 <div class="form-row">
-                    <!-- Highest Point -->
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="switch-os-latlong" onchange="toggleHighestPointCoords();">
-                        <label class="custom-control-label" for="switch-os-latlong">OS or Lat/Long</label>
+                    <div class="form-group">
+                        <!-- Notes -->                    
+                        <label for="textarea-notes">Notes</label>
+                        <textarea class="form-control" id="textarea-notes" name="notes" rows="15" cols="100%" value="{{ record }}"></textarea>
                     </div>
-                    <div id="inputs-highest-point-os" class="col form-inline">
-                        <input type="text" class="form-control" id="input-os-grid" name="highest_point_os_grid" placeholder="OS grid" value="{{ record }}">
-                        <input type="number" class="form-control" id="input-os-eastings" name="highest_point_os_eastings" placeholder="Eastings" value="{{ record }}">
-                        <input type="number" class="form-control" id="input-os-northings" name="highest_point_os_northings" placeholder="Northings" value="{{ record }}">
-                    </div>
-                    <div id="inputs-highest-point-latlong" class="col form-inline">                        
-                        <input type="number" class="form-control" id="input-latitude" name="highest_point_latitude" placeholder="Latitude" value="{{ record }}">
-                        <input type="number" class="form-control" id="input-longitude" name="highest_point_longitude" placeholder="Longitude" value="{{ record }}">
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    <!-- Additional Summits -->
-                    <label for="textarea-additional-summits">Additional Summits</label>
-                    <textarea class="form-control" id="textarea-additional-summits" name="additional_summits" rows="3" value="{{ record }}"></textarea>                    
-                </div>
-                <div class="form-row">
-                    <div class="col-lg-8">
-                        <!-- Duration -->
-                        <label for="input-duration">Duration</label>
-                        <input type="range" class="form-control-range" id="input-duration" name="duration" min="1" max="24" step="1" value="{{ record }}">                    
-                    </div>
-                    <div class="col-lg-4">
-                        <!-- Distance -->
-                        <label for="input-distance">Distance</label>
-                        <input type="number" class="form-control" id="input-distance" name="distance" value="{{ record }}">                    
-                    </div>
-                </div>                
-                <div class="form-group">
-                    <!-- Weather -->
-                    <label for="input-eather">Weather</label>
-                    <input type="text" class="form-control" id="input-weather" name="weather" placeholder="Weather" value="{{ record }}">                    
-                </div>
-                <div class="form-group">
-                    <!-- Participation -->
-                    <label for="select-participation">Participation</label>
-                    <select class="form-control" id="select-participation" name="participation">
-                        {% if record %}
-                            <option value="{{ record }}" selected>{{ record }}</option>
-                        {% else %}
-                            <option selected disabled hidden>Select participation...</option>
-                        {% endif %}
-                        <option>Leader</option>
-                        <option>Assistant Leader</option>
-                        <option>Group Member</option>
-                        <option>Casual</option>                        
-                    </select>                    
-                </div>
-                <div class="form-group">
-                    <!-- Group Members -->
-                    <label for="textarea-group-members">Group Members</label>
-                    <textarea class="form-control" id="textarea-group-members" name="group_members" rows="3" value="{{ record }}"></textarea>                    
-                </div>
-                <div class="form-group">
-                    <!-- Notes -->                    
-                    <label for="textarea-notes">Notes</label>
-                    <textarea class="form-control" id="textarea-notes" name="notes" rows="3" value="{{ record }}"></textarea>
-                </div>
+                </div>                                                                      
                 <a href="{{ url_for('index') }}"><button type="button" class="btn btn-danger">Cancel</button></a>
                 <button type="submit" class="btn btn-success">Submit</button>
             </form>
@@ -187,5 +202,10 @@
             $('#inputs-highest-point-latlong').hide();
         }
     }
+
+    // Feedback currently selected duration in form range input
+    $('#input-duration').change(function() {
+        $('#feedback-duration-value').text($(this).val());
+    })
 </script>
 {% endblock %}
