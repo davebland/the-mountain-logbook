@@ -1,99 +1,175 @@
 {% extends 'application-frame.html' %}
 <!-- Main Logbook Home Page -->
 {% block content %}
-        <div class="row">
-                <div class="col">
-                        Meta section A <br>
-                        USER ID: {{ session['user_id'] }}
-                </div>
-                <div class="col">
-                        Meta section B
-                </div>
+<div class="row">
+        <div class="col">
+                Meta section A <br>
+                USER ID: {{ session['user_id'] }}
         </div>
-        <div class="row">
-                Search Bars
+        <div class="col">
+                Meta section B
         </div>
-        <div class="row">
-                <div class="col">
-                        <!-- Main Table of Log Entries -->
-                        <table class="table">
-                                <thead>
-                                        <tr>
+</div>
+<div class="row">
+        Search Bars
+</div>
+<div class="row">
+        <div class="col">
+                <!-- Main Table of Log Entries -->
+                <table class="table">
+                        <thead>
+                                <tr>
                                         <th scope="col">Date</th>
                                         <th scope="col">Area</th>
                                         <th scope="col">Entry Name</th>
-                                        <th scope="col">More        </th>
+                                        <th scope="col">More </th>
                                         <th scope="col">Edit/Delete Controls</th>
-                                        </tr>
-                                </thead>
-                                <tbody>
-                                        <!-- Display error_messages in table if there are any -->
-                                        {% with error_messages = get_flashed_messages() %}
-                                                {% if error_messages %}                                                                                       
-                                                        {% for message in error_messages %}
-                                                                <tr><td id="message-area">{{ message }}</td></tr>
-                                                        {% endfor %}
-                                                {% endif %}
-                                        {% endwith %}
-                                        <!-- Display records in table, 1 row per record -->
-                                        {% if user_records %}
-                                                {% for record in user_records %}
-                                                <tr>
-                                                        <td>{{ record }}</td>
-                                                        <td>{{ record }}</td>
-                                                        <td>{{ record }}</td>
-                                                        <td>
-                                                                <!-- More record details button (to modal) -->
-                                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-record" data-recordid="{{ record }}">MORE</button>
-                                                        </td>
-                                                        <td>
-                                                                <!-- Edit and delete buttons -->
-                                                                <a href="{{ url_for('edit_record', record_id=record) }}"><button type="button" class="btn btn-warning">Edit</button></a>
-                                                                <form action="{{ url_for('delete', delete_type='record', entity_id=record) }}">
-                                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                                </form>
-                                                        </td>
-                                                </tr>
-                                                {% endfor %}
-                                        {% endif %}
-                                </tbody>
-                        </table>
-                </div>
-        </div>        
+                                </tr>
+                        </thead>
+                        <tbody>
+                                <!-- Display error_messages in table if there are any -->
+                                {% with error_messages = get_flashed_messages() %}
+                                {% if error_messages %}
+                                {% for message in error_messages %}
+                                <tr>
+                                        <td id="message-area">{{ message }}</td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                                {% endwith %}
+                                <!-- Display records in table, 1 row per record -->
+                                {% if user_records %}
+                                {% for record in user_records %}
+                                <tr>
+                                        <td>{{ record }}</td>
+                                        <td>{{ record }}</td>
+                                        <td>{{ record }}</td>
+                                        <td>
+                                                <!-- More record details button (to modal) -->
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                        data-target="#modal-record"
+                                                        data-recordid="{{ record }}">MORE</button>
+                                        </td>
+                                        <td>
+                                                <!-- Edit and delete buttons -->
+                                                <a href="{{ url_for('edit_record', record_id=record) }}"><button
+                                                                type="button" class="btn btn-warning">Edit</button></a>
+                                                <form
+                                                        action="{{ url_for('delete', delete_type='record', entity_id=record) }}">
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                        </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                        </tbody>
+                </table>
+        </div>
+</div>
 {% endblock %}
 {% block modals %}
-    <!-- Modal for full display of record -->
-    <div class="modal fade" id="modal-record" tabindex="-1" role="dialog" aria-labelledby="modal-record-title" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-record-title">Record</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<!-- Modal for full display of record -->
+<div class="modal fade" id="modal-record" tabindex="-1" role="dialog" aria-labelledby="modal-record-title"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h5 class="modal-title" id="modal-record-title">Entry - <span id="modal-data-name"><i class="material-icons animate-rotate">hourglass_empty</i></span></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        <div class="modal-body">
+                                <!-- All data points from record -->
+                                <div class="container-fluid">                                                                       
+                                        <div class="row">
+                                                <div class="col-lg">
+                                                        <table class="table table-bordered">
+                                                                <tr>
+                                                                        <td>Date</td>
+                                                                        <td id="modal-data-date"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>Mountain Area</td>
+                                                                        <td id="modal-data-mountain_area"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>Primary Terrain</td>
+                                                                        <td id="modal-data-primary_terrain"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>Duration</td>
+                                                                        <td id="modal-data-duration"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>Distance</td>
+                                                                        <td id="modal-data-distance"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                        </table>
+                                                </div>
+                                                <div class="col-lg">
+                                                        <table class="table table-bordered">
+                                                                <tr>
+                                                                        <td>Highest Point</td>
+                                                                        <td id="modal-data-highest_point_name"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>OS / LatLong</td>
+                                                                        <td id="modal-data-highest_point_coords"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>Additional Summits</td>
+                                                                        <td id="modal-data-additional_summits"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>Weather</td>
+                                                                        <td id="modal-data-weather"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>Participation</td>
+                                                                        <td id="modal-data-participation"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>Group Members</td>
+                                                                        <td id="modal-data-group_members"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                </tr>
+                                                        </table>
+                                                </div>
+                                        </div>
+                                        <div class="row">
+                                                Notes:
+                                                <div id="modal-data-notes" class="col"><i class="material-icons animate-rotate">hourglass_empty</i></div>
+                                        </div>
+                                </div> 
+                                <div class="" id="modal-data-test">TEST</div>                               
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                                <a id="button-edit-record-modal" href=""><button type="button"
+                                                class="btn btn-warning">Edit</button></a>
+                        </div>
                 </div>
-                <div class="modal-body">
-                    <!-- All data points from record -->
-                    <span id="record"></span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-                    <a id="button-edit-record-modal" href=""><button type="button" class="btn btn-warning">Edit</button></a>                   
-                </div>
-            </div>
         </div>
-    </div>
+</div>
 {% endblock %}
 {% block scripts %}
 <script>
         // Populate modal with data from ajax call
         $('#modal-record').on('show.bs.modal', function () {
                 let recordId = $(event.target).data('recordid'); // Get record_id form record attribute of button that triggered modal
-                $.post("{{ url_for('get') }}", {'record_id' : recordId, 'user_id' : '', 'area_id' : ''}, function(result) {                        
+                $.post("{{ url_for('get') }}", { 'record_id': recordId, 'user_id': '', 'area_id': '' }, function (result) {
                         // If request for data successful then set contents of modal
-                        $('#record').text(result)
-                        let editButtonHref = "{{ url_for('edit_record', record_id='') }}"
-                        $('#button-edit-record-modal').attr('href', editButtonHref + result)
+                        console.log(result);
+                        for (const [key, value] of Object.entries(result)) {
+                                if (value) {
+                                        $(`#modal-data-${key}`).text(value);
+                                } else {
+                                        $(`#modal-data-${key}`).text('<i class="material-icons animate-rotate">hourglass_empty</i>');
+                                };
+                        };
+                        // Update edit button link
+                        let editButtonHref = "{{ url_for('edit_record', record_id='') }}";
+                        $('#button-edit-record-modal').attr('href', editButtonHref + result);
                 })
         })
 </script>

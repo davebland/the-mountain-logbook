@@ -16,7 +16,7 @@ def get_records(record_id = None, user_id = None, area_id = None):
     """ Get records from DB according to priority record_id, area_id, user_id """
     if record_id:
         # Get a single record
-        return "YOU ARE REQUESTING RECORD %s" % record_id
+        return {"YOU ARE REQUESTING RECORD" : record_id, "test" : record_id}
     elif area_id and not user_id:
         # Get all records for given area
         return "YOU ARE REQUESTING RECORDS FOR AREA %s" % area_id

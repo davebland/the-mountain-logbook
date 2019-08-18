@@ -26,3 +26,14 @@ footer {
     color: red;
     background-color: orange;
 }
+
+/* ANIMATIONS */
+
+.animate-rotate {
+    animation: rotation 1.5s infinite;
+}
+
+@keyframes rotation {
+    from {transform: rotate(180deg);}
+    to {transform: rotate(0deg);}
+}
