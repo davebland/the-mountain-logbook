@@ -1,13 +1,43 @@
 {% extends 'application-frame.html' %}
 <!-- Main Logbook Home Page -->
 {% block content %}
-<div class="row">
-        <div class="col">
-                Meta section A <br>
-                USER ID: {{ session['user_id'] }}
+<div class="row align-items-center justify-content-center">
+        <div class="col-lg-6 text-center">
+                <h3>Welcome {{ session['user_id'] }}</h3>
+                <p><small>Member since **</small></p>                
         </div>
-        <div class="col">
-                Meta section B
+        <div class="col-lg-4">
+                <div class="card">
+                        <div class="card-header">
+                                <h5 class="card-title text-center text-uppercase mb-0">Your Stats</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                        <table class="w-100">
+                                                <tr>
+                                                        <td class="w-75">Number of Entries</td>
+                                                        <td><span class="badge badge-info">Info</span></td>
+                                                </tr>
+                                        </table>
+                                </li>
+                                <li class="list-group-item">
+                                        <table class="w-100">
+                                                <tr>
+                                                        <td class="w-75">Total Distance Walked</td>
+                                                        <td><span class="badge badge-info">Info</span></td>
+                                                </tr>
+                                        </table>
+                                </li>
+                                <li class="list-group-item">
+                                        <table class="w-100">
+                                                <tr>
+                                                        <td class="w-75">Highest Peak</td>
+                                                        <td><span class="badge badge-info">Info</span></td>
+                                                </tr>
+                                        </table>
+                                </li>
+                        </ul>
+                </div>
         </div>
 </div>
 <div class="row">
