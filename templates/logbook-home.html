@@ -3,10 +3,12 @@
 {% block content %}
 <div class="row align-items-center justify-content-center">
         <div class="col-lg-6 text-center">
+                <!-- Meta section 1 -->
                 <h3>Welcome {{ session['user_id'] }}</h3>
                 <p><small>Member since **</small></p>                
         </div>
         <div class="col-lg-4">
+                <!-- Meta section 2 -->
                 <div class="card">
                         <div class="card-header">
                                 <h5 class="card-title text-center text-uppercase mb-0">Your Stats</h5>
@@ -41,19 +43,38 @@
         </div>
 </div>
 <div class="row">
-        Search Bars
+        <!-- Table Filter Controls -->
+        <div class="col">
+                <form class="form-inline border m-2 p-2">
+                        <fieldset>
+                                <legend>Date From/To</legend>
+                                <input type="date" class="form-control mr-2" id="filter-controls-min-date" aria-describedby="filter-controls-date-title" placeholder="Date From">  
+                                <input type="date" class="form-control mr-2" id="filter-controls-max-date" aria-describedby="filter-controls-date-title" placeholder="Date To">                                  
+                        </fieldset>                
+                        <fieldset>
+                                <legend>Mountain Area</legend>
+                                <select class="form-control" id="filter-controls-select-area">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                </select>
+                        </fieldset>                
+                </form>
+        </div>
 </div>
 <div class="row">
         <div class="col">
                 <!-- Main Table of Log Entries -->
-                <table class="table">
+                <table class="table table-sm table-hover">
                         <thead>
                                 <tr>
+                                        <th scope="col" class="width-50px"></th>
                                         <th scope="col">Date</th>
-                                        <th scope="col">Area</th>
-                                        <th scope="col">Entry Name</th>
-                                        <th scope="col">More </th>
-                                        <th scope="col">Edit/Delete Controls</th>
+                                        <th scope="col" class="d-none d-md-block">Area</th>
+                                        <th scope="col">Entry Name</th>                                        
+                                        <th scope="col" class="width-100px"></th>
                                 </tr>
                         </thead>
                         <tbody>
@@ -71,23 +92,17 @@
                                 {% if user_records %}
                                 {% for record in user_records %}
                                 <tr>
-                                        <td>{{ record }}</td>
-                                        <td>{{ record }}</td>
-                                        <td>{{ record }}</td>
                                         <td>
                                                 <!-- More record details button (to modal) -->
-                                                <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                        data-target="#modal-record"
-                                                        data-recordid="{{ record }}">MORE</button>
+                                                <button type="button" class="btn btn-outline-primary logbook-button more-button" data-toggle="modal" data-target="#modal-record" data-recordid="{{ record }}"><i class="material-icons">arrow_right</i></button>
                                         </td>
+                                        <td>{{ record }}</td>
+                                        <td class="d-none d-md-block">{{ record }}</td>
+                                        <td>{{ record }}</td>                                        
                                         <td>
                                                 <!-- Edit and delete buttons -->
-                                                <a href="{{ url_for('edit_record', record_id=record) }}"><button
-                                                                type="button" class="btn btn-warning">Edit</button></a>
-                                                <form
-                                                        action="{{ url_for('delete', delete_type='record', entity_id=record) }}">
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form>
+                                                <a href="{{ url_for('edit_record', record_id=record) }}"><button type="button" class="btn btn-warning logbook-button"><i class="material-icons">edit</i></button></a>
+                                                <a href="{{ url_for('delete', delete_type='record', entity_id=record) }}"><button type="button" class="btn btn-danger logbook-button"><i class="material-icons">delete_forever</i></button></a>                                            
                                         </td>
                                 </tr>
                                 {% endfor %}
@@ -184,7 +199,16 @@
 {% endblock %}
 {% block scripts %}
 <script>
-        // Populate modal with data from ajax call
+        // On hover of table row, highlight button        
+        $('tr').hover(function() {
+                console.log($('.more-button', this).one())
+                //$('.more-button', this).one().mouseover();
+        })
+
+        // On click of table row call button
+        $('')
+
+        // On modal call, populate modal with data from ajax call
         $('#modal-record').on('show.bs.modal', function () {
                 let recordId = $(event.target).data('recordid'); // Get record_id form record attribute of button that triggered modal
                 $.post("{{ url_for('get') }}", { 'record_id': recordId, 'user_id': '', 'area_id': '' }, function (result) {

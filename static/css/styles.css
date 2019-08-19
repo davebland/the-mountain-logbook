@@ -14,6 +14,10 @@ footer {
     font-size: 1.3em !important;
 }
 
+#application-logo-title i, #application-logo-title h2 {
+    font-size: 2em;
+}
+
 @media (min-width: 768px) {
     .header-text {
         font-size: 2.5em !important;
@@ -62,10 +66,22 @@ footer {
 
 /* TABLES */
 
-.column-20 {
-    width: 20%;
+.width-100px {
+    width: 100px;
 }
 
-.column-80 {
-    width: 80%;
+.width-50px {
+    width: 50px;
+}
+
+/* BUTTONS */
+
+.logbook-button {
+    height: 40px;
+    width: 40px;
+    padding: 0;
+}
+
+.logbook-button i {
+    font-size: 40px;
 }

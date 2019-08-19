@@ -3,14 +3,13 @@
 {% block main %}
     <div class="row">
         <div class="col bg-light mx-1 rounded">
-            <div class="row justify-content-between pt-2">
-                <div class="col-2">
-                    <a href="{{ url_for('index') }}"><button type="button" class="btn btn-success">Home</button></a>
+            <div class="row justify-content-between py-2">
+                <!-- Header & Nav Row -->
+                <div id="application-logo-title" class="col-md">
+                    <a href="{{ url_for('index') }}"><i class="material-icons text-success">home</i></a>
+                    <h2 class="d-inline">{{ title }}</h2>
                 </div>
-                <div class="col-md-4">                    
-                    <h2>{{ title }}</h2>
-                </div>
-                <div class="col-sm-4 text-right">
+                <div class="col-md text-center text-md-right">
                     <!-- Nav Buttons -->
                     <nav>                   
                         <a href="{{ url_for('new') }}"><button type="button" class="btn btn-primary">New Entry</button></a>
