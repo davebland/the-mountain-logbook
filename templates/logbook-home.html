@@ -80,13 +80,13 @@
                         <tbody>
                                 <!-- Display error_messages in table if there are any -->
                                 {% with error_messages = get_flashed_messages() %}
-                                {% if error_messages %}
-                                {% for message in error_messages %}
-                                <tr>
-                                        <td id="message-area">{{ message }}</td>
-                                </tr>
-                                {% endfor %}
-                                {% endif %}
+                                        {% if error_messages %}
+                                                {% for message in error_messages %}
+                                                <tr>
+                                                        <td id="message-area">{{ message }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                        {% endif %}
                                 {% endwith %}
                                 <!-- Display records in table, 1 row per record -->
                                 {% if user_records %}
@@ -200,17 +200,19 @@
 {% block scripts %}
 <script>
         // On hover of table row, highlight button        
-        $('tr').hover(function() {
-                console.log($('.more-button', this).one())
-                //$('.more-button', this).one().mouseover();
+        $('tr').mouseenter(function() {
+                console.log('mousenter');
         })
 
         // On click of table row call button
-        $('')
+        $('tr').click(function() {
+                console.log('click');                
+        })
 
         // On modal call, populate modal with data from ajax call
-        $('#modal-record').on('show.bs.modal', function () {
-                let recordId = $(event.target).data('recordid'); // Get record_id form record attribute of button that triggered modal
+        $('#modal-record').on('show.bs.modal', function () {                
+                let recordId = $(event.target).parent().data('recordid'); // Get record_id form record attribute of button that triggered modal
+                console.log(recordId)
                 $.post("{{ url_for('get') }}", { 'record_id': recordId, 'user_id': '', 'area_id': '' }, function (result) {
                         // If request for data successful then set contents of modal
                         console.log(result);
