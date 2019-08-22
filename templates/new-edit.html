@@ -2,7 +2,7 @@
 <!-- Logbook Add or Edit Entry -->
 {% block content %}
     <div class="row">
-        <div class="col">
+        <div class="col py-2">
             <!-- Form to add or edit the entry/record -->
             <!-- If editing an existing record action calls update function else call create function -->
             {% if record %}
@@ -10,15 +10,13 @@
             {% else %}
             <form action="{{ url_for('create', create_type='record') }}" method="POST">
             {% endif %}
-                <div class="form-row">
-                    <div class="form-group">
-                        <!-- Entry Name -->
-                        <label for="input-entry-name">Entry Name</label>
-                        <input type="text" class="form-control form-control-lg" id="input-entry-name" name="entry_name" size="100%" splaceholder="Entry Name" value="{{ record }}">
-                    </div>    
-                </div>                        
+                <div class="form-group">
+                    <!-- Entry Name -->
+                    <label for="input-entry-name">Entry Name</label>
+                    <input type="text" class="form-control form-control-lg" id="input-entry-name" name="entry_name" size="100%" splaceholder="Entry Name" value="{{ record }}">
+                </div>                                           
                 <div class="form-row">                    
-                    <div class="col-lg">
+                    <div class="col-lg pr-3 border-right">
                         <div class="form-group">
                             <!-- Date -->
                             <label for="input-date">Date</label>
@@ -43,8 +41,8 @@
                                 {% endif %}                        
                             </select>
                             <!-- Add new area button (to modal) -->
-                            <div class="text-right">
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-add-new-area">Add a new area</button>
+                            <div class="text-right mt-2">
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-add-new-area"><i class="material-icons">playlist_add</i>Add New</button>
                             </div>                            
                         </div>                                        
                         <div class="form-group">
@@ -70,34 +68,34 @@
                         </div>
                         <div class="form-group">
                             <!-- Distance -->
-                            <label for="input-distance">Distance</label>
-                            <input type="number" class="form-control" id="input-distance" name="distance" value="{{ record }}">                    
+                            <label for="input-distance">Distance (km)</label>
+                            <input type="number" class="form-control" id="input-distance" name="distance" value="{{ record }}">                 
                         </div>
                     </div>
-                    <div class="col-lg">
+                    <div class="col-lg pl-3">
                         <!-- Highest Point -->
                         <div class="form-group">
                             <label for="input-highest-point-name">Summit Name</label>
                             <input type="text" class="form-control" id="input-highest-point-name" name="highest_point_name" placeholder="HP Name" value="{{ record }}">
-                        </div>
-                        <div class="form-row">
-                            <div class="col-2">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="switch-os-latlong" onchange="toggleHighestPointCoords();">
-                                    <label class="custom-control-label" for="switch-os-latlong">OS or Lat/Long</label>
+                            <div class="form-row align-items-center mt-1">
+                                <div class="col-3">                              
+                                    <div class="custom-control custom-switch">                                  
+                                        <input type="checkbox" class="custom-control-input" id="switch-os-latlong" onchange="toggleHighestPointCoords();">
+                                        <label class="custom-control-label" for="switch-os-latlong"><small>OS or Lat/Long</small></label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-10">
-                                <div id="inputs-highest-point-os" class="form-inline">
-                                    <input type="text" class="form-control" id="input-os-grid" name="highest_point_os_grid" placeholder="OS grid" size="2" maxlength="2" value="{{ record }}">
-                                    <input type="number" class="form-control" id="input-os-eastings" name="highest_point_os_eastings" placeholder="Eastings" value="{{ record }}">
-                                    <input type="number" class="form-control" id="input-os-northings" name="highest_point_os_northings" placeholder="Northings" value="{{ record }}">
+                                <div class="col-9">
+                                    <div id="inputs-highest-point-os" class="form-inline">
+                                        <input type="text" class="form-control" id="input-os-grid" name="highest_point_os_grid" placeholder="OS grid" size="2" maxlength="2" value="{{ record }}">
+                                        <input type="number" class="form-control" id="input-os-eastings" name="highest_point_os_eastings" placeholder="Eastings" value="{{ record }}">
+                                        <input type="number" class="form-control" id="input-os-northings" name="highest_point_os_northings" placeholder="Northings" value="{{ record }}">
+                                    </div>
+                                    <div id="inputs-highest-point-latlong" class="form-inline">                        
+                                        <input type="number" class="form-control" id="input-latitude" name="highest_point_latitude" placeholder="Latitude" value="{{ record }}">
+                                        <input type="number" class="form-control" id="input-longitude" name="highest_point_longitude" placeholder="Longitude" value="{{ record }}">
+                                    </div>
                                 </div>
-                                <div id="inputs-highest-point-latlong" class="form-inline">                        
-                                    <input type="number" class="form-control" id="input-latitude" name="highest_point_latitude" placeholder="Latitude" value="{{ record }}">
-                                    <input type="number" class="form-control" id="input-longitude" name="highest_point_longitude" placeholder="Longitude" value="{{ record }}">
-                                </div>
-                            </div>
+                            </div>                        
                         </div>                        
                         <div class="form-group">
                             <!-- Additional Summits -->
@@ -130,16 +128,22 @@
                             <textarea class="form-control" id="textarea-group-members" name="group_members" rows="3" value="{{ record }}"></textarea>                    
                         </div>
                     </div>
+                </div>            
+                <div class="form-group">
+                    <!-- Notes -->                    
+                    <label for="textarea-notes">Notes</label>
+                    <textarea class="form-control" id="textarea-notes" name="notes" rows="15" cols="100%" value="{{ record }}"></textarea>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <!-- Notes -->                    
-                        <label for="textarea-notes">Notes</label>
-                        <textarea class="form-control" id="textarea-notes" name="notes" rows="15" cols="100%" value="{{ record }}"></textarea>
+                    <div class="col">
+                        <a href="{{ url_for('index') }}"><button type="button" class="btn btn-danger">Cancel</button></a>
                     </div>
-                </div>                                                                      
-                <a href="{{ url_for('index') }}"><button type="button" class="btn btn-danger">Cancel</button></a>
-                <button type="submit" class="btn btn-success">Submit</button>
+                    <div class="col text-right">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>                                                                                   
+                
+                
             </form>
         </div>        
     </div>        

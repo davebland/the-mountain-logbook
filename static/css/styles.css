@@ -2,12 +2,6 @@
 
 /* CONTAINERS */
 
-footer {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
-
 /* TYPOGRAPHY */
 
 .header-text {
@@ -35,7 +29,7 @@ footer {
 
 #inputs-highest-point-os input[type="number"] {
     width: 40%;
-    margin: auto;
+    margin-left: auto;
 }
 
 #inputs-highest-point-latlong input[type="number"] {
