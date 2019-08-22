@@ -1,8 +1,26 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask_pymongo import PyMongo
+import json
 import os
+import mongo_helpers
 
+# APP SETUP
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET", "arandomstring")
+
+# MONGODB SETUP
+# Get creds from untracked file for dev purposed
+with open('mongo_creds.txt') as creds:
+    data = json.load(creds)
+    app.config['MONGO_DBNAME'] = data['MONGO_DBNAME']
+    app.config['MONGO_URI'] = data['MONGO_URI']
+
+mongo = PyMongo(app)
+
+# Test route
+@app.route('/db-test')
+def db_test():
+    return render_template('db-test.html', data_set=mongo.db.users.find())
 
 # ROUTE HELPER FUNCTIONS
 

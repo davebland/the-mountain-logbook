@@ -1,0 +1,7 @@
+{% extends 'application-frame.html' %}
+<!-- DB Test Data Page -->
+{% block content %}
+    {% for item in data_set %}
+    {{ item }}
+    {% endfor %}
+{% endblock %}

@@ -36,10 +36,13 @@ The application is primarily for people who will already be keeping a logbook of
 - JavaScript
 - Python
     - Flask 1.1.1 and associated dependencies
+    - dnspython 1.16 and flask-pymongo 2.3.0
 - Libraries
     - JQuery
     - Bootstrap
     - Google Material Icons - https://material.io/resources/icons
+- MongoDB
+    - Cloud hosted on MongoDB Atlas
 
 ## Testing
 
