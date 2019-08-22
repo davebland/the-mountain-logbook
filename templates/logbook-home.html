@@ -1,11 +1,12 @@
 {% extends 'application-frame.html' %}
 <!-- Main Logbook Home Page -->
 {% block content %}
+<em>User: {{ session['user_id'] }}</em>
 <div class="row align-items-center justify-content-center">
         <div class="col-lg-6 text-center">
                 <!-- Meta section 1 -->
-                <h3>Welcome {{ session['user_id'] }}</h3>
-                <p><small>Member since **</small></p>                
+                <h3>Welcome {{ user_stats.display_name }}</h3>
+                <p><small>Member since: {{ user_stats.signup_date }}</small></p>                
         </div>
         <div class="col-lg-4">
                 <!-- Meta section 2 -->
@@ -18,7 +19,7 @@
                                         <table class="w-100">
                                                 <tr>
                                                         <td class="w-75">Number of Entries</td>
-                                                        <td><span class="badge badge-info">Info</span></td>
+                                                        <td><span class="badge badge-info">{{ user_stats.no_of_entries }}</span></td>
                                                 </tr>
                                         </table>
                                 </li>
@@ -26,7 +27,7 @@
                                         <table class="w-100">
                                                 <tr>
                                                         <td class="w-75">Total Distance Walked</td>
-                                                        <td><span class="badge badge-info">Info</span></td>
+                                                        <td><span class="badge badge-info">{{ user_stats.total_dist }}</span></td>
                                                 </tr>
                                         </table>
                                 </li>
@@ -34,7 +35,7 @@
                                         <table class="w-100">
                                                 <tr>
                                                         <td class="w-75">Highest Peak</td>
-                                                        <td><span class="badge badge-info">Info</span></td>
+                                                        <td><span class="badge badge-info">{{ user_stats.highest_peak }}</span></td>
                                                 </tr>
                                         </table>
                                 </li>

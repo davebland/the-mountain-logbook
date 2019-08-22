@@ -1,15 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_pymongo import PyMongo
-import json
+import json # required for dev only
 import os
-import mongo_helpers
+import mongo_helpers as db
 
 # APP SETUP
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET", "arandomstring")
 
 # MONGODB SETUP
-# Get creds from untracked file for dev purposed
+# Get creds from untracked file for dev purposes
 with open('mongo_creds.txt') as creds:
     data = json.load(creds)
     app.config['MONGO_DBNAME'] = data['MONGO_DBNAME']
@@ -58,13 +58,15 @@ def get_areas():
 def index():
     """ Main route returning app homepage or else login page """
     if login_check():
+        # Get user stats
+        stats = db.get_user_stats(session['user_id'])
         # Get record set for user if any exist, otherwise return no record flash
         record_set = get_records("", 123, 456)
         if record_set:
-            return render_template('logbook-home.html', title="Logbook Home", user_records=record_set)
+            return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_records=record_set)
         else:
             flash('No records found')
-            return render_template('logbook-home.html', title="Logbook Home")
+            return render_template('logbook-home.html', title="Logbook Home", user_stats=stats)
 
     return render_template('login.html')
 
@@ -72,9 +74,14 @@ def index():
 def login():
     """ Login a user by setting session and redirect to home """
     if 'login-email' in request.form:
-        # Set email as user_id in session
-        session["user_id"] = request.form['login-email']
-        return redirect(url_for('index'))
+        email = request.form['login-email']
+        # Check if the user exists and set session to user id if so        
+        if db.check_user(email):
+            session["user_id"] = db.check_user(email)
+            return redirect(url_for('index'))
+        else:
+            flash('Sorry, no user found with email %s' % email)
+            return redirect(url_for('index'))
     elif 'signup-email' in request.form:
         # Set email as user_id in session
         session["user_id"] = request.form['signup-email']

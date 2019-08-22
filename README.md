@@ -22,6 +22,7 @@ The application is primarily for people who will already be keeping a logbook of
 
 ## Features
 - Basic user authentication by email
+- Member since devived from timestamp in Mongo ObjectId
 
 ## Future Additions
 - Directly connect to 'Mountain-Training.org' (UK governing body) website for import into thier CMS for candidate assessment.
