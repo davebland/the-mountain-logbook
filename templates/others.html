@@ -1,5 +1,5 @@
 {% extends 'application-frame.html' %}
-<!-- View records submitted by others -->
+<!-- View Entries submitted by others -->
 {% block content %}
     <div class="row">
         <div class="col">
@@ -7,7 +7,7 @@
             <form>
                 <div class="form-group">
                     <label for="select-form-area-name">Select Mountain Area</label>
-                    <select class="form-control" id="select-form-area-name" name="area_id" onchange="getAreaRecords()" required>
+                    <select class="form-control" id="select-form-area-name" name="area_id" onchange="getAreaEntries()" required>
                         <option selected disabled hidden>Select an area...</option>
                         <!-- If area list exists populate the select, otherwise display an error message -->
                         {% if area_list %}
@@ -23,7 +23,7 @@
         </div>        
     </div>
     <div class="row">
-        <div id="table-records"></div>
+        <div id="table-entries"></div>
     </div>        
 {% endblock %}
 {% block scripts %}
@@ -33,13 +33,13 @@
         event.preventDefault();
     });
 
-    // Create ajax call to get records per area and update page
-    function getAreaRecords() {
+    // Create ajax call to get Entries per area and update page
+    function getAreaEntries() {
         let areaIdSelected = $('#select-form-area-name').val()        
         //console.log(areaForm.area_id.value)
-        $.post("{{ url_for('get') }}", {'record_id' : '', 'user_id' : '', 'area_id' : areaIdSelected}, function(result) {                        
+        $.post("{{ url_for('get') }}", {'entry_id' : '', 'user_id' : '', 'area_id' : areaIdSelected}, function(result) {                        
                         // If request for data successful then set contents of page
-                        $('#table-records').text(result)
+                        $('#table-entries').text(result)
                 })
     }
 </script>

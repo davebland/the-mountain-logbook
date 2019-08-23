@@ -21,3 +21,8 @@ def get_user_stats(user_id):
         'highest_peak' : 789
     }
     return user_stats
+
+def get_entries_for_user(user_id):
+    """ Return all entries for a given user id """
+    user_entries = mongo.db.entries.find({'user_id':user_id})
+    return user_entries

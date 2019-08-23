@@ -17,7 +17,7 @@
             <form id="form-select-area">
                 <div class="form-group">
                     <label for="select-form-area-name">Select Mountain Area</label>
-                    <select class="form-control" id="select-form-area-name" name="area_id" onchange="getAreaRecords()" required>
+                    <select class="form-control" id="select-form-area-name" name="area_id" onchange="getAreaEntries()" required>
                         <option selected disabled hidden>Select an area...</option>
                         <!-- If area list exists populate the select, otherwise display an error message -->
                         {% if area_list %}
@@ -48,10 +48,10 @@
         event.preventDefault();
     });
 
-    // Create ajax call to get records per area and update page
-    function getAreaRecords() {
+    // Create ajax call to get entries per area and update page
+    function getAreaEntries() {
         let areaIdSelected = $('#select-form-area-name').val()        
-        $.post("{{ url_for('get') }}", {'record_id' : '', 'user_id' : '', 'area_id' : areaIdSelected}, function(result) {                        
+        $.post("{{ url_for('get') }}", {'entry_id' : '', 'user_id' : '', 'area_id' : areaIdSelected}, function(result) {                        
                         // If request for data successful then set contents of edit form and change action
                         $('#input-new-area-name').val(result);
                         let updateAreaUrl = "{{ url_for('update', update_type='area', entity_id='') }}";

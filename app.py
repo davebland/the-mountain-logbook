@@ -30,22 +30,22 @@ def login_check():
         return True
     return False
 
-def get_records(record_id = None, user_id = None, area_id = None):
-    """ Get records from DB according to priority record_id, area_id, user_id """
-    if record_id:
-        # Get a single record
-        return {"YOU ARE REQUESTING RECORD" : record_id, "test" : record_id}
+def get_entries(entry_id = None, user_id = None, area_id = None):
+    """ Get entries from DB according to priority entry_id, area_id, user_id """
+    if entry_id:
+        # Get a single entry
+        return {"YOU ARE REQUESTING entry" : entry_id, "test" : entry_id}
     elif area_id and not user_id:
-        # Get all records for given area
-        return "YOU ARE REQUESTING RECORDS FOR AREA %s" % area_id
+        # Get all entries for given area
+        return "YOU ARE REQUESTING entries FOR AREA %s" % area_id
     elif user_id and not area_id:
-        # Get all records for given user
-        return "YOU ARE REQUESTING RECORDS FOR USER %s" % user_id
+        # Get all entries for given user
+        return "YOU ARE REQUESTING entries FOR USER %s" % user_id
     elif user_id and area_id:
-        # Get all records for given user and given area
-        return "YOU ARE REQUESTING RECORDS FOR USER %s FOR AREA %s" % (user_id, area_id)
+        # Get all entries for given user and given area
+        return "YOU ARE REQUESTING entries FOR USER %s FOR AREA %s" % (user_id, area_id)
     else:
-        return "ERROR - No record_id, area_id or user_id supplied"
+        return "ERROR - No entry_id, area_id or user_id supplied"
 
 def get_areas():
     """ Connect to DB and return dict containing all area ids and names """
@@ -60,12 +60,12 @@ def index():
     if login_check():
         # Get user stats
         stats = db.get_user_stats(session['user_id'])
-        # Get record set for user if any exist, otherwise return no record flash
-        record_set = get_records("", 123, 456)
-        if record_set:
-            return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_records=record_set)
+        # Get entryset for user if any exist, otherwise return no entryflash
+        entry_set = get_entries("", session['user_id'], "")
+        if entry_set:
+            return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_entries=entry_set)
         else:
-            flash('No records found')
+            flash('No entries found')
             return render_template('logbook-home.html', title="Logbook Home", user_stats=stats)
 
     return render_template('login.html')
@@ -98,16 +98,16 @@ def logout():
 
 @app.route('/new')
 def new():
-    """ Generate page for entry of a new record """
+    """ Generate page for entry of a new entry"""
     if login_check():
-        return render_template('new-edit.html', title="New record", area_list=get_areas())
+        return render_template('new-edit.html', title="New entry", area_list=get_areas())
     return redirect( url_for('index') )
 
-@app.route('/edit/record/<record_id>')
-def edit_record(record_id):
-    """ Generate page to edit an existing record """
+@app.route('/edit/entry/<entry_id>')
+def edit_entry(entry_id):
+    """ Generate page to edit an existing entry"""
     if login_check():
-        return render_template('new-edit.html', title="Edit record", record=record_id, area_list=get_areas())
+        return render_template('new-edit.html', title="Edit entry", entry=entry_id, area_list=get_areas())
     return redirect( url_for('index') )
 
 @app.route('/edit/areas')
@@ -119,18 +119,18 @@ def edit_areas():
 
 @app.route('/others')
 def others():
-    """ Generate page to view records submitted by others """
+    """ Generate page to view entries submitted by others """
     if login_check():
         return render_template('others.html', title="Others Page", area_list=get_areas())
     return redirect( url_for('index') )
 
 # ROUTES (retrieve data)
 
-@app.route('/get/records', methods=['POST'])
+@app.route('/get/entries', methods=['POST'])
 def get():
-    """ Return records from DB according to record_id, area_id or user_id in post data (return all fields) """
+    """ Return entries from DB according to entry_id, area_id or user_id in post data (return all fields) """
     if login_check():
-        return get_records(request.form['record_id'], request.form['user_id'], request.form['area_id'])
+        return get_entries(request.form['entry_id'], request.form['user_id'], request.form['area_id'])
     return redirect( url_for('index') )
 
 # ROUTES (create data)
@@ -139,11 +139,11 @@ def get():
 def create(create_type):
     """ Insert new data into DB """
     if login_check():
-        # Connect to DB and add new user, record or area according to type specified
+        # Connect to DB and add new user, entryor area according to type specified
         if create_type == "user":
             return "CREATING A USER"
-        elif create_type == "record":
-            flash("CREATING A RECORD: {}".format(request.form))
+        elif create_type == "entry":
+            flash("CREATING A entry: {}".format(request.form))
             return redirect( url_for('index') )
         elif create_type == "area":
             # If reload requested in arguments this is a request from edit page rather than modal form
@@ -161,11 +161,11 @@ def create(create_type):
 def update(update_type, entity_id):
     """ Update existing data in DB """
     if login_check():
-        # Connect to DB and update entity_id of user, record or area according to type specified
+        # Connect to DB and update entity_id of user, entryor area according to type specified
         if update_type == "user":
             return "UPDATING A USER %s " % entity_id
-        elif update_type == "record":
-            return "UPDATING A RECORD %s " % entity_id
+        elif update_type == "entry":
+            return "UPDATING A entry%s " % entity_id
         elif update_type == "area":
             flash("UPDATING AN AREA %s " % entity_id)
             return redirect( url_for('edit_areas') )
@@ -179,11 +179,11 @@ def update(update_type, entity_id):
 def delete(delete_type, entity_id):
     """ Delete data in DB """
     if login_check():
-        # Connect to DB and delete user, record or area with entity_id according to type specified
+        # Connect to DB and delete user, entryor area with entity_id according to type specified
         if delete_type == "user":
             return "DELETING A USER %s " % entity_id
-        elif delete_type == "record":
-            return "DELETING A RECORD %s " % entity_id
+        elif delete_type == "entry":
+            return "DELETING A entry%s " % entity_id
         elif delete_type == "area":
             return "DELETING AN AREA %s " % entity_id
         else:
