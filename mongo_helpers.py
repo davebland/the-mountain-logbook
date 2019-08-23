@@ -26,3 +26,9 @@ def get_entries_for_user(user_id):
     """ Return all entries for a given user id """
     user_entries = mongo.db.entries.find({'user_id':user_id})
     return user_entries
+
+def get_entry(entry_id):
+    """ Return all fields for specified log entry """
+    entry_data = mongo.db.entries.find_one({'_id':ObjectId(entry_id)})
+    entry_data['_id'] = str(entry_data['_id'])
+    return entry_data

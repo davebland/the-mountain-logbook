@@ -34,13 +34,13 @@ def get_entries(entry_id = None, user_id = None, area_id = None):
     """ Get entries from DB according to priority entry_id, area_id, user_id """
     if entry_id:
         # Get a single entry
-        return {"YOU ARE REQUESTING entry" : entry_id, "test" : entry_id}
+        return db.get_entry(entry_id)
     elif area_id and not user_id:
         # Get all entries for given area
         return "YOU ARE REQUESTING entries FOR AREA %s" % area_id
     elif user_id and not area_id:
         # Get all entries for given user
-        return "YOU ARE REQUESTING entries FOR USER %s" % user_id
+        return db.get_entries_for_user(user_id)
     elif user_id and area_id:
         # Get all entries for given user and given area
         return "YOU ARE REQUESTING entries FOR USER %s FOR AREA %s" % (user_id, area_id)
@@ -100,14 +100,14 @@ def logout():
 def new():
     """ Generate page for entry of a new entry"""
     if login_check():
-        return render_template('new-edit.html', title="New entry", area_list=get_areas())
+        return render_template('new-edit.html', title="New entry", entry="", area_list=get_areas())
     return redirect( url_for('index') )
 
 @app.route('/edit/entry/<entry_id>')
 def edit_entry(entry_id):
     """ Generate page to edit an existing entry"""
     if login_check():
-        return render_template('new-edit.html', title="Edit entry", entry=entry_id, area_list=get_areas())
+        return render_template('new-edit.html', title="Edit entry", entry=db.get_entry(entry_id), area_list=get_areas())
     return redirect( url_for('index') )
 
 @app.route('/edit/areas')
