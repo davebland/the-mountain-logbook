@@ -13,14 +13,14 @@
                 <div class="form-group">
                     <!-- Entry Name -->
                     <label for="input-entry-name">Entry Name</label>
-                    <input type="text" class="form-control form-control-lg" id="input-entry-name" name="entry_name" size="100%" splaceholder="Entry Name" value="{{ entry.name }}">
+                    <input type="text" class="form-control form-control-lg" id="input-entry-name" name="name" size="100%" splaceholder="Entry Name" value="{{ entry.name }}" required>
                 </div>                                           
                 <div class="form-row">                    
                     <div class="col-lg pr-3 border-right">
                         <div class="form-group">
                             <!-- Date -->
                             <label for="input-date">Date</label>
-                            <input type="date" class="form-control" id="input-date" name="date" placeholder="date" value="{{ entry.date }}">
+                            <input type="date" class="form-control" id="input-date" name="date" placeholder="date" value="{{ entry.date }}" required>
                         </div>
                         <!-- Mountain Area -->
                         <div class="form-group">

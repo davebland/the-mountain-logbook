@@ -139,11 +139,12 @@ def get():
 def create(create_type):
     """ Insert new data into DB """
     if login_check():
-        # Connect to DB and add new user, entryor area according to type specified
+        # Connect to DB and add new user, entry or area according to type specified
         if create_type == "user":
             return "CREATING A USER"
         elif create_type == "entry":
-            flash("CREATING A entry: {}".format(request.form))
+            db.create_entry(request.form)
+            flash('Created a new entry')
             return redirect( url_for('index') )
         elif create_type == "area":
             # If reload requested in arguments this is a request from edit page rather than modal form
