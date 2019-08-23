@@ -4,6 +4,8 @@ from app import mongo, session
 from bson.objectid import ObjectId
 from datetime import datetime
 
+# USERS
+
 def check_user(email):
     """ Check if a given user email exists in DB and return user id if so """
     user = mongo.db.users.find_one({'email':email})    
@@ -23,10 +25,24 @@ def get_user_stats(user_id):
     }
     return user_stats
 
+def create_user(form_data):
+    """ Create a new user from form data and return user data """
+    new_user = {
+        'email' : form_data['signup-email'],
+        'display_name' : form_data['display-name'],
+        'share' : True
+    }
+    mongo.db.users.insert_one(new_user)    
+    return "Thanks for signing up, we hope you enjoy using this application"
+
+# ENTRIES
+
 def get_entries_for_user(user_id):
-    """ Return all entries for a given user id """
-    user_entries = mongo.db.entries.find({'user_id':user_id})
-    return user_entries
+    """ Return all entries for a given user id if any exist """
+    if mongo.db.entries.count_documents({'user_id':user_id}):
+        return mongo.db.entries.find({'user_id':user_id})
+    else: 
+        return None
 
 def get_entry(entry_id):
     """ Return all fields for specified log entry """
@@ -75,5 +91,5 @@ def create_update_entry(form_data, entry_id = None):
 
 def delete_entry(entry_id):
     """ Delete an entry from the DB """
-    mongo.db.entries.delete_one({'_id':ObjectId(entry_id)})
-    return "Entry Deleted"
+    delete = mongo.db.entries.find_one_and_delete({'_id':ObjectId(entry_id)})
+    return "Entry '%s' Deleted" % str(delete['name'])

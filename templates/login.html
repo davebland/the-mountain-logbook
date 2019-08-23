@@ -53,7 +53,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Sign-up form -->
-                    <form id="form-signup" method="POST" action="{{ url_for('login') }}">
+                    <form id="form-signup" method="POST" action="{{ url_for('create', create_type='user') }}">
                         <div class="form-group">
                                 <input type="email" class="form-control form-control-lg" id="signup-email" name="signup-email"
                                 placeholder="Enter email" required>

@@ -60,13 +60,8 @@ def index():
     if login_check():
         # Get user stats
         stats = db.get_user_stats(session['user_id'])
-        # Get entryset for user if any exist, otherwise return no entryflash
-        entry_set = get_entries("", session['user_id'], "")
-        if entry_set:
-            return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_entries=entry_set)
-        else:
-            flash('No entries found')
-            return render_template('logbook-home.html', title="Logbook Home", user_stats=stats)
+        # Render home page with entries
+        return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_entries=get_entries("", session['user_id'], ""))
 
     return render_template('login.html')
 
@@ -138,11 +133,22 @@ def get():
 @app.route('/create/<create_type>', methods=["POST"])
 def create(create_type):
     """ Insert new data into DB """
-    if login_check():
-        # Connect to DB and add new user, entry or area according to type specified
-        if create_type == "user":
-            return "CREATING A USER"
-        elif create_type == "entry":
+    # If new user do not do login check
+    if create_type == "user":
+            # Check if user is already registered first otherwise add new user to db
+            already_registered_user_id = db.check_user(request.form['signup-email'])
+            if already_registered_user_id:
+                flash('User %s already exists, please login instead' % request.form['signup-email'])
+                return redirect( url_for('index') )           
+            else:
+                create_user_result = db.create_user(request.form)
+                flash(create_user_result)
+                # Log new user in by setting session
+                session["user_id"] = db.check_user(request.form['signup-email'])
+                return redirect( url_for('index') )
+    elif login_check():
+        # Connect to DB and add new entry or area according to type specified
+        if create_type == "entry":
             create_update_result = db.create_update_entry(request.form)
             flash(create_update_result)
             return redirect( url_for('index') )
