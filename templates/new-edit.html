@@ -28,7 +28,7 @@
                             <select class="form-control" id="select-area-name" name="area_id" required>                                        
                                 <!-- Populate the select with area from the entry if exist then add other options from DB, otherwise display an error message -->
                                 {% if entry %}
-                                    <option value="{{ entry }}" selected>{{ entry.area_id }}</option>
+                                    <option value="{{ entry.area_id }}" selected>{{ entry.area_id }}</option>
                                 {% else %}
                                     <option selected disabled hidden>Select an area...</option>
                                 {% endif %}
@@ -50,14 +50,14 @@
                             <label for="select-primary-terrain">Primary Terrain</label>
                             <select class="form-control" id="select-primary-terrain" name="primary_terrain">
                                 {% if entry %}
-                                    <option value="{{ entry }}" selected>{{ entry.primary_terrain }}</option>
+                                    <option value="{{ entry.primary_terrain }}" selected>{{ entry.primary_terrain }}</option>
                                 {% else %}
-                                    <option selected disabled hidden>Select terrain...</option>
+                                    <option value="" selected disabled hidden>Select terrain...</option>
                                 {% endif %}
-                                <option>Mountain</option>
-                                <option>Hill</option>
-                                <option>Moorland</option>
-                                <option>Coastal</option>                        
+                                <option value="mountain">Mountain</option>
+                                <option value="hill">Hill</option>
+                                <option value="moorland">Moorland</option>
+                                <option value="coastal">Coastal</option>                        
                             </select>                    
                         </div>
                         <div class="form-group">
@@ -100,7 +100,7 @@
                         <div class="form-group">
                             <!-- Additional Summits -->
                             <label for="textarea-additional-summits">Additional Summits</label>
-                            <textarea class="form-control" id="textarea-additional-summits" name="additional_summits" rows="3" value="{{ entry.additional_summits }}"></textarea>                    
+                            <textarea class="form-control" id="textarea-additional-summits" name="additional_summits" rows="3">{{ entry.additional_summits }}</textarea>                    
                         </div>
                         <div class="form-group">
                             <!-- Weather -->
@@ -114,25 +114,25 @@
                                 {% if entry %}
                                     <option value="{{ entry.participation }}" selected>{{ entry.participation }}</option>
                                 {% else %}
-                                    <option selected disabled hidden>Select participation...</option>
+                                    <option value="" selected disabled hidden>Select participation...</option>
                                 {% endif %}
-                                <option>Leader</option>
-                                <option>Assistant Leader</option>
-                                <option>Group Member</option>
-                                <option>Casual</option>                        
+                                <option value="leader">Leader</option>
+                                <option value="assistant leader">Assistant Leader</option>
+                                <option value="group member">Group Member</option>
+                                <option value="casual">Casual</option>                        
                             </select>                    
                         </div>
                         <div class="form-group">
                             <!-- Group Members -->
                             <label for="textarea-group-members">Group Members</label>
-                            <textarea class="form-control" id="textarea-group-members" name="group_members" rows="3" value="{{ entry.group_members }}"></textarea>                    
+                            <textarea class="form-control" id="textarea-group-members" name="group_members" rows="3">{{ entry.group_members }}</textarea>                    
                         </div>
                     </div>
                 </div>            
                 <div class="form-group">
                     <!-- Notes -->                    
                     <label for="textarea-notes">Notes</label>
-                    <textarea class="form-control" id="textarea-notes" name="notes" rows="15" cols="100%" value="{{ entry.notes }}"></textarea>
+                    <textarea class="form-control" id="textarea-notes" name="notes" rows="15" cols="100%">{{ entry.notes }}</textarea>
                 </div>
                 <div class="form-row">
                     <div class="col">

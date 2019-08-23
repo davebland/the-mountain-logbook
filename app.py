@@ -143,8 +143,8 @@ def create(create_type):
         if create_type == "user":
             return "CREATING A USER"
         elif create_type == "entry":
-            db.create_entry(request.form)
-            flash('Created a new entry')
+            create_update_result = db.create_update_entry(request.form)
+            flash(create_update_result)
             return redirect( url_for('index') )
         elif create_type == "area":
             # If reload requested in arguments this is a request from edit page rather than modal form
@@ -166,7 +166,9 @@ def update(update_type, entity_id):
         if update_type == "user":
             return "UPDATING A USER %s " % entity_id
         elif update_type == "entry":
-            return "UPDATING A entry%s " % entity_id
+            create_update_result = db.create_update_entry(request.form, entity_id)
+            flash(create_update_result)
+            return redirect( url_for('index') )
         elif update_type == "area":
             flash("UPDATING AN AREA %s " % entity_id)
             return redirect( url_for('edit_areas') )
@@ -184,7 +186,9 @@ def delete(delete_type, entity_id):
         if delete_type == "user":
             return "DELETING A USER %s " % entity_id
         elif delete_type == "entry":
-            return "DELETING A entry%s " % entity_id
+            delete_result = db.delete_entry(entity_id)
+            flash(delete_result)
+            return redirect( url_for('index') )
         elif delete_type == "area":
             return "DELETING AN AREA %s " % entity_id
         else:

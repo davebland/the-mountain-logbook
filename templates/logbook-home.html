@@ -137,7 +137,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                         <td>Mountain Area</td>
-                                                                        <td id="modal-data-mountain_area"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                        <td id="modal-data-area_id"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
                                                                         <td>Primary Terrain</td>
@@ -160,8 +160,15 @@
                                                                         <td id="modal-data-highest_point_name"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td>OS / LatLong</td>
-                                                                        <td id="modal-data-highest_point_coords"><i class="material-icons animate-rotate">hourglass_empty</i></td>
+                                                                        <td id="modal-highest_point_coords_system"></td>
+                                                                        <td id="modal-highest_point_coords">
+                                                                                <span id="modal-data-highest_point_os_grid"></span>
+                                                                                <span id="modal-data-highest_point_os_eastings"></span>
+                                                                                <span id="modal-data-highest_point_os_northings"></span>
+                                                                                <span id="modal-data-highest_point_latitude"></span>
+                                                                                <span id="modal-data-highest_point_longitude"></span>
+                                                                                <i class="material-icons animate-rotate">hourglass_empty</i>
+                                                                        </td>
                                                                 </tr>
                                                                 <tr>
                                                                         <td>Additional Summits</td>
@@ -212,19 +219,35 @@
         // On modal call, populate modal with data from ajax call
         $('#modal-entry').on('show.bs.modal', function () {                
                 let entryId = $(event.target).parent().data('entryid'); // Get entry_id form entry attribute of button that triggered modal
-                $.post("{{ url_for('get') }}", { 'entry_id': entryId, 'user_id': '', 'area_id': '' }, function (result) {
-                        // If request for data successful then set contents of modal
-                        for (const [key, value] of Object.entries(result)) {
+                $.post("{{ url_for('get') }}", { 'entry_id': entryId, 'user_id': '', 'area_id': '' }, function (entryData) {
+                        // If request for data successful then set contents of modal by key
+                        for (const [key, value] of Object.entries(entryData)) {
                                 if (value) {
                                         $(`#modal-data-${key}`).text(value);
                                 } else {
                                         $(`#modal-data-${key}`).text('No data');
                                 };
                         };
+                        // Hide coordinate values depending on system used
+                        if (entryData.highest_point_os_grid) {
+                                $('#modal-highest_point_coords_system').text('OS');                        
+                                $('#modal-data-highest_point_latitude').hide();
+                                $('#modal-data-highest_point_longitude').hide();
+                        } else {
+                                $('#modal-highest_point_coords_system').text('Lat/Long');
+                                $('#modal-data-highest_point_os_grid').hide();
+                                $('#modal-data-highest_point_os_eastings').hide();
+                                $('#modal-data-highest_point_os_northings').hide();
+                        }
+                        $('#modal-data-highest_point_os_grid').siblings('i').hide();
                         // Update edit button link
                         let editButtonHref = "{{ url_for('edit_entry', entry_id='') }}";
-                        $('#button-edit-entry-modal').attr('href', editButtonHref + result);
+                        $('#button-edit-entry-modal').attr('href', editButtonHref + entryData._id);
                 })
+        })
+        // On modal close, reset coordinate elements
+        $('#modal-entry').on('hide.bs.modal', function () {
+                $('#modal-highest_point_coords').children().show();
         })
 </script>
 {% endblock %}
