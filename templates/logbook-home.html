@@ -92,8 +92,8 @@
                         </thead>
                         <tbody>                                
                                 <!-- Display entries in table, 1 row per entry -->
-                                {% if user_entries %}
-                                        {% for entry in user_entries %}
+                                {% if user_entries.entries %}
+                                        {% for entry in user_entries.entries %}
                                         <tr>
                                                 <td>
                                                         <!-- More entry details button (to modal) -->
@@ -114,6 +114,13 @@
                                 {% endif %}
                         </tbody>
                 </table>
+                Page: {{ user_entries.current_page }}
+                {% if user_entries.previous_page %}                
+                <a href="{{ url_for('index', page=user_entries.previous_page) }}"><button>Back</button></a>
+                {% endif %}
+                {% if user_entries.next_page %}                
+                <a href="{{ url_for('index', page=user_entries.next_page) }}"><button>Next</button></a>
+                {% endif %}
         </div>
 </div>
 {% endblock %}

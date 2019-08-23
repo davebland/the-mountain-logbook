@@ -3,6 +3,7 @@
 from app import mongo, session
 from bson.objectid import ObjectId
 from datetime import datetime
+import math
 
 # USERS
 
@@ -37,11 +38,32 @@ def create_user(form_data):
 
 # ENTRIES
 
-def get_entries_for_user(user_id):
+def get_entries_for_user(user_id, page = 1):
     """ Return all entries for a given user id if any exist """
-    if mongo.db.entries.count_documents({'user_id':user_id}):
-        return mongo.db.entries.find({'user_id':user_id})
-    else: 
+    entries_per_page = 2
+    entry_count =  mongo.db.entries.count_documents({'user_id':user_id})
+    max_pages = math.ceil(entry_count / entries_per_page)
+    print(max_pages)
+    if entry_count:
+        if max_pages == 1:
+            # Get a single page of results
+            page_of_entries = mongo.db.entries.find({'user_id':user_id}).limit(entries_per_page)
+            return { 'entries' : page_of_entries, 'current_page': page}
+        elif page == 1:
+            # Get results for first page
+            page_of_entries = mongo.db.entries.find({'user_id':user_id}).limit(entries_per_page)
+            return { 'entries' : page_of_entries, 'current_page': page, 'next_page' : 2}
+        elif page < max_pages:
+            # Get results page by page
+            page_of_entries = mongo.db.entries.find({'user_id':user_id}).skip((page-1)*entries_per_page).limit(entries_per_page)
+            return { 'entries' : page_of_entries, 'current_page': page, 'previous_page' : page - 1, 'next_page' : page + 1}
+        elif page == max_pages:
+            # Get last page of results
+            page_of_entries = mongo.db.entries.find({'user_id':user_id}).skip((page-1)*entries_per_page).limit(entries_per_page)
+            return { 'entries' : page_of_entries, 'current_page': page, 'previous_page' : page - 1}
+        else:
+            return None
+    else:
         return None
 
 def get_entry(entry_id):

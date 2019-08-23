@@ -30,8 +30,8 @@ def login_check():
         return True
     return False
 
-def get_entries(entry_id = None, user_id = None, area_id = None):
-    """ Get entries from DB according to priority entry_id, area_id, user_id """
+def get_entries(entry_id = None, user_id = None, area_id = None, page = 1):
+    """ Get entries by page from DB according to priority entry_id, area_id, user_id """
     if entry_id:
         # Get a single entry
         return db.get_entry(entry_id)
@@ -39,8 +39,8 @@ def get_entries(entry_id = None, user_id = None, area_id = None):
         # Get all entries for given area
         return "YOU ARE REQUESTING entries FOR AREA %s" % area_id
     elif user_id and not area_id:
-        # Get all entries for given user
-        return db.get_entries_for_user(user_id)
+        # Get all entries for given user and page       
+        return db.get_entries_for_user(user_id, page)
     elif user_id and area_id:
         # Get all entries for given user and given area
         return "YOU ARE REQUESTING entries FOR USER %s FOR AREA %s" % (user_id, area_id)
@@ -55,13 +55,14 @@ def get_areas():
 # ROUTES (main)
 
 @app.route('/')
-def index():
+@app.route('/<page>')
+def index(page = 1):
     """ Main route returning app homepage or else login page """
     if login_check():
         # Get user stats
         stats = db.get_user_stats(session['user_id'])
         # Render home page with entries
-        return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_entries=get_entries("", session['user_id'], ""))
+        return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_entries=get_entries("", session['user_id'], "", int(page)))
 
     return render_template('login.html')
 
