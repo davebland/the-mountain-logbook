@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+<!-- General Error Page -->
+{% block main %}
+<div class="row">
+    <div class="col-md-8 col-lg-6 bg-light mx-1 mx-md-auto rounded">
+        <h2 class="text-center">Sorry, an error occured</h2>
+        <!-- Flashed or other message Area -->
+        <div id="message-area" class="my-3">
+            {% with error_messages = get_flashed_messages() %}
+                    {% if error_messages %}                                                                                       
+                            {% for message in error_messages %}
+                                    {{ message }}
+                            {% endfor %}
+                    {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+{% endblock %}

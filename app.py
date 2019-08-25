@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_pymongo import PyMongo
+from pymongo import errors as mongo_errors
 import json # required for dev only
 import os
 import mongo_helpers as db
@@ -21,6 +22,14 @@ mongo = PyMongo(app)
 @app.route('/db-test')
 def db_test():
     return render_template('db-test.html', data_set=mongo.db.users.find())
+
+# ERROR HANDLERS
+
+@app.errorhandler(mongo_errors.OperationFailure)
+def handle_mongo_op_failure(e):
+    """ Return 503 error with custom page """
+    flash(e)
+    return render_template('error.html'), 503
 
 # ROUTE HELPER FUNCTIONS
 
