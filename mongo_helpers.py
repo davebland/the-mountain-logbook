@@ -66,6 +66,11 @@ def get_entries_for_user(user_id, page = 1):
     else:
         return None
 
+def get_entries_for_area(area_id):
+    """ Get all entries for given area, regardless of user """
+    area_entries_raw = mongo.db.entries.find({'area_id':area_id},{'_id':0})
+    return area_entries_raw
+
 def get_entry(entry_id):
     """ Return all fields for specified log entry """
     entry_data = mongo.db.entries.find_one({'_id':ObjectId(entry_id)})
@@ -115,3 +120,9 @@ def delete_entry(entry_id):
     """ Delete an entry from the DB """
     delete = mongo.db.entries.find_one_and_delete({'_id':ObjectId(entry_id)})
     return "Entry '%s' Deleted" % str(delete['name'])
+
+# AREAS
+
+def get_areas():
+    """ Get all areas from DB """
+    return mongo.db.areas.find()

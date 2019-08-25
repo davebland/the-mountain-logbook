@@ -45,8 +45,8 @@ def get_entries(entry_id = None, user_id = None, area_id = None, page = 1):
         # Get a single entry
         return db.get_entry(entry_id)
     elif area_id and not user_id:
-        # Get all entries for given area
-        return "YOU ARE REQUESTING entries FOR AREA %s" % area_id
+        # Get all entries for given area and page
+        return db.get_entries_for_area(area_id)
     elif user_id and not area_id:
         # Get all entries for given user and page       
         return db.get_entries_for_user(user_id, page)
@@ -55,11 +55,6 @@ def get_entries(entry_id = None, user_id = None, area_id = None, page = 1):
         return "YOU ARE REQUESTING entries FOR USER %s FOR AREA %s" % (user_id, area_id)
     else:
         return "ERROR - No entry_id, area_id or user_id supplied"
-
-def get_areas():
-    """ Connect to DB and return dict containing all area ids and names """
-    test_data = ({'area_id' : 'testarea1_id', 'area_name' : 'testarea1_name'}, {'area_id' : 'testarea2_id', 'area_name' : 'testarea2_name'}, {'area_id' : 'testarea3_id', 'area_name' : 'testarea3_name'})
-    return test_data
 
 # ROUTES (main)
 
@@ -103,30 +98,30 @@ def logout():
 
 @app.route('/new')
 def new():
-    """ Generate page for entry of a new entry"""
+    """ Generate page for making of a new entry"""
     if login_check():
-        return render_template('new-edit.html', title="New entry", entry="", area_list=get_areas())
+        return render_template('new-edit.html', title="New entry", entry="", area_list=db.get_areas())
     return redirect( url_for('index') )
 
 @app.route('/edit/entry/<entry_id>')
 def edit_entry(entry_id):
     """ Generate page to edit an existing entry"""
     if login_check():
-        return render_template('new-edit.html', title="Edit entry", entry=db.get_entry(entry_id), area_list=get_areas())
+        return render_template('new-edit.html', title="Edit entry", entry=db.get_entry(entry_id), area_list=db.get_areas())
     return redirect( url_for('index') )
 
 @app.route('/edit/areas')
 def edit_areas():
     """ Generate page to edit areas """
     if login_check():
-        return render_template('edit-areas.html', title="Edit Areas", area_list=get_areas())
+        return render_template('edit-areas.html', title="Edit Areas", area_list=db.get_areas())
     return redirect( url_for('index') )
 
 @app.route('/others')
 def others():
     """ Generate page to view entries submitted by others """
     if login_check():
-        return render_template('others.html', title="Others Page", area_list=get_areas())
+        return render_template('others.html', title="Others Page", area_list=db.get_areas())
     return redirect( url_for('index') )
 
 # ROUTES (retrieve data)

@@ -33,8 +33,8 @@
                                     <option selected disabled hidden>Select an area...</option>
                                 {% endif %}
                                 {% if area_list %}                    
-                                    {% for area in area_list %}
-                                    <option value="{{ area.area_id }}">{{ area.area_name }}</option>
+                                    {% for area in area_list %}                                   
+                                    <option value="{{ area._id }}">{{ area.name }}</option>
                                     {% endfor %}
                                 {% else %}
                                     <option disabled>Sorry, no areas found</option>
