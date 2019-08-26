@@ -17,7 +17,7 @@
             <form id="form-select-area">
                 <div class="form-group">
                     <label for="select-form-area-name">Select Mountain Area</label>
-                    <select class="form-control" id="select-form-area-name" name="area_id" onchange="getAreaEntries()" required>
+                    <select class="form-control" id="select-form-area-name" name="area_id" onchange="fillEditForm();" required>
                         <option selected disabled hidden>Select an area...</option>
                         <!-- If area list exists populate the select, otherwise display an error message -->
                         {% if area_list %}
@@ -34,9 +34,12 @@
             <form id="form-edit-area" action="{{ url_for('create', create_type='area', reload_page=True) }}" method="POST">
                 <div class="form-group">
                     <label for="input-new-area-name">Area Name</label>
+                    <input type="text" class="form-control" id="input-new-area-id" name="area_id" hidden>
                     <input type="text" class="form-control" id="input-new-area-name" name="name" placeholder="Enter an area name" required>
-                    <button id="button-submit-edit-form" type="submit" class="btn btn-warning">Create Area</button>
                 </div>
+                <div class="form-group text-right">
+                    <button id="button-submit-edit-form" type="submit" class="btn btn-success">Create Area</button>
+                </div>                
             </form>
         </div>        
     </div>      
@@ -48,17 +51,16 @@
         event.preventDefault();
     });
 
-    // Create ajax call to get entries per area and update page
-    function getAreaEntries() {
-        let areaIdSelected = $('#select-form-area-name').val()        
-        $.post("{{ url_for('get') }}", {'entry_id' : '', 'user_id' : '', 'area_id' : areaIdSelected}, function(result) {                        
-                        // If request for data successful then set contents of edit form and change action
-                        $('#input-new-area-name').val(result);
-                        let updateAreaUrl = "{{ url_for('update', update_type='area', entity_id='') }}";
-                        updateAreaUrl += result;
-                        $('#form-edit-area').attr('action', updateAreaUrl);
-                        $('#button-submit-edit-form').text('Edit');
-                })
+    // Populate the edit form with a selected area and id, change action
+    function fillEditForm() {
+        let selectedAreaId = $('#select-form-area-name').val();
+        $('#input-new-area-id').val(selectedAreaId);
+        let selectedAreaName = $(`#select-form-area-name option[value="${selectedAreaId}"]`).text();
+        $('#input-new-area-name').val(selectedAreaName);
+        $('#button-submit-edit-form').removeClass('btn-success').addClass('btn-warning');
+        $('#button-submit-edit-form').text('Update Area');
+        let updateAreaUrl = "{{ url_for('update', update_type='area', entity_id='') }}";
+        $('#form-edit-area').attr('action', updateAreaUrl + selectedAreaId);
     }
 </script>
 {% endblock %}
