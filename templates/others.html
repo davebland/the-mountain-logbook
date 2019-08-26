@@ -36,7 +36,7 @@
             </thead>
             <tbody id="table-body">                                
                 <!-- JS inserted table rows -->                          
-                <tr><td colspan="3">No entries found</td></tr>                    
+                <tr id="table-no-entries-row"><td colspan="3">No entries found</td></tr>                    
             </tbody>
         </table>
         </div>
@@ -51,15 +51,24 @@
 
     // Create ajax call to get Entries per area and update page
     function getAreaEntries() {
+        // Reset table
+        $('#table-body .table-entries-row').remove();
+        $('#table-no-entries-row').show();
         let areaIdSelected = $('#select-form-area-name').val()        
-        //console.log(areaForm.area_id.value)
         $.post("{{ url_for('get') }}", {'entry_id' : '', 'user_id' : '', 'area_id' : areaIdSelected}, function(result) {                        
-                        // If request for data successful then set contents of page
-                        console.log(result)
-                        console.log(typeof(result))
-                        for (entry of result) {
+                        // If request for data successful then set contents of page                                                    
+                        let jsonResult = JSON.parse(result)                                     
+                        if (jsonResult.length) {
+                            $('#table-no-entries-row').hide();
+                        }
+                        for (entry in jsonResult) {
+                            console.log(jsonResult[entry].date)
                             // For each entry retrieved display a row
-                            $('#table-body').append(`<tr><td>${entry}</td></tr>`)
+                            $('#table-body').append(`<tr class="table-entries-row">
+                                <td>${jsonResult[entry].date}</td>
+                                <td>${jsonResult[entry].user_id}</td>
+                                <td>${jsonResult[entry].name}</td>
+                            </tr>`)
                         }
                 })
     }

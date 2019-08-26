@@ -158,11 +158,12 @@ def create(create_type):
             flash(create_update_result)
             return redirect( url_for('index') )
         elif create_type == "area":
+            create_area_result = db.create_area(request.form)
+            flash(create_area_result)
             # If reload requested in arguments this is a request from edit page rather than modal form
             if request.args.get('reload_page'):
-                flash("CREATING AN AREA: {}".format(request.form))
                 return redirect( url_for('edit_areas') )
-            return "CREATING AN AREA"
+            return create_area_result
         else:
             return "CREATING ERROR - none or incorrect type supplied"
     return redirect( url_for('index') )

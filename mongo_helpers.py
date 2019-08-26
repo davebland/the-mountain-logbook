@@ -2,6 +2,7 @@
 
 from app import mongo, session
 from bson.objectid import ObjectId
+from bson.json_util import dumps
 from datetime import datetime
 import math
 
@@ -69,7 +70,7 @@ def get_entries_for_user(user_id, page = 1):
 def get_entries_for_area(area_id):
     """ Get all entries for given area, regardless of user """
     area_entries_raw = mongo.db.entries.find({'area_id':area_id},{'_id':0})
-    return area_entries_raw
+    return dumps(area_entries_raw)
 
 def get_entry(entry_id):
     """ Return all fields for specified log entry """
@@ -126,3 +127,11 @@ def delete_entry(entry_id):
 def get_areas():
     """ Get all areas from DB """
     return mongo.db.areas.find()
+
+def create_area(form_data):
+    """ Create a new area in DB """    
+    new_area = {
+        'name' : form_data['name']
+    }
+    mongo.db.areas.insert_one(new_area)
+    return "New area '%s' created" % new_area['name']

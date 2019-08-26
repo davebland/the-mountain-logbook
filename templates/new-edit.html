@@ -187,7 +187,7 @@
     function addNewArea(newAreaForm) {
         let newAreaName = newAreaForm.area_name.value;
         let createAreaUrl = "{{ url_for('create', create_type='area') }}"
-        $.post(createAreaUrl, {'area_name' : newAreaName}, function(result) {                        
+        $.post(createAreaUrl, {'name' : newAreaName}, function(result) {                        
                         // If post request successful then close modal and add area to select
                         $('#modal-add-new-area').modal('hide')
                         $('#select-area-name').append(`<option value="${result}" selected>${result}</option>`)
