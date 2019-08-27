@@ -4,6 +4,7 @@ from pymongo import errors as mongo_errors
 import json # required for dev only
 import os
 import mongo_helpers as db
+import email_notifications as mail
 
 # APP SETUP
 app = Flask(__name__)
@@ -75,9 +76,10 @@ def login():
     """ Login a user by setting session and redirect to home """
     if 'login-email' in request.form:
         email = request.form['login-email'].lower()
-        # Check if the user exists and set session to user id if so        
+        # Check if the user exists and set session to user id if so, send notification       
         if db.check_user(email):
             session["user_id"] = db.check_user(email)
+            mail.send_login_notification(email)
             return redirect(url_for('index'))
         else:
             flash('Sorry, no user found with email %s' % email)
