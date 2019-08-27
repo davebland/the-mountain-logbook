@@ -66,7 +66,7 @@ def index(page = 1):
         # Get user stats
         stats = db.get_user_stats(session['user_id'])
         # Render home page with entries
-        return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_entries=get_entries("", session['user_id'], "", int(page)))
+        return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_entries=get_entries("", session['user_id'], "", int(page)), area_list=db.get_areas())
 
     return render_template('login.html')
 

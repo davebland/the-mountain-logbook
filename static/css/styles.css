@@ -2,6 +2,10 @@
 
 /* CONTAINERS */
 
+.container {
+    min-height: 85vh;
+}
+
 /* TYPOGRAPHY */
 
 .header-text {

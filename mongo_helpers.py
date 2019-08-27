@@ -41,7 +41,7 @@ def create_user(form_data):
 
 def get_entries_for_user(user_id, page = 1):
     """ Return all entries for a given user id if any exist """
-    entries_per_page = 2
+    entries_per_page = 3
     entry_count =  mongo.db.entries.count_documents({'user_id':user_id})
     max_pages = math.ceil(entry_count / entries_per_page)
     print(max_pages)

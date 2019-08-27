@@ -91,7 +91,7 @@
                                 </tr>
                         </thead>
                         <tbody>                                
-                                <!-- Display entries in table, 1 row per entry -->
+                                <!-- Display entries in table, 1 row per entry -->                             
                                 {% if user_entries.entries %}
                                         {% for entry in user_entries.entries %}
                                         <tr>
@@ -99,9 +99,17 @@
                                                         <!-- More entry details button (to modal) -->
                                                         <button type="button" class="btn btn-outline-primary logbook-button more-button" data-toggle="modal" data-target="#modal-entry" data-entryid="{{ entry._id }}"><i class="material-icons">arrow_right</i></button>
                                                 </td>
-                                                <td>{{ entry }}</td>
-                                                <td class="d-none d-md-block">{{ entry }}</td>
-                                                <td>{{ entry }}</td>                                        
+                                                <td>{{ entry.date }}</td>
+                                                <td class="d-none d-md-block">
+                                                        {{ entry.area_id }}
+                                                        <!-- Iterate through the list of areas and find one that matches the entrys area_id -->                                                        
+                                                        {% for area in area_list %}                                                                
+                                                                {% if area._id|string == entry.area_id %}
+                                                                        {{ area.name }}
+                                                                {% endif %}                                                         
+                                                        {% endfor %}                                                        
+                                                </td>
+                                                <td>{{ entry.name }}</td>                                        
                                                 <td>
                                                         <!-- Edit and delete buttons -->
                                                         <a href="{{ url_for('edit_entry', entry_id=entry._id) }}"><button type="button" class="btn btn-warning logbook-button"><i class="material-icons">edit</i></button></a>

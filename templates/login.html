@@ -3,7 +3,11 @@
 {% block main %}
 <div class="row">
     <div class="col-md-8 col-lg-6 bg-light mx-1 mx-md-auto rounded">
-        <h2>Welcome to the Mountain Logbook Online</h2>
+        <div class="jumbotron text-center mt-3">
+                <h2 class="display-4">Welcome</h2>                
+                <small>The Mountain Logbook Online</small>
+        </div>
+        <h2></h2>
         <p class="text-justify">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad itaque quas, libero unde, soluta ex obcaecati
             aspernatur totam perspiciatis illo accusamus atque blanditiis possimus sit vitae aperiam eaque iste. Dolore
             eveniet a nobis saepe, eius, quaerat voluptatem aut dolores rem fugit doloribus deleniti ut cumque tenetur
@@ -11,6 +15,9 @@
             omnis ut natus rerum excepturi temporibus officiis suscipit expedita possimus itaque quisquam vero maiores
             eligendi? Aliquam sunt impedit doloribus reiciendis modi molestias vero, eveniet rem nisi optio eligendi
             porro voluptates tempore? Ducimus amet ad, odit consequatur consequuntur quos qui!</p>
+        <p class="text-center">
+            Login with <strong>demo@daveb.me.uk</strong> for some example content.
+        </p>
         <!-- Flashed or other message Area -->
         <div id="message-area">
             {% with error_messages = get_flashed_messages() %}
@@ -46,7 +53,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-signup-title">Enter Display Name</h5>
+                    <h5 class="modal-title" id="modal-signup-title">Create A New User</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

@@ -56,7 +56,7 @@ The application is primarily for people who will already be keeping a logbook of
 ## Credits
 
 ## Content
-All content produced by me other than CSS & JS libraries as documented.
+All content produced by me other than CSS & JS libraries as documented. Includes background image.
 
 ## Acknowledgements
 - wireframe.cc (online wireframing tool)
