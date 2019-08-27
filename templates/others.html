@@ -56,21 +56,21 @@
         $('#table-no-entries-row').show();
         let areaIdSelected = $('#select-form-area-name').val()        
         $.post("{{ url_for('get') }}", {'entry_id' : '', 'user_id' : '', 'area_id' : areaIdSelected}, function(result) {                        
-                        // If request for data successful then set contents of page                                                    
-                        let jsonResult = JSON.parse(result)                                     
-                        if (jsonResult.length) {
-                            $('#table-no-entries-row').hide();
-                        }
-                        for (entry in jsonResult) {
-                            console.log(jsonResult[entry].date)
-                            // For each entry retrieved display a row
-                            $('#table-body').append(`<tr class="table-entries-row">
-                                <td>${jsonResult[entry].date}</td>
-                                <td>${jsonResult[entry].user_id}</td>
-                                <td>${jsonResult[entry].name}</td>
-                            </tr>`)
-                        }
-                })
+            // If request for data successful then set contents of page                                                    
+            let jsonResult = JSON.parse(result)                                     
+            if (jsonResult.length) {
+                $('#table-no-entries-row').hide();
+            }
+            for (entry in jsonResult) {
+                console.log(jsonResult[entry].date)
+                // For each entry retrieved display a row
+                $('#table-body').append(`<tr class="table-entries-row">
+                    <td>${jsonResult[entry].date}</td>
+                    <td>${jsonResult[entry].user_id}</td>
+                    <td>${jsonResult[entry].name}</td>
+                </tr>`);
+            }
+        })
     }
 </script>
 {% endblock %}

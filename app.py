@@ -74,7 +74,7 @@ def index(page = 1):
 def login():
     """ Login a user by setting session and redirect to home """
     if 'login-email' in request.form:
-        email = request.form['login-email']
+        email = request.form['login-email'].lower()
         # Check if the user exists and set session to user id if so        
         if db.check_user(email):
             session["user_id"] = db.check_user(email)
@@ -82,11 +82,9 @@ def login():
         else:
             flash('Sorry, no user found with email %s' % email)
             return redirect(url_for('index'))
-    elif 'signup-email' in request.form:
-        # Set email as user_id in session
-        session["user_id"] = request.form['signup-email']
+    else:
+        flash('Sorry, login request invalid')
         return redirect(url_for('index'))
-    return 'INVALID LOGIN'
 
 @app.route('/logout')
 def logout():
@@ -100,14 +98,14 @@ def logout():
 def new():
     """ Generate page for making of a new entry"""
     if login_check():
-        return render_template('new-edit.html', title="New entry", entry="", area_list=db.get_areas())
+        return render_template('new-edit.html', title="New Entry", entry="", area_list=db.get_areas())
     return redirect( url_for('index') )
 
 @app.route('/edit/entry/<entry_id>')
 def edit_entry(entry_id):
     """ Generate page to edit an existing entry"""
     if login_check():
-        return render_template('new-edit.html', title="Edit entry", entry=db.get_entry(entry_id), area_list=db.get_areas())
+        return render_template('new-edit.html', title="Edit Entry", entry=db.get_entry(entry_id), area_list=db.get_areas())
     return redirect( url_for('index') )
 
 @app.route('/edit/areas')
@@ -158,7 +156,7 @@ def create(create_type):
             flash(create_update_result)
             return redirect( url_for('index') )
         elif create_type == "area":
-            create_area_result = db.create_area(request.form)
+            create_area_result = db.create_update_area(request.form)
             flash(create_area_result)
             # If reload requested in arguments this is a request from edit page rather than modal form
             if request.args.get('reload_page'):
@@ -182,7 +180,8 @@ def update(update_type, entity_id):
             flash(create_update_result)
             return redirect( url_for('index') )
         elif update_type == "area":
-            flash("UPDATING AN AREA %s " % entity_id)
+            create_update_result = db.create_update_area(request.form, entity_id)
+            flash(create_update_result)
             return redirect( url_for('edit_areas') )
         else:
             return "UPDATING ERROR - none or incorrect type supplied"
@@ -202,7 +201,9 @@ def delete(delete_type, entity_id):
             flash(delete_result)
             return redirect( url_for('index') )
         elif delete_type == "area":
-            return "DELETING AN AREA %s " % entity_id
+            delete_result = db.delete_area(entity_id)
+            flash(delete_result)
+            return redirect( url_for('edit_areas') )
         else:
             return "DELETING ERROR - none or incorrect type supplied"
     return redirect( url_for('index') )

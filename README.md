@@ -31,6 +31,7 @@ The application is primarily for people who will already be keeping a logbook of
 - Interactions with other users.
 - Link a log entry with another user in the system
 - Record waypoint coordinates and map these
+- Stats for each area on mountain area page plus prettier display
 
 ## Technologies
 - HTML5

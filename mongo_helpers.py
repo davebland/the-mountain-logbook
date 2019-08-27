@@ -128,10 +128,21 @@ def get_areas():
     """ Get all areas from DB """
     return mongo.db.areas.find()
 
-def create_area(form_data):
-    """ Create a new area in DB """    
+def create_update_area(form_data, area_id = None):
+    """ Create a new area in DB or update an existing one """    
     new_area = {
         'name' : form_data['name']
     }
-    mongo.db.areas.insert_one(new_area)
-    return "New area '%s' created" % new_area['name']
+    if area_id:
+        # Update existing area
+        mongo.db.areas.update_one({'_id':ObjectId(area_id)},{'$set': new_area})
+        return "Area '%s' updated" % new_area['name']
+    else:
+        # Insert new area
+        mongo.db.areas.insert_one(new_area)
+        return "New area '%s' created" % new_area['name']
+
+def delete_area(area_id):
+    """ Delete an area from the DB """
+    delete = mongo.db.areas.find_one_and_delete({'_id':ObjectId(area_id)})
+    return "Area '%s' Deleted" % str(delete['name'])
