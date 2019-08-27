@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <!-- Primary Terrain -->
                             <label for="select-primary-terrain">Primary Terrain</label>
-                            <select class="form-control" id="select-primary-terrain" name="primary_terrain">
+                            <select class="form-control" id="select-primary-terrain" name="primary_terrain" required>
                                 {% if entry %}
                                     <option value="{{ entry.primary_terrain }}" selected>{{ entry.primary_terrain }}</option>
                                 {% else %}
@@ -75,8 +75,8 @@
                     <div class="col-lg pl-3">
                         <!-- Highest Point -->
                         <div class="form-group">
-                            <label for="input-highest-point-name">Summit Name</label>
-                            <input type="text" class="form-control" id="input-highest-point-name" name="highest_point_name" placeholder="HP Name" value="{{ entry.highest_point_name }}">
+                            <label for="input-highest-point-name">Main Summit Name</label>
+                            <input type="text" class="form-control" id="input-highest-point-name" name="highest_point_name" placeholder="E.g. highest point" value="{{ entry.highest_point_name }}">
                             <div class="form-row align-items-center mt-1">
                                 <div class="col-3">                              
                                     <div class="custom-control custom-switch">                                  
@@ -105,12 +105,12 @@
                         <div class="form-group">
                             <!-- Weather -->
                             <label for="input-eather">Weather</label>
-                            <input type="text" class="form-control" id="input-weather" name="weather" placeholder="Weather" value="{{ entry.weather }}">                    
+                            <input type="text" class="form-control" id="input-weather" name="weather" placeholder="A short description..." value="{{ entry.weather }}">                    
                         </div>
                         <div class="form-group">
                             <!-- Participation -->
                             <label for="select-participation">Participation</label>
-                            <select class="form-control" id="select-participation" name="participation">
+                            <select class="form-control" id="select-participation" name="participation" required>
                                 {% if entry %}
                                     <option value="{{ entry.participation }}" selected>{{ entry.participation }}</option>
                                 {% else %}
@@ -183,15 +183,20 @@
         event.preventDefault();
     });
 
+    // Setup for to show only OS grid input elements to start with
+    $('#inputs-highest-point-latlong').hide();
+
     // Create ajax call to add new area to DB, close modal and update page
     function addNewArea(newAreaForm) {
         let newAreaName = newAreaForm.area_name.value;
         let createAreaUrl = "{{ url_for('create', create_type='area') }}"
         $.post(createAreaUrl, {'name' : newAreaName}, function(result) {                        
-                        // If post request successful then close modal and add area to select
-                        $('#modal-add-new-area').modal('hide')
-                        $('#select-area-name').append(`<option value="${result}" selected>${result}</option>`)
-                })      
+            // If post request successful then close modal and add get new area id to add to select
+            $('#modal-add-new-area').modal('hide')
+            $.get('{{ url_for("areas") }}', function(areaDict) {
+                $('#select-area-name').append(`<option value="${areaDict[newAreaName]}" selected>${newAreaName}</option>`)
+            });   
+        })      
     }
 
     // Toggle the coordinate system used to entry highest point between OS and Lat/Long

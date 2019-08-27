@@ -131,6 +131,17 @@ def get():
         return get_entries(request.form['entry_id'], request.form['user_id'], request.form['area_id'])
     return redirect( url_for('index') )
 
+@app.route('/get/areas')
+def areas():
+    """ Return dict of areas and id's """
+    if login_check():
+        areas_raw = db.get_areas()
+        area_dict = {}
+        for area in areas_raw:
+            area_dict[area['name']] = str(area['_id'])
+        return area_dict
+    return "Not logged in"
+
 # ROUTES (create data)
 
 @app.route('/create/<create_type>', methods=["POST"])
