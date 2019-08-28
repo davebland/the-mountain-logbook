@@ -10,7 +10,7 @@ with open('email_creds.txt') as creds:
     smtp_creds['user'] = data['SMTP_USER']
     smtp_creds['pass'] = data['SMTP_PASS']
 
-def send_login_notification(user_email):
+async def send_login_notification(user_email):
     # Setup smtp object
     smtp = smtplib.SMTP( 'email-smtp.eu-west-1.amazonaws.com' )
     smtp.starttls()

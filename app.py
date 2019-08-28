@@ -5,6 +5,7 @@ import json # required for dev only
 import os
 import mongo_helpers as db
 import email_notifications as mail
+import asyncio
 
 # APP SETUP
 app = Flask(__name__)
@@ -78,8 +79,8 @@ def login():
         email = request.form['login-email'].lower()
         # Check if the user exists and set session to user id if so, send notification       
         if db.check_user(email):
-            session["user_id"] = db.check_user(email)
-            mail.send_login_notification(email)
+            session["user_id"] = db.check_user(email)            
+            asyncio.run(mail.send_login_notification(email))
             return redirect(url_for('index'))
         else:
             flash('Sorry, no user found with email %s' % email)
