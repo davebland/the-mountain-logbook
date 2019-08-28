@@ -1,6 +1,7 @@
 # BASIC EMAIL NOTIFICATIONS USING AWS SES
 
 import smtplib
+import os
 import json # required for dev only
 
 # Get creds from enviroment variables if set otherwise untracked file (dev)
