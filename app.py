@@ -13,10 +13,10 @@ app.secret_key = os.getenv("SECRET", "arandombackupstring")
 
 # MONGODB SETUP
 # Get creds from enviroment variables if present other wise try untracked file (dev)
-try:
-    app.config['MONGO_URI'] = os.getenv('MONGO_URI')
-    app.config['MONGO_DBNAME'] = os.getenv('MONGO_DBNAME')
-except:
+app.config['MONGO_URI'] = os.getenv('MONGO_URI')
+app.config['MONGO_DBNAME'] = os.getenv('MONGO_DBNAME')
+
+if not app.config['MONGO_URI'] or not app.config['MONGO_DBNAME']:
     print('Using local mongo creds')
     with open('mongo_creds.txt') as creds:
         data = json.load(creds)
@@ -227,7 +227,7 @@ def delete(delete_type, entity_id):
             return "DELETING ERROR - none or incorrect type supplied"
     return redirect( url_for('index') )
 
-# Set flask parameters
+# Set flask parameters and run
 if __name__ == '__main__':
-    os.environ["FLASK_ENV"] = "development"
-    app.run(debug=True)
+    os.environ["FLASK_ENV"] = "development" # dev
+    app.run(host=os.getenv('IP', "0.0.0.0"), port=int(os.getenv('PORT', "5000")), debug=True)

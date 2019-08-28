@@ -6,10 +6,10 @@ import json # required for dev only
 
 # Get creds from enviroment variables if set otherwise untracked file (dev)
 smtp_creds = {}
-try:
-    smtp_creds['user'] = os.getenv('SMTP_USER')
-    smtp_creds['pass'] = os.getenv('SMTP_PASS')
-except:
+smtp_creds['user'] = os.getenv('SMTP_USER')
+smtp_creds['pass'] = os.getenv('SMTP_PASS')
+
+if not smtp_creds['user'] or not smtp_creds['pass']:
     print('Using local SMTP creds')
     with open('email_creds.txt') as creds:
         data = json.load(creds)
