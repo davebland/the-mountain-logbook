@@ -14,8 +14,8 @@ app.secret_key = os.getenv("SECRET", "arandombackupstring")
 # MONGODB SETUP
 # Get creds from enviroment variables if present other wise try untracked file (dev)
 try:
-    app.config['MONGO_URI'] = os.getenv['MONGO_URI']
-    app.config['MONGO_DBNAME'] = os.getenv['MONGO_DBNAME']
+    app.config['MONGO_URI'] = os.getenv('MONGO_URI')
+    app.config['MONGO_DBNAME'] = os.getenv('MONGO_DBNAME')
 except:
     print('Using local mongo creds')
     with open('mongo_creds.txt') as creds:
