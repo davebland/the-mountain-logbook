@@ -12,6 +12,10 @@
     font-size: 1.3em !important;
 }
 
+header a:hover {
+    text-decoration: none;
+}
+
 #application-logo-title i, #application-logo-title h2 {
     font-size: 2em;
 }
