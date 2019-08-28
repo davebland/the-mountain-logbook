@@ -229,5 +229,4 @@ def delete(delete_type, entity_id):
 
 # Set flask parameters and run
 if __name__ == '__main__':
-    os.environ["FLASK_ENV"] = "development" # dev
     app.run(host=os.getenv('IP', "0.0.0.0"), port=int(os.getenv('PORT', "5000")), debug=True)
