@@ -53,6 +53,7 @@ The application is primarily for people who will already be keeping a logbook of
 ## Technical Challenges
 
 ## Deployment
+Heroku linked to GitHub with eviroment variables set for sensitive creds
 
 ## Credits
 

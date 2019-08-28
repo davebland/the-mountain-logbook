@@ -3,12 +3,17 @@
 import smtplib
 import json # required for dev only
 
-# Get creds from untracked file for dev purposes
+# Get creds from enviroment variables if set otherwise untracked file (dev)
 smtp_creds = {}
-with open('email_creds.txt') as creds:
-    data = json.load(creds)
-    smtp_creds['user'] = data['SMTP_USER']
-    smtp_creds['pass'] = data['SMTP_PASS']
+try:
+    smtp_creds['user'] = os.getenv['SMTP_USER']
+    smtp_creds['pass'] = os.getenv['SMTP_PASS']
+except:
+    print('Using local SMTP creds')
+    with open('email_creds.txt') as creds:
+        data = json.load(creds)
+        smtp_creds['user'] = data['SMTP_USER']
+        smtp_creds['pass'] = data['SMTP_PASS']
 
 async def send_login_notification(user_email):
     # Setup smtp object
