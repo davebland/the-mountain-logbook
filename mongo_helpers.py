@@ -20,7 +20,7 @@ def get_user_stats(user_id):
     user_data = mongo.db.users.find_one({'_id':ObjectId(user_id)})
     user_stats = {
         'display_name' : user_data['display_name'],
-        'signup_date' : ObjectId(user_id).generation_time,
+        'signup_date' : datetime.strftime(ObjectId(user_id).generation_time, '%d %B %Y'),
         'no_of_entries' : mongo.db.entries.count_documents({'user_id':user_id}),
         'total_dist' : 456,
         'highest_peak' : 789
@@ -76,7 +76,7 @@ def get_entry(entry_id):
     """ Return all fields for specified log entry """
     entry_data = mongo.db.entries.find_one({'_id':ObjectId(entry_id)})
     entry_data['_id'] = str(entry_data['_id'])
-    entry_data['date'] = datetime.strftime(entry_data['date'], '%Y-%m-%d')
+    entry_data['date'] = datetime.strftime(entry_data['date'], "%d-%b-%Y")
     return entry_data
 
 def create_update_entry(form_data, entry_id = None):

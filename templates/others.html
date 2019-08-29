@@ -3,6 +3,11 @@
 {% block content %}
     <div class="row">
         <div class="col">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             <!-- Dropdown to select mountain area of interest -->
             <form>
                 <div class="form-group">
@@ -23,23 +28,23 @@
         </div>        
     </div>
     <div class="row">
-        <div class="col">
-        <div id="table-entries"></div>
-        <!-- Table of Log Entries for Selected Area -->
-        <table class="table table-sm">
-            <thead>
-                <tr>                            
-                        <th scope="col">Date</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Entry Name</th>                                                                   
-                </tr>
-            </thead>
-            <tbody id="table-body">                                
-                <!-- JS inserted table rows -->                          
-                <tr id="table-no-entries-row"><td colspan="3">No entries found</td></tr>                    
-            </tbody>
-        </table>
+        <div class="col-md-8">            
+            <!-- Table of Log Entries for Selected Area -->
+            <table class="table table-sm">
+                <thead>
+                    <tr>                            
+                            <th scope="col">Date</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Entry Name</th>                                                                   
+                    </tr>
+                </thead>
+                <tbody id="table-body">                                
+                    <!-- JS inserted table rows -->                          
+                    <tr id="table-no-entries-row"><td colspan="3">No entries found</td></tr>                    
+                </tbody>
+            </table>
         </div>
+        <div class="col"></div>
     </div>        
 {% endblock %}
 {% block scripts %}

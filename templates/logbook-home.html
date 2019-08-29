@@ -6,7 +6,7 @@
         <div class="col-lg-6 text-center">
                 <!-- Meta section 1 -->
                 <h3>Welcome {{ user_stats.display_name }}</h3>
-                <p><small>Member since: {{ user_stats.signup_date }}</small></p>                
+                <p><small>Member since: <span class="badge badge-info">{{ user_stats.signup_date }}</span></small></p>                
         </div>
         <div class="col-lg-4">
                 <!-- Meta section 2 -->
@@ -99,16 +99,8 @@
                                                         <!-- More entry details button (to modal) -->
                                                         <button type="button" class="btn btn-outline-primary logbook-button more-button" data-toggle="modal" data-target="#modal-entry" data-entryid="{{ entry._id }}"><i class="material-icons">arrow_right</i></button>
                                                 </td>
-                                                <td>{{ entry.date }}</td>
-                                                <td class="d-none d-md-block">
-                                                        {{ entry.area_id }}
-                                                        <!-- Iterate through the list of areas and find one that matches the entrys area_id -->                                                        
-                                                        {% for area in area_list %}                                                                
-                                                                {% if area._id|string == entry.area_id %}
-                                                                        {{ area.name }}
-                                                                {% endif %}                                                         
-                                                        {% endfor %}                                                        
-                                                </td>
+                                                <td>{{ entry.date.strftime('%d-%b-%Y') }}</td>
+                                                <td class="d-none d-md-block">{{ area_list[entry.area_id] }}</td>
                                                 <td>{{ entry.name }}</td>                                        
                                                 <td>
                                                         <!-- Edit and delete buttons -->
@@ -122,6 +114,7 @@
                                 {% endif %}
                         </tbody>
                 </table>
+                <!-- Pagination Controls -->
                 Page: {{ user_entries.current_page }}
                 {% if user_entries.previous_page %}                
                 <a href="{{ url_for('index', page=user_entries.previous_page) }}"><button>Back</button></a>
@@ -151,23 +144,23 @@
                                                 <div class="col-lg">
                                                         <table class="table table-bordered">
                                                                 <tr>
-                                                                        <td>Date</td>
+                                                                        <td><small>Date</small></td>
                                                                         <td id="modal-data-date"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td>Mountain Area</td>
+                                                                        <td><small>Area</small></td>
                                                                         <td id="modal-data-area_id"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td>Primary Terrain</td>
+                                                                        <td><small>Primary Terrain</small></td>
                                                                         <td id="modal-data-primary_terrain"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td>Duration</td>
+                                                                        <td><small>Duration</small></td>
                                                                         <td id="modal-data-duration"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td>Distance</td>
+                                                                        <td><small>Distance</small></td>
                                                                         <td id="modal-data-distance"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                         </table>
@@ -175,7 +168,7 @@
                                                 <div class="col-lg">
                                                         <table class="table table-bordered">
                                                                 <tr>
-                                                                        <td>Highest Point</td>
+                                                                        <td><small>Highest Point</small></td>
                                                                         <td id="modal-data-highest_point_name"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
@@ -190,26 +183,26 @@
                                                                         </td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td>Additional Summits</td>
+                                                                        <td><small>Additional Summits</small></td>
                                                                         <td id="modal-data-additional_summits"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td>Weather</td>
+                                                                        <td><small>Weather</small></td>
                                                                         <td id="modal-data-weather"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td>Participation</td>
+                                                                        <td><small>Participation</small></td>
                                                                         <td id="modal-data-participation"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td>Group Members</td>
+                                                                        <td><small>Group Members</small></td>
                                                                         <td id="modal-data-group_members"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                         </table>
                                                 </div>
                                         </div>
                                         <div class="row">
-                                                Notes:
+                                                <small>Notes:</small>
                                                 <div id="modal-data-notes" class="col"><i class="material-icons animate-rotate">hourglass_empty</i></div>
                                         </div>
                                 </div>                                                              
@@ -249,11 +242,11 @@
                         };
                         // Hide coordinate values depending on system used
                         if (entryData.highest_point_os_grid) {
-                                $('#modal-highest_point_coords_system').text('OS');                        
+                                $('#modal-highest_point_coords_system').html('<small>OS</small>');                        
                                 $('#modal-data-highest_point_latitude').hide();
                                 $('#modal-data-highest_point_longitude').hide();
                         } else {
-                                $('#modal-highest_point_coords_system').text('Lat/Long');
+                                $('#modal-highest_point_coords_system').html('<small>Lat/Long</small>');
                                 $('#modal-data-highest_point_os_grid').hide();
                                 $('#modal-data-highest_point_os_eastings').hide();
                                 $('#modal-data-highest_point_os_northings').hide();

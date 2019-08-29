@@ -63,6 +63,13 @@ def get_entries(entry_id = None, user_id = None, area_id = None, page = 1):
     else:
         return "ERROR - No entry_id, area_id or user_id supplied"
 
+def areas_to_dict(cursor_object):
+    """ Convert a cursor oject containing areas and ids to a dict """
+    areas_dict = {}
+    for record in cursor_object:
+        areas_dict[str(record['_id'])] = record['name']  
+    return areas_dict
+
 # ROUTES (main)
 
 @app.route('/')
@@ -73,7 +80,7 @@ def index(page = 1):
         # Get user stats
         stats = db.get_user_stats(session['user_id'])
         # Render home page with entries
-        return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_entries=get_entries("", session['user_id'], "", int(page)), area_list=db.get_areas())
+        return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_entries=get_entries("", session['user_id'], "", int(page)), area_list=areas_to_dict(db.get_areas()))
 
     return render_template('login.html')
 
@@ -143,7 +150,7 @@ def get():
 def areas():
     """ Return dict of areas and id's """
     if login_check():
-        areas_raw = db.get_areas()
+        areas_raw = db.get_areas()      
         area_dict = {}
         for area in areas_raw:
             area_dict[area['name']] = str(area['_id'])

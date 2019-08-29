@@ -54,6 +54,8 @@ The application is primarily for people who will already be keeping a logbook of
 
 ## Testing
 
+Tested on different browsers and desktop/mobile screen sizes.
+
 ## Technical Challenges
 - Asynchronous execution of notification email to speed up login time
 ## Deployment
