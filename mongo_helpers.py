@@ -42,7 +42,9 @@ def create_user(form_data):
 def get_entries_for_user(user_id, page = 1, db_filter = {}):
     """ Return all entries for a given user id if any exist """
     print(db_filter)
-    query = {'user_id':user_id}
+    query = {'user_id': '5d65442c79ba2dc9f24fca37', 'date': {'$gt': {'$date','2019-07-01'}}}
+    #query = {'user_id':user_id, 'date': {'$gt':db_filter['filter-min-date'], '$lt':db_filter['filter-max-date']}, 'area_id':db_filter['filter-area']}
+    print(query)
     entries_per_page = 3
     entry_count =  mongo.db.entries.count_documents(query)
     max_pages = math.ceil(entry_count / entries_per_page)

@@ -65,8 +65,7 @@ def get_entries(entry_id = None, user_id = None, area_id = None, page = 1):
 
 def filter_entries(user_id, filter_args, page = 1):
     """ Filter the entries returned before rendering page """
-    if filter_args['filter-min-date']:
-        db_filter = "'date': {'$gt':'%s'}" % filter_args['filter-min-date']
+    db_filter = filter_args
 
     return db.get_entries_for_user(user_id, page, db_filter)
 
