@@ -63,6 +63,17 @@ def get_entries(entry_id = None, user_id = None, area_id = None, page = 1):
     else:
         return "ERROR - No entry_id, area_id or user_id supplied"
 
+def filter_entries(user_id, filter_args, page = 1):
+    """ Filter the entries returned before rendering page """
+    if filter_args['filter-min-date']:
+        db_filter = "'date': {'$gt':'%s'}" % filter_args['filter-min-date']
+
+    return db.get_entries_for_user(user_id, page, db_filter)
+
+            
+    print(all_entries['entries'])
+    return get_entries("", session['user_id'], "", int(page))
+
 def areas_to_dict(cursor_object):
     """ Convert a cursor oject containing areas and ids to a dict """
     areas_dict = {}
@@ -79,8 +90,22 @@ def index(page = 1):
     if login_check():
         # Get user stats
         stats = db.get_user_stats(session['user_id'])
-        # Render home page with entries
-        return render_template('logbook-home.html', title="Logbook Home", user_stats=stats, user_entries=get_entries("", session['user_id'], "", int(page)), area_list=areas_to_dict(db.get_areas()))
+        # Check for request data and render home page with filter or without accordingly
+        print(request.args)
+        if request.args:
+            return render_template('logbook-home.html', 
+                                title="Logbook Home", 
+                                user_stats=stats, 
+                                user_entries=filter_entries(session['user_id'], request.args, int(page)),
+                                area_list=areas_to_dict(db.get_areas())
+                            )
+        else:
+            return render_template('logbook-home.html', 
+                                title="Logbook Home", 
+                                user_stats=stats, 
+                                user_entries=get_entries("", session['user_id'], "", int(page)), 
+                                area_list=areas_to_dict(db.get_areas())
+                            )
 
     return render_template('login.html')
 

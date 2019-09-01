@@ -6,7 +6,8 @@
         <div class="col-lg-6 text-center">
                 <!-- Meta section 1 -->
                 <h3>Welcome {{ user_stats.display_name }}</h3>
-                <p><small>Member since: <span class="badge badge-info">{{ user_stats.signup_date }}</span></small></p>                
+                <p><small>Member since: <span class="badge badge-info">{{ user_stats.signup_date }}</span></small></p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde vel nulla provident dolor ratione velit deserunt autem placeat! Fugiat, natus.</p>                
         </div>
         <div class="col-lg-4">
                 <!-- Meta section 2 -->
@@ -61,19 +62,18 @@
                 <form class="form-inline border m-2 p-2">
                         <fieldset>
                                 <legend>Date From/To</legend>
-                                <input type="date" class="form-control mr-2" id="filter-controls-min-date" aria-describedby="filter-controls-date-title" placeholder="Date From">  
-                                <input type="date" class="form-control mr-2" id="filter-controls-max-date" aria-describedby="filter-controls-date-title" placeholder="Date To">                                  
+                                <input type="date" class="form-control mr-2" id="filter-controls-min-date" name="filter-min-date" aria-describedby="filter-controls-date-title" placeholder="Date From">  
+                                <input type="date" class="form-control mr-2" id="filter-controls-max-date" name="filter-max-date" aria-describedby="filter-controls-date-title" placeholder="Date To">                                  
                         </fieldset>                
                         <fieldset>
-                                <legend>Mountain Area</legend>
-                                <select class="form-control" id="filter-controls-select-area">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                <legend>Area</legend>                              
+                                <select class="form-control" id="filter-controls-select-area" name="filter-area">
+                                        {% for area in area_list %}
+                                        <option value="{{ area }}">{{ area_list[area] }}</option>
+                                        {% endfor %}
                                 </select>
-                        </fieldset>                
+                        </fieldset>
+                        <button type="submit" class="btn btn-success">Filter</button>             
                 </form>
         </div>
 </div>

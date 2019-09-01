@@ -39,16 +39,17 @@ def create_user(form_data):
 
 # ENTRIES
 
-def get_entries_for_user(user_id, page = 1):
+def get_entries_for_user(user_id, page = 1, db_filter = {}):
     """ Return all entries for a given user id if any exist """
+    print(db_filter)
+    query = {'user_id':user_id}
     entries_per_page = 3
-    entry_count =  mongo.db.entries.count_documents({'user_id':user_id})
+    entry_count =  mongo.db.entries.count_documents(query)
     max_pages = math.ceil(entry_count / entries_per_page)
-    print(max_pages)
     if entry_count:
         if max_pages == 1:
             # Get a single page of results
-            page_of_entries = mongo.db.entries.find({'user_id':user_id}).limit(entries_per_page)
+            page_of_entries = mongo.db.entries.find(query).limit(entries_per_page)
             return { 'entries' : page_of_entries, 'current_page': page}
         elif page == 1:
             # Get results for first page
