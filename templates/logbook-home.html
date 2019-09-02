@@ -56,27 +56,44 @@
         {% endwith %}
         </div> 
 </div>
-<div class="row">
-        <!-- Table Filter Controls -->
+Filter Controls
+<form class="form-row my-1 align-items-center">
+<!-- Table Filter Controls -->
         <div class="col">
-                <form class="form-inline border m-2 p-2">
-                        <fieldset>
-                                <legend>Date From/To</legend>
-                                <input type="date" class="form-control mr-2" id="filter-controls-min-date" name="filter-min-date" aria-describedby="filter-controls-date-title" placeholder="Date From">  
-                                <input type="date" class="form-control mr-2" id="filter-controls-max-date" name="filter-max-date" aria-describedby="filter-controls-date-title" placeholder="Date To">                                  
-                        </fieldset>                
-                        <fieldset>
-                                <legend>Area</legend>                              
-                                <select class="form-control" id="filter-controls-select-area" name="filter-area">
-                                        {% for area in area_list %}
-                                        <option value="{{ area }}">{{ area_list[area] }}</option>
-                                        {% endfor %}
-                                </select>
-                        </fieldset>
-                        <button type="submit" class="btn btn-success">Filter</button>             
-                </form>
+                <fieldset class="border m-2 p-2">
+                        <legend>Date From/To</legend>
+                        <div class="form-inline">
+                                {% if set_filters %}
+                                <input type="date" class="form-control mr-2" id="filter-controls-min-date" name="filter-min-date" aria-describedby="filter-controls-date-title" value="{{set_filters['filter-min-date']}}" placeholder="Date From">  
+                                <input type="date" class="form-control mr-2" id="filter-controls-max-date" name="filter-max-date" aria-describedby="filter-controls-date-title" value="{{set_filters['filter-max-date']}}" placeholder="Date To">
+                                {% else %}
+                                <input type="date" class="form-control mr-2" id="filter-controls-min-date" name="filter-min-date" aria-describedby="filter-controls-date-title" value="1920-01-01" placeholder="Date From">  
+                                <input type="date" class="form-control mr-2" id="filter-controls-max-date" name="filter-max-date" aria-describedby="filter-controls-date-title" value="" placeholder="Date To">
+                                {% endif %}
+                        </div>
+                </fieldset>
         </div>
-</div>
+        <div class="col">                
+                <fieldset class="border m-2 p-2">
+                        <legend>Area</legend>                              
+                        <select class="form-control" id="filter-controls-select-area" name="filter-area">
+                                {% if set_filters %}
+                                <option value="{{set_filters['filter-area']}}" selected>{{ area_list[set_filters['filter-area']] }}</option>
+                                <option value="">All Areas</option>
+                                {% else %}
+                                <option value="" selected>All Areas</option>
+                                {% endif %}        
+                                {% for area in area_list %}
+                                <option value="{{ area }}">{{ area_list[area] }}</option>
+                                {% endfor %}
+                        </select>
+                </fieldset>
+        </div>
+        <div class="col-md-2 text-center">
+                <button type="submit" class="btn btn-success">Filter</button>
+                <a href="{{ url_for('index') }}"><button type="button" class="btn btn-secondary">Reset</button></a>             
+        </div>
+</form>
 <div class="row">
         <div class="col">
                 <!-- Main Table of Log Entries -->
@@ -218,6 +235,15 @@
 {% endblock %}
 {% block scripts %}
 <script>
+        // When page loaded, populate filter-max-date with today's date if not already set
+        $(document).ready(function() {               
+                if (!$('#filter-controls-max-date').val()) {
+                        let todaysDate = new Date();
+                        todaysDate = todaysDate.toISOString().slice(0,10);
+                        $('#filter-controls-max-date').val(todaysDate);
+                }
+        })
+
         // On hover of table row, highlight button        
         $('tr').mouseenter(function() {
                 console.log('mousenter');

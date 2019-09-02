@@ -41,14 +41,15 @@ def create_user(form_data):
 
 def get_entries_for_user(user_id, page = 1, db_filter = {}):
     """ Return all entries for a given user id if any exist """
-    print(db_filter)
-    # Add date and area filter if they have been supplied
+    # Build query, adding date and area filter if they have been supplied
     if db_filter:
         query = {
             'user_id': '5d65442c79ba2dc9f24fca37', 
-            'date': {'$gt': datetime.strptime(db_filter['filter-min-date'], '%Y-%m-%d'),
-                    '$lt' : datetime.strptime(db_filter['filter-max-date'], '%Y-%m-%d')},
-            'area_id':db_filter['filter-area']}
+            'date': {'$gte': datetime.strptime(db_filter['filter-min-date'], '%Y-%m-%d'),
+                    '$lte' : datetime.strptime(db_filter['filter-max-date'], '%Y-%m-%d')}
+            }
+        if db_filter['filter-area']:
+            query['area_id'] = db_filter['filter-area']
     else:
         query = {'user_id':user_id}
     print(query)

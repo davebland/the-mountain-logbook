@@ -95,14 +95,15 @@ def index(page = 1):
             return render_template('logbook-home.html', 
                                 title="Logbook Home", 
                                 user_stats=stats, 
-                                user_entries=filter_entries(session['user_id'], request.args, int(page)),
-                                area_list=areas_to_dict(db.get_areas())
+                                user_entries=db.get_entries_for_user(session['user_id'], int(page), request.args),
+                                area_list=areas_to_dict(db.get_areas()),
+                                set_filters=request.args
                             )
         else:
             return render_template('logbook-home.html', 
                                 title="Logbook Home", 
                                 user_stats=stats, 
-                                user_entries=get_entries("", session['user_id'], "", int(page)), 
+                                user_entries=db.get_entries_for_user(session['user_id'], int(page)), 
                                 area_list=areas_to_dict(db.get_areas())
                             )
 
