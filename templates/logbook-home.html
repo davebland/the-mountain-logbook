@@ -131,14 +131,18 @@ Filter Controls
                                 {% endif %}
                         </tbody>
                 </table>
-                <!-- Pagination Controls -->
+        </div>
+</div>
+<div class="row mb-2">
+        <div class="col text-right">
+              <!-- Pagination Controls -->
                 Page: {{ user_entries.current_page }}
                 {% if user_entries.previous_page %}                
-                <a href="{{ url_for('index', page=user_entries.previous_page) }}"><button>Back</button></a>
+                <a href="{{ url_for('index', page=user_entries.previous_page) }}"><button class="btn btn-outline-dark logbook-button"><i class="material-icons">navigate_before</i></button></a>
                 {% endif %}
                 {% if user_entries.next_page %}                
-                <a href="{{ url_for('index', page=user_entries.next_page) }}"><button>Next</button></a>
-                {% endif %}
+                <a href="{{ url_for('index', page=user_entries.next_page) }}"><button class="btn btn-outline-dark logbook-button"><i class="material-icons">navigate_next</i></button></a>
+                {% endif %}  
         </div>
 </div>
 {% endblock %}
