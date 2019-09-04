@@ -35,8 +35,8 @@
                                 <li class="list-group-item">
                                         <table class="w-100">
                                                 <tr>
-                                                        <td class="w-75">Highest Peak</td>
-                                                        <td><span class="badge badge-info">{{ user_stats.highest_peak }}</span></td>
+                                                        <td class="w-75">Total Hours</td>
+                                                        <td><span class="badge badge-info">{{ user_stats.total_hours }}</span></td>
                                                 </tr>
                                         </table>
                                 </li>
@@ -258,7 +258,7 @@ Filter Controls
                 console.log('click');                
         })
 
-        // On modal call, populate modal with data from ajax call
+        // On modal call, populate modal with data via ajax
         $('#modal-entry').on('show.bs.modal', function () {                
                 let entryId = $(event.target).parent().data('entryid'); // Get entry_id form entry attribute of button that triggered modal
                 $.post("{{ url_for('get') }}", { 'entry_id': entryId, 'user_id': '', 'area_id': '' }, function (entryData) {
@@ -267,9 +267,15 @@ Filter Controls
                                 if (value) {
                                         $(`#modal-data-${key}`).text(value);
                                 } else {
-                                        $(`#modal-data-${key}`).text('No data');
+                                        $(`#modal-data-${key}`).html('<em>No data</em>');
                                 };
                         };
+                        // Request area list and translate area_id in entry to area name
+                        $.get("{{ url_for('areas') }}", function(areaData) {
+                                let areaNameIndex = Object.values(areaData).findIndex(area_id => area_id == entryData.area_id);
+                                let areaNames = Object.keys(areaData);
+                                $('#modal-data-area_id').text(areaNames[areaNameIndex]);                                
+                        })
                         // Hide coordinate values depending on system used
                         if (entryData.highest_point_os_grid) {
                                 $('#modal-highest_point_coords_system').html('<small>OS</small>');                        

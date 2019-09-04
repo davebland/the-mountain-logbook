@@ -23,7 +23,7 @@ def get_user_stats(user_id):
         'signup_date' : datetime.strftime(ObjectId(user_id).generation_time, '%d %B %Y'),
         'no_of_entries' : mongo.db.entries.count_documents({'user_id':user_id}),
         'total_dist' : 456,
-        'highest_peak' : 789
+        'total_hours' : 789
     }
     return user_stats
 
