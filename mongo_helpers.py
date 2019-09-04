@@ -15,6 +15,11 @@ def check_user(email):
         return str(user['_id'])
     return None
 
+def get_users():
+    """ Get cursor of all user id's and display names """
+    users = mongo.db.users.find({},{'email':0, 'share':0})
+    return users
+
 def get_user_stats(user_id):
     """ Generate user stats for given id """
     user_data = mongo.db.users.find_one({'_id':ObjectId(user_id)})

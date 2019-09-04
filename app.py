@@ -182,6 +182,17 @@ def areas():
         return area_dict
     return "Not logged in"
 
+@app.route('/get/users')
+def users():
+    """ Return dict of users and id's """
+    if login_check():
+        users_raw = db.get_users()      
+        users_dict = {}
+        for user in users_raw:
+            users_dict[str(user['_id'])] = user['display_name']
+        return users_dict
+    return "Not logged in"
+
 # ROUTES (create data)
 
 @app.route('/create/<create_type>', methods=["POST"])
