@@ -32,6 +32,7 @@ The application is primarily for people who will already be keeping a logbook of
 
 ## Future Additions
 - Directly connect to 'Mountain-Training.org' (UK governing body) website for import into their CMS for candidate assessment.
+- 'Share' switch to give users controls over whether thier entries are shared with other users or not.
 - More advanced search and filter controls for entries.
 - Add pre-dictated highest points (mountain summits) that users can select.
 - More advanced interactions with other users including link of entries with other users in the system

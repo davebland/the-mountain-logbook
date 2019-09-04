@@ -56,7 +56,7 @@ def get_entries_for_user(user_id, page = 1, db_filter = {}):
     # Build query, adding date and area filter if they have been supplied
     if db_filter:
         query = {
-            'user_id': '5d65442c79ba2dc9f24fca37', 
+            'user_id': user_id, 
             'date': {'$gte': datetime.strptime(db_filter['filter-min-date'], '%Y-%m-%d'),
                     '$lte' : datetime.strptime(db_filter['filter-max-date'], '%Y-%m-%d')}
             }
@@ -90,6 +90,10 @@ def get_entries_for_user(user_id, page = 1, db_filter = {}):
             return None
     else:
         return None
+
+def get_entries_for_user_for_export(user_id):
+    """ Get all user entries for export, limit to relevant fields """
+    return mongo.db.entries.find({'user_id':user_id}, {'_id':0, 'user_id': 0})
 
 def get_entries_for_area(area_id):
     """ Get all entries for given area, regardless of user """
