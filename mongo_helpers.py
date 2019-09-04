@@ -18,12 +18,19 @@ def check_user(email):
 def get_user_stats(user_id):
     """ Generate user stats for given id """
     user_data = mongo.db.users.find_one({'_id':ObjectId(user_id)})
+    user_totals = list(mongo.db.entries.aggregate([{'$match':{'user_id':user_id}},
+                                                {'$group' : 
+                                                    {'_id':'null',
+                                                    'count': { '$sum': 1 },
+                                                    'duration_sum':{ '$sum' : '$duration' },
+                                                    'distance_sum':{ '$sum' : '$distance' }
+                                                }}]))
     user_stats = {
         'display_name' : user_data['display_name'],
         'signup_date' : datetime.strftime(ObjectId(user_id).generation_time, '%d %B %Y'),
-        'no_of_entries' : mongo.db.entries.count_documents({'user_id':user_id}),
-        'total_dist' : 456,
-        'total_hours' : 789
+        'no_of_entries' : user_totals[0]['count'],
+        'total_dist' : user_totals[0]['distance_sum'],
+        'total_hours' : user_totals[0]['duration_sum']
     }
     return user_stats
 
