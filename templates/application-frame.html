@@ -2,19 +2,21 @@
 <!-- Application Frame and Nav -->
 {% block main %}
     <div class="row">
-        <div class="col bg-light mx-1 rounded">
-            <div class="row justify-content-between py-2">
+        <div class="col bg-light mx-1 pt-3 rounded">
+            <div class="row justify-content-between mt-1 mb-2">
                 <!-- Header & Nav Row -->
-                <div id="application-logo-title" class="col-md">
-                    <a href="{{ url_for('index') }}"><i class="material-icons text-success">home</i></a>
-                    <h2 class="d-inline">{{ title }}</h2>
+                <div class="col-md mb-3">
+                    <span id="application-logo-title" class="">
+                        <a href="{{ url_for('index') }}"><i class="material-icons text-success">home</i></a>
+                        <h2 class="d-inline m-0">{{ title }}</h2>
+                    </span>
                 </div>
                 <div class="col-md text-center text-md-right">
                     <!-- Nav Buttons -->
                     <nav>                   
-                        <a href="{{ url_for('new') }}"><button type="button" class="btn btn-primary">New Entry</button></a>
-                        <a href="{{ url_for('edit_areas') }}"><button type="button" class="btn btn-primary">Areas</button></a>
-                        <a href="{{ url_for('others') }}"><button type="button" class="btn btn-info">Others</button></a>
+                        <a href="{{ url_for('new') }}"><button type="button" class="btn btn-success">New Entry</button></a>
+                        <a href="{{ url_for('edit_areas') }}"><button type="button" class="btn btn-primary">Edit Areas</button></a>
+                        <a href="{{ url_for('others') }}"><button type="button" class="btn btn-info">Share</button></a>
                     </nav> 
                 </div>
             </div>

@@ -16,8 +16,14 @@
     <!-- CSS requiring dynamic template processing -->
     <style>
         body {
-            background-image: url("{{ url_for('static', filename='images/background-mountains.png') }}");        
+            background-image: url("{{ url_for('static', filename='images/background-mountains-1000.jpg') }}");        
             background-attachment: fixed;
+            background-size: 100%;
+        }
+        @media (min-height: 1000px) {
+            body {
+                background-image: url("{{ url_for('static', filename='images/background-mountains-2000.jpg') }}");
+            }
         }
     </style>
     <!-- Meta -->
@@ -37,7 +43,7 @@
         <!-- Login page or App Content Here -->
         {% endblock %}
     </div>
-    <footer class="text-right px-3 py-2">
+    <footer class="text-right text-light px-3 py-2">
         <strong>&copy; David Bland 2019</strong>
     </footer>
     {% block modals %}

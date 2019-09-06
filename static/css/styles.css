@@ -24,6 +24,12 @@ header a:hover {
     text-decoration: none;
 }
 
+#application-logo-title {
+    background-color: lightgray;
+    padding: 4% 1% 2% 1%;
+    border-radius: 10px;
+}
+
 #application-logo-title i, #application-logo-title h2 {
     font-size: 2em;
 }
@@ -94,4 +100,18 @@ header a:hover {
 
 .logbook-button i {
     font-size: 40px;
+    transform: translateY(0);
+}
+
+/* ICONS */
+
+.material-icons {
+    font-size: 2rem;
+    transform: translateY(25%);
+}
+
+/* BOOTSTRAP OVERIDES */
+
+.logbook-badge {
+    font-size: 1.1em;
 }

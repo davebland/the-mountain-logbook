@@ -3,20 +3,16 @@
 {% block main %}
 <div class="row">
     <div class="col-md-8 col-lg-6 bg-light mx-1 mx-md-auto rounded">
-        <div class="jumbotron text-center mt-3">
+        <div class="jumbotron text-center mt-3 mb-3 bg-primary">
                 <h2 class="display-4">Welcome</h2>                
-                <small>The Mountain Logbook Online</small>
+                <h3><small>The Mountain Logbook Online</small></h3>
         </div>
-        <h2></h2>
-        <p class="text-justify">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad itaque quas, libero unde, soluta ex obcaecati
-            aspernatur totam perspiciatis illo accusamus atque blanditiis possimus sit vitae aperiam eaque iste. Dolore
-            eveniet a nobis saepe, eius, quaerat voluptatem aut dolores rem fugit doloribus deleniti ut cumque tenetur
-            vitae, quas iusto pariatur? Cupiditate non veniam nostrum sed, id error vel, voluptate voluptatum quaerat
-            omnis ut natus rerum excepturi temporibus officiis suscipit expedita possimus itaque quisquam vero maiores
-            eligendi? Aliquam sunt impedit doloribus reiciendis modi molestias vero, eveniet rem nisi optio eligendi
-            porro voluptates tempore? Ducimus amet ad, odit consequatur consequuntur quos qui!</p>
+        <h4 class="text-center mb-3"><strong>Login or sign-up below <i class="material-icons">arrow_downward</i></strong></h4>
+        <p class="text-justify">The Mountain Logbook is an application for recording your mountain (or other!) walking trips. Keep a record of your outings for personal interest or as a way of logging that all important experience for future walking qualifications.</p>
+        <p class="text-justify">Use of the Mountain Logbook is free and only requires an email address to identify your account. The only personal data we store about you is that which you enter yourself.</p>
+        <h6 class="text-right pb-3">Enjoy <i class="material-icons">tag_faces</i></h6>
         <p class="text-center">
-            Login with <strong>demo@daveb.me.uk</strong> for some example content.
+            <em>Login with <strong>demo@daveb.me.uk</strong> for some example content.</em>
         </p>
         <!-- Flashed or other message Area -->
         <div id="message-area">
@@ -35,7 +31,7 @@
                 <input type="email" class="form-control form-control-lg" id="login-email" name="login-email"
                     placeholder="Enter email" required>
             </div>
-            <div class="row text-center">
+            <div class="row text-center pb-3">
                 <div class="col">
                     <button type="submit" class="btn btn-success">Login</button>
                 </div>
@@ -44,6 +40,7 @@
                 </div>
             </div>
         </form>
+        <p class="text-center">For help, contact <a href="mailto:the-mountain-logbook@daveb.me.uk">the-mountain-logbook@daveb.me.uk</a></p>
     </div>
 </div>
 {% endblock %}
@@ -67,7 +64,7 @@
                         </div>
                         <div class="form-group">
                             <label for="display-name" class="sr-only">Enter display name</label>
-                            <input type="text" class="form-control form-control-lg" id="display-name" name="display-name" placeholder="Chose a display name" required>
+                            <input type="text" class="form-control form-control-lg" id="display-name" name="display-name" placeholder="Choose a display name" required>
                         </div>
                     </form>
                 </div>
