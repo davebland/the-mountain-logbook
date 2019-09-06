@@ -2,28 +2,27 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_pymongo import PyMongo
 from pymongo import errors as mongo_errors
 from datetime import datetime
-import json # required for dev only
+from dotenv import load_dotenv
 import os
 import mongo_helpers as db
 import email_notifications as mail
 import asyncio
 import csv
 
+
 # APP SETUP
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET", "arandombackupstring")
 
 # MONGODB SETUP
-# Get creds from enviroment variables if present other wise try untracked file (dev)
+# Get creds from enviroment variables if present other wise try env file (dev only)
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
 app.config['MONGO_DBNAME'] = os.getenv('MONGO_DBNAME')
-
 if not app.config['MONGO_URI'] or not app.config['MONGO_DBNAME']:
-    print('Using local mongo creds')
-    with open('mongo_creds.txt') as creds:
-        data = json.load(creds)
-        app.config['MONGO_DBNAME'] = data['MONGO_DBNAME']
-        app.config['MONGO_URI'] = data['MONGO_URI']
+    print('Using dev mongo creds')
+    load_dotenv()
+    app.config['MONGO_URI'] = os.getenv('MONGO_URI')
+    app.config['MONGO_DBNAME'] = os.getenv('MONGO_DBNAME')
 
 mongo = PyMongo(app)
 

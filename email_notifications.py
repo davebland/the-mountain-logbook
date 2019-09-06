@@ -2,19 +2,17 @@
 
 import smtplib
 import os
-import json # required for dev only
+from dotenv import load_dotenv
 
-# Get creds from enviroment variables if set otherwise untracked file (dev)
+# Get creds from enviroment variables if set otherwise try env file (dev only)
 smtp_creds = {}
 smtp_creds['user'] = os.getenv('SMTP_USER')
 smtp_creds['pass'] = os.getenv('SMTP_PASS')
-
 if not smtp_creds['user'] or not smtp_creds['pass']:
-    print('Using local SMTP creds')
-    with open('email_creds.txt') as creds:
-        data = json.load(creds)
-        smtp_creds['user'] = data['SMTP_USER']
-        smtp_creds['pass'] = data['SMTP_PASS']
+    print('Using dev smtp creds')
+    load_dotenv()
+    smtp_creds['user'] = os.getenv('SMTP_USER')
+    smtp_creds['pass'] = os.getenv('SMTP_PASS')
 
 async def send_login_notification(user_email):
     # Setup smtp object
