@@ -72,19 +72,19 @@ def get_entries_for_user(user_id, page = 1, db_filter = {}):
     if entry_count:
         if max_pages == 1:
             # Get a single page of results
-            page_of_entries = mongo.db.entries.find(query).limit(entries_per_page)
+            page_of_entries = mongo.db.entries.find(query).limit(entries_per_page).sort('date',-1)
             return { 'entries' : page_of_entries, 'current_page': page}
         elif page == 1:
             # Get results for first page
-            page_of_entries = mongo.db.entries.find(query).limit(entries_per_page)
+            page_of_entries = mongo.db.entries.find(query).limit(entries_per_page).sort('date',-1)
             return { 'entries' : page_of_entries, 'current_page': page, 'next_page' : 2}
         elif page < max_pages:
             # Get results page by page
-            page_of_entries = mongo.db.entries.find(query).skip((page-1)*entries_per_page).limit(entries_per_page)
+            page_of_entries = mongo.db.entries.find(query).skip((page-1)*entries_per_page).limit(entries_per_page).sort('date',-1)
             return { 'entries' : page_of_entries, 'current_page': page, 'previous_page' : page - 1, 'next_page' : page + 1}
         elif page == max_pages:
             # Get last page of results
-            page_of_entries = mongo.db.entries.find(query).skip((page-1)*entries_per_page).limit(entries_per_page)
+            page_of_entries = mongo.db.entries.find(query).skip((page-1)*entries_per_page).limit(entries_per_page).sort('date',-1)
             return { 'entries' : page_of_entries, 'current_page': page, 'previous_page' : page - 1}
         else:
             return None
@@ -93,11 +93,11 @@ def get_entries_for_user(user_id, page = 1, db_filter = {}):
 
 def get_entries_for_user_for_export(user_id):
     """ Get all user entries for export, limit to relevant fields """
-    return mongo.db.entries.find({'user_id':user_id}, {'_id':0, 'user_id': 0})
+    return mongo.db.entries.find({'user_id':user_id}, {'_id':0, 'user_id': 0}).sort('date',-1)
 
 def get_entries_for_area(area_id):
     """ Get all entries for given area, regardless of user """
-    area_entries_raw = mongo.db.entries.find({'area_id':area_id},{'_id':0})
+    area_entries_raw = mongo.db.entries.find({'area_id':area_id},{'_id':0}).sort('date',-1)
     return dumps(area_entries_raw)
 
 def get_entry(entry_id):
