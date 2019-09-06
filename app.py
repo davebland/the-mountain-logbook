@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_pymongo import PyMongo
 from pymongo import errors as mongo_errors
+from datetime import datetime
 import json # required for dev only
 import os
 import mongo_helpers as db
 import email_notifications as mail
 import asyncio
+import csv
 
 # APP SETUP
 app = Flask(__name__)
@@ -192,6 +194,27 @@ def users():
             users_dict[str(user['_id'])] = user['display_name']
         return users_dict
     return "Not logged in"
+
+@app.route('/export/<user_id>')
+def export(user_id):
+    """ Generate csv of user entries and return for download """
+    user_entries = db.get_entries_for_user_for_export(user_id)
+    area_dict = areas()
+    # Invert dict so we can lookup by id
+    area_dict = dict(map(reversed, area_dict.items()))
+    # Create csv
+    csv_name = "mountain-logbook-export-" + user_id + "-" + datetime.now().strftime("%d-%b-%Y") + ".csv"
+    file_path = url_for('static', filename="exports/%s" % csv_name)
+    write_file_path = file_path.strip('/')
+    with open(write_file_path, mode='w') as csv_file:        
+        fieldnames = user_entries[0].keys()
+        csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        csv_writer.writeheader()
+        for entry in user_entries:
+            # Translate area id in each entry into an area name and the write to file
+            entry['area_id'] = area_dict[entry['area_id']]
+            csv_writer.writerow(entry)
+    return redirect(file_path)
 
 # ROUTES (create data)
 
