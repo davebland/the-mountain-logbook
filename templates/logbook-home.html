@@ -122,7 +122,7 @@
                                                 <td>
                                                         <!-- Edit and delete buttons -->
                                                         <a href="{{ url_for('edit_entry', entry_id=entry._id) }}"><button type="button" class="btn btn-warning logbook-button"><i class="material-icons">edit</i></button></a>
-                                                        <a href="{{ url_for('delete', delete_type='entry', entity_id=entry._id) }}"><button type="button" class="btn btn-danger logbook-button"><i class="material-icons">delete_forever</i></button></a>                                            
+                                                        <button type="button" class="btn btn-danger logbook-button" onclick="deleteEntry(`{{ url_for('delete', delete_type='entry', entity_id=entry._id) }}`)"><i class="material-icons">delete_forever</i></button>                                          
                                                 </td>
                                         </tr>
                                         {% endfor %}
@@ -251,6 +251,13 @@
                         $('#filter-controls-max-date').val(todaysDate);
                 }
         })
+
+        // On click of delete button, show a confirm button before going to delete url
+        function deleteEntry(deleteUrl) {                
+                if (confirm('Definitely delete this entry (cannot be undone)?')) {
+                        document.location = deleteUrl;
+                }
+        }
 
         // On hover of table row, highlight button        
         $('tr').mouseenter(function() {

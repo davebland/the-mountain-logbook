@@ -280,7 +280,7 @@ def delete(delete_type, entity_id):
         # Connect to DB and delete user, entryor area with entity_id according to type specified
         if delete_type == "user":
             return "DELETING A USER %s " % entity_id
-        elif delete_type == "entry":
+        elif delete_type == "entry":            
             delete_result = db.delete_entry(entity_id)
             flash(delete_result)
             return redirect( url_for('index') )
