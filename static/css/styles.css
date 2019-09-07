@@ -42,11 +42,6 @@ header a:hover {
 
 /* ALERTS */
 
-#message-area {
-    color: red;
-    background-color: orange;
-}
-
 /* FORMS */
 
 #inputs-highest-point-os input[type="number"] {

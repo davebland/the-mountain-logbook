@@ -14,16 +14,16 @@
         <p class="text-center">
             <em>Login with <strong>demo@daveb.me.uk</strong> for some example content.</em>
         </p>
-        <!-- Flashed or other message Area -->
-        <div id="message-area">
-            {% with error_messages = get_flashed_messages() %}
-                    {% if error_messages %}                                                                                       
-                            {% for message in error_messages %}
-                                    {{ message }}
-                            {% endfor %}
-                    {% endif %}
-            {% endwith %}
-        </div>
+        <!-- Flashed or other message Area -->                       
+        {% with error_messages = get_flashed_messages() %}                
+                {% if error_messages %} 
+                        <div id="message-area" class="alert alert-warning m-3" role="alert">                                                                              
+                        {% for message in error_messages %}
+                                {{ message }}
+                        {% endfor %}
+                        </div> 
+                {% endif %}
+        {% endwith %}
         <!-- Login Form -->
         <form class="py-2" method="POST" id="form-login" action="{{ url_for('login') }}">
             <div class="form-group">

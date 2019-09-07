@@ -8,16 +8,16 @@
     </div>
     <div class="row">
         <div class="col">
-            <!-- Flashed or other message Area -->
-            <div id="message-area">
-                {% with error_messages = get_flashed_messages() %}
-                        {% if error_messages %}                                                                                       
-                                {% for message in error_messages %}
-                                        {{ message }}
-                                {% endfor %}
-                        {% endif %}
-                {% endwith %}
-            </div>
+            <!-- Flashed or other message Area -->                       
+            {% with error_messages = get_flashed_messages() %}                
+                    {% if error_messages %} 
+                        <div id="message-area" class="alert alert-warning m-3" role="alert">                                                                              
+                            {% for message in error_messages %}
+                                    {{ message }}
+                            {% endfor %}
+                        </div> 
+                    {% endif %}
+            {% endwith %}
             <!-- Dropdown to select existing mountain area -->
             <form id="form-select-area">
                 <div class="form-group">

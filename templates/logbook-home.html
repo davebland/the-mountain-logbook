@@ -45,16 +45,16 @@
         </div>
 </div>
 <div class="row">
-        <!-- Flashed or other message Area -->
-       <div id="message-area" class="col">
-        {% with error_messages = get_flashed_messages() %}
-                {% if error_messages %}                                                                                       
+        <!-- Flashed or other message Area -->                       
+        {% with error_messages = get_flashed_messages() %}                
+                {% if error_messages %} 
+                        <div id="message-area" class="col alert alert-warning m-3" role="alert">                                                                              
                         {% for message in error_messages %}
                                 {{ message }}
                         {% endfor %}
+                        </div> 
                 {% endif %}
-        {% endwith %}
-        </div> 
+        {% endwith %}                        
 </div>
 <h5 class="mb-0">Filter Entries<i class="material-icons">arrow_downward</i></h5>
 <form class="form-row my-1 align-items-center">

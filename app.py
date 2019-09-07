@@ -87,7 +87,7 @@ def areas_to_dict(cursor_object):
 @app.route('/<page>')
 def index(page = 1):
     """ Main route returning app homepage or else login page """
-    if login_check():
+    if login_check():        
         # Get user stats
         stats = db.get_user_stats(session['user_id'])
         # Check for request data and render home page with filter or without accordingly
