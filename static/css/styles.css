@@ -44,6 +44,15 @@ header a:hover {
 
 /* FORMS */
 
+form label {    
+    font-variant: small-caps;
+}
+
+.form-required {
+   font-size: larger;
+   font-weight: bolder;
+}
+
 #inputs-highest-point-os input[type="number"] {
     width: 40%;
     margin-left: auto;

@@ -12,29 +12,29 @@
             {% endif %}
                 <div class="form-group">
                     <!-- Entry Name -->
-                    <label for="input-entry-name">Entry Name</label>
-                    <input type="text" class="form-control form-control-lg" id="input-entry-name" name="name" size="100%" splaceholder="Entry Name" value="{{ entry.name }}" required>
+                    <label for="input-entry-name" class="form-required">entry name</label>
+                    <input type="text" class="form-control form-control-lg" id="input-entry-name" name="name" size="100%" placeholder="Inspired title for your entry..." value="{{ entry.name }}" required>
                 </div>                                           
                 <div class="form-row">                    
-                    <div class="col-lg pr-3 border-right">
+                    <div class="col-lg px-lg-4">
                         <div class="form-group">
                             <!-- Date -->
-                            <label for="input-date">Date</label>
+                            <label for="input-date" class="form-required">date</label>
                             <input type="date" class="form-control" id="input-date" name="date" placeholder="date" value="{{ entry.date }}" required>
                         </div>
-                        <!-- Mountain Area -->
+                        <!-- Area -->
                         <div class="form-group">
-                            <label for="select-area-name">Mountain Area</label>
+                            <label for="select-area-name" class="form-required">area</label>
                             <select class="form-control" id="select-area-name" name="area_id" required>                                        
                                 <!-- Populate the select with area from the entry if exist then add other options from DB, otherwise display an error message -->
                                 {% if entry %}
-                                    <option value="{{ entry.area_id }}" selected>{{ entry.area_id }}</option>
+                                    <option value="{{ entry.area_id }}" selected>{{ area_list[entry.area_id] }}</option>
                                 {% else %}
-                                    <option selected disabled hidden>Select an area...</option>
+                                    <option value="" selected disabled hidden>Select an area...</option>
                                 {% endif %}
                                 {% if area_list %}                    
-                                    {% for area in area_list %}                                   
-                                    <option value="{{ area._id }}">{{ area.name }}</option>
+                                    {% for area_id, area_name in area_list.items() %}                                                                                                          
+                                    <option value="{{ area_id }}">{{ area_name }}</option>
                                     {% endfor %}
                                 {% else %}
                                     <option disabled>Sorry, no areas found</option>
@@ -42,12 +42,12 @@
                             </select>
                             <!-- Add new area button (to modal) -->
                             <div class="text-right mt-2">
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-add-new-area"><i class="material-icons">playlist_add</i>Add New</button>
+                                <button type="button" class="btn btn-warning pt-0" data-toggle="modal" data-target="#modal-add-new-area"><i class="material-icons">playlist_add</i>Add New</button>
                             </div>                            
                         </div>                                        
                         <div class="form-group">
                             <!-- Primary Terrain -->
-                            <label for="select-primary-terrain">Primary Terrain</label>
+                            <label for="select-primary-terrain" class="form-required">primary terrain</label>
                             <select class="form-control" id="select-primary-terrain" name="primary_terrain" required>
                                 {% if entry %}
                                     <option value="{{ entry.primary_terrain }}" selected>{{ entry.primary_terrain }}</option>
@@ -57,25 +57,27 @@
                                 <option value="mountain">Mountain</option>
                                 <option value="hill">Hill</option>
                                 <option value="moorland">Moorland</option>
-                                <option value="coastal">Coastal</option>                        
+                                <option value="coastal">Coastal</option>
+                                <option value="other">Other</option>                        
                             </select>                    
                         </div>
                         <div class="form-group">
                             <!-- Duration -->
-                            <label for="input-duration">Duration (hours)</label>
+                            <label for="input-duration">duration (hours)</label>
                             <input type="range" class="custom-range" id="input-duration" name="duration" min="1" max="24" step="1" value="{{ entry.duration }}">
                             <div class="text-center"><span class="" id="feedback-duration-value">*</span> hrs</div>
                         </div>
                         <div class="form-group">
                             <!-- Distance -->
-                            <label for="input-distance">Distance (km)</label>
+                            <label for="input-distance">distance (km)</label>
                             <input type="number" class="form-control" id="input-distance" name="distance" value="{{ entry.distance }}">                 
                         </div>
                     </div>
-                    <div class="col-lg pl-3">
+                    <div class="d-none d-lg-inline border-left"></div>
+                    <div class="col-lg px-lg-4">
                         <!-- Highest Point -->
                         <div class="form-group">
-                            <label for="input-highest-point-name">Main Summit Name</label>
+                            <label for="input-highest-point-name">main summit name</label>
                             <input type="text" class="form-control" id="input-highest-point-name" name="highest_point_name" placeholder="E.g. highest point" value="{{ entry.highest_point_name }}">
                             <div class="form-row align-items-center mt-1">
                                 <div class="col-3">                              
@@ -99,17 +101,17 @@
                         </div>                        
                         <div class="form-group">
                             <!-- Additional Summits -->
-                            <label for="textarea-additional-summits">Additional Summits</label>
+                            <label for="textarea-additional-summits">additional summits</label>
                             <textarea class="form-control" id="textarea-additional-summits" name="additional_summits" rows="3">{{ entry.additional_summits }}</textarea>                    
                         </div>
                         <div class="form-group">
                             <!-- Weather -->
-                            <label for="input-eather">Weather</label>
+                            <label for="input-eather">weather</label>
                             <input type="text" class="form-control" id="input-weather" name="weather" placeholder="A short description..." value="{{ entry.weather }}">                    
                         </div>
                         <div class="form-group">
                             <!-- Participation -->
-                            <label for="select-participation">Participation</label>
+                            <label for="select-participation" class="form-required">participation</label>
                             <select class="form-control" id="select-participation" name="participation" required>
                                 {% if entry %}
                                     <option value="{{ entry.participation }}" selected>{{ entry.participation }}</option>
@@ -124,14 +126,14 @@
                         </div>
                         <div class="form-group">
                             <!-- Group Members -->
-                            <label for="textarea-group-members">Group Members</label>
+                            <label for="textarea-group-members">group members</label>
                             <textarea class="form-control" id="textarea-group-members" name="group_members" rows="3">{{ entry.group_members }}</textarea>                    
                         </div>
                     </div>
                 </div>            
                 <div class="form-group">
                     <!-- Notes -->                    
-                    <label for="textarea-notes">Notes</label>
+                    <label for="textarea-notes">notes</label>
                     <textarea class="form-control" id="textarea-notes" name="notes" rows="15" cols="100%">{{ entry.notes }}</textarea>
                 </div>
                 <div class="form-row">
@@ -163,7 +165,7 @@
                     <!-- Form to add an area name to DB -->
                     <form id="form-new-area" onsubmit="return addNewArea(this);">
                         <div class="form-group">
-                            <label for="input-new-area-name">Area Name</label>
+                            <label for="input-new-area-name">area name</label>
                             <input type="text" class="form-control" id="input-new-area-name" name="area_name" placeholder="Enter an area name" required>
                         </div>
                     </form>

@@ -139,14 +139,14 @@ def logout():
 def new():
     """ Generate page for making of a new entry"""
     if login_check():
-        return render_template('new-edit.html', title="New Entry", entry="", area_list=db.get_areas())
+        return render_template('new-edit.html', title="New Entry", entry="", area_list=areas_to_dict(db.get_areas()))
     return redirect( url_for('index') )
 
 @app.route('/edit/entry/<entry_id>')
 def edit_entry(entry_id):
     """ Generate page to edit an existing entry"""
     if login_check():
-        return render_template('new-edit.html', title="Edit Entry", entry=db.get_entry(entry_id), area_list=db.get_areas())
+        return render_template('new-edit.html', title="Edit Entry", entry=db.get_entry(entry_id), area_list=areas_to_dict(db.get_areas()))
     return redirect( url_for('index') )
 
 @app.route('/edit/areas')

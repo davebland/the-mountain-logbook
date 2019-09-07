@@ -104,7 +104,8 @@ def get_entry(entry_id):
     """ Return all fields for specified log entry """
     entry_data = mongo.db.entries.find_one({'_id':ObjectId(entry_id)})
     entry_data['_id'] = str(entry_data['_id'])
-    entry_data['date'] = datetime.strftime(entry_data['date'], "%d-%b-%Y")
+    #entry_data['date'] = datetime.strftime(entry_data['date'], "%d-%b-%Y")
+    entry_data['date'] = datetime.strftime(entry_data['date'], "%Y-%m-%d")
     return entry_data
 
 def create_update_entry(form_data, entry_id = None):
