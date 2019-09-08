@@ -5,11 +5,18 @@
         <div class="col bg-light mx-1 pt-3 rounded">
             <div class="row justify-content-between mt-1 mb-2">
                 <!-- Header & Nav Row -->
-                <div class="col-md mb-3">
-                    <span id="application-logo-title" class="">
-                        <a href="{{ url_for('index') }}"><i class="material-icons text-success">home</i></a>
-                        <h2 class="d-inline m-0">{{ title }}</h2>
+                <div id="application-logo-title" class="col-md mb-3">
+                    <span class="mr-4">
+                        <a href="{{ url_for('index') }}">
+                            {% if title != "Logbook Home" %}
+                                <i class="material-icons text-success">arrow_back</i>
+                                <i id="icon-back-home" class="material-icons text-success">home</i>
+                            {% else %} 
+                                <i class="material-icons text-success">home</i>                                                   
+                            {% endif %}
+                        </a>
                     </span>
+                    <h2 class="d-inline text-center">{{ title }}</h2>
                 </div>
                 <div class="col-md text-center text-md-right">
                     <!-- Nav Buttons -->
