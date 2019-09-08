@@ -1,13 +1,26 @@
 {% extends 'application-frame.html' %}
 <!-- Edit and add mountain areas -->
 {% block content %}
-    <div class="row">
-        <div class="col">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <div class="row mb-3">
+        <div class="col col-lg-8 m-auto">
+            <h4 class="text-center mb-3"><strong>Add or edit areas below <i class="material-icons">arrow_downward</i></strong></h4>
+            <div class="row align-items-center">
+                <div class="col-md text-center">
+                    <p><strong>To add</strong>, simply type an area name (e.g. North York Moors, Isle of Skye etc.) and hit create.</p>
+                    <p><strong>To edit</strong>, select an existing area from the dropdown.</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-justify">
+                                <small class="text-muted">NB. Editing or removing an area will not change any previous logbook entries but will impact your ability to filter for them by area.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>      
         </div>
     </div>
-    <div class="row">
-        <div class="col">
+    <div class="row mb-3">    
+        <div class="col col-lg-8 m-auto">
             <!-- Flashed or other message Area -->                       
             {% with error_messages = get_flashed_messages() %}                
                     {% if error_messages %} 
@@ -17,11 +30,11 @@
                             {% endfor %}
                         </div> 
                     {% endif %}
-            {% endwith %}
+            {% endwith %}        
             <!-- Dropdown to select existing mountain area -->
             <form id="form-select-area">
                 <div class="form-group">
-                    <label for="select-form-area-name">Select Mountain Area</label>
+                    <label for="select-form-area-name">Select area</label>
                     <select class="form-control" id="select-form-area-name" name="area_id" onchange="fillEditForm();" required>
                         <option selected disabled hidden>Select an area...</option>
                         <!-- If area list exists populate the select, otherwise display an error message -->
@@ -38,8 +51,8 @@
             <!-- Form to edit mountain area -->
             <form id="form-edit-area" action="{{ url_for('create', create_type='area', reload_page=True) }}" method="POST">
                 <div class="form-group">
-                    <label for="input-new-area-name">Area Name</label>                    
-                    <input type="text" class="form-control" id="input-new-area-name" name="name" placeholder="Enter an area name" required>
+                    <label for="input-new-area-name">Name</label>                    
+                    <input type="text" class="form-control" id="input-new-area-name" name="name" placeholder="Enter a new area name..." required>
                 </div>
                 <div class="form-row mb-2">
                     <div class="col-4">

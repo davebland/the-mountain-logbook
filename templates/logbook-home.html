@@ -6,7 +6,7 @@
                 <!-- Meta section 1 -->
                 <h3>Hi <em class="text-info">{{ user_stats.display_name }}</em></h3>
                 <p><small>Member since: <span class="badge badge-info logbook-badge">{{ user_stats.signup_date }}</span></small></p>
-                <p>Browse and edit your entries below, or use the controls above add a new one, edit the areas or see what other people have been up to…</p>               
+                <p>Browse and edit your entries below, or use the controls above to add a new one, edit the areas or see what other people have been up to…</p>               
                 <div class="text-right"></div>
         </div>
         <div class="col-lg-4">
@@ -100,7 +100,10 @@
                 <table class="table table-sm table-hover">
                         <thead>
                                 <tr>
-                                        <th scope="col" class="width-50px"></th>
+                                        <th scope="col" id="table-header-details" class="width-50px text-center">
+                                                <small>Details<br>
+                                                <i class="material-icons">arrow_downward</i></small>
+                                        </th>
                                         <th scope="col">Date</th>
                                         <th scope="col" class="d-none d-md-block">Area</th>
                                         <th scope="col">Entry Name</th>                                        
@@ -157,7 +160,7 @@
         <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                         <div class="modal-header">
-                                <h5 class="modal-title" id="modal-entry-title">Entry - <span id="modal-data-name"><i class="material-icons animate-rotate">hourglass_empty</i></span></h5>
+                                <h5 class="modal-title" id="modal-entry-title"><i class="material-icons">menu_book</i> <span id="modal-data-name"><i class="material-icons animate-rotate">hourglass_empty</i></span></h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                 </button>
@@ -165,7 +168,7 @@
                         <div class="modal-body">
                                 <!-- All data points from entry -->
                                 <div class="container-fluid">                                                                       
-                                        <div class="row">
+                                        <div class="row align-items-center">
                                                 <div class="col-lg">
                                                         <table class="table table-bordered">
                                                                 <tr>
@@ -181,11 +184,11 @@
                                                                         <td id="modal-data-primary_terrain"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td><small>Duration</small></td>
+                                                                        <td><small>Duration (hrs)</small></td>
                                                                         <td id="modal-data-duration"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                        <td><small>Distance</small></td>
+                                                                        <td><small>Distance (km)</small></td>
                                                                         <td id="modal-data-distance"><i class="material-icons animate-rotate">hourglass_empty</i></td>
                                                                 </tr>
                                                         </table>
@@ -227,7 +230,7 @@
                                                 </div>
                                         </div>
                                         <div class="row">
-                                                <small>Notes:</small>
+                                                <small id="modal-notes">Notes:</small>
                                                 <div id="modal-data-notes" class="col"><i class="material-icons animate-rotate">hourglass_empty</i></div>
                                         </div>
                                 </div>                                                              
@@ -258,16 +261,6 @@
                         document.location = deleteUrl;
                 }
         }
-
-        // On hover of table row, highlight button        
-        $('tr').mouseenter(function() {
-                console.log('mousenter');
-        })
-
-        // On click of table row call button
-        $('tr').click(function() {
-                console.log('click');                
-        })
 
         // On modal call, populate modal with data via ajax
         $('#modal-entry').on('show.bs.modal', function () {                

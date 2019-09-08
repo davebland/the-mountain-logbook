@@ -12,7 +12,7 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6, button {
+h1, h2, h3, h4, h5, h6, button, th {
     font-family: 'Carter One', cursive;
 }
 
@@ -32,6 +32,14 @@ header a:hover {
 
 #application-logo-title i, #application-logo-title h2 {
     font-size: 2em;
+}
+
+#modal-data-primary_terrain, #modal-data-participation {
+    text-transform: capitalize;
+}
+
+#modal-entry td small, #modal-notes {
+    font-variant: small-caps;
 }
 
 @media (min-width: 768px) {
@@ -91,7 +99,17 @@ form label {
 }
 
 .width-50px {
-    width: 50px;
+    width: 50px;    
+}
+
+#table-header-details, #table-header-details i {
+    line-height: 12px;
+    font-size: 1em;
+}
+
+th {
+    font-size: 1.2em;
+    font-weight: 100;
 }
 
 /* BUTTONS */

@@ -2,16 +2,17 @@
 <!-- View Entries submitted by others -->
 {% block content %}
     <div class="row">
-        <div class="col">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <div class="col col-lg-8 m-auto">
+        <h4 class="text-center mb-3"><strong>See what other users have been up to <i class="material-icons">arrow_downward</i></strong></h4>
+        <p class="text-center">Take a look at other users’ entries in The Mountain Logbook (select by area).</p>
         </div>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col col-lg-8 m-auto">
             <!-- Dropdown to select mountain area of interest -->
             <form>
                 <div class="form-group">
-                    <label for="select-form-area-name">Select Mountain Area</label>
+                    <label for="select-form-area-name">Select area</label>
                     <select class="form-control" id="select-form-area-name" name="area_id" onchange="getAreaEntries()" required>
                         <option selected disabled hidden>Select an area...</option>
                         <!-- If area list exists populate the select, otherwise display an error message -->
@@ -20,7 +21,7 @@
                             <option value="{{ area._id }}">{{ area.name }}</option>
                             {% endfor %}
                         {% else %}
-                            <option disabled>Sorry, no areas found</option>
+                            <option disabled><em>Sorry, no areas found</em></option>
                         {% endif %}                        
                     </select>
                 </div>
@@ -28,7 +29,7 @@
         </div>        
     </div>
     <div class="row">
-        <div class="col-md-8">            
+        <div class="col col-lg-8 m-auto">            
             <!-- Table of Log Entries for Selected Area -->
             <table class="table table-sm">
                 <thead>
@@ -45,7 +46,6 @@
                 </tbody>
             </table>
         </div>
-        <div class="col"></div>
     </div>        
 {% endblock %}
 {% block scripts %}

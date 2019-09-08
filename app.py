@@ -160,7 +160,7 @@ def edit_areas():
 def others():
     """ Generate page to view entries submitted by others """
     if login_check():
-        return render_template('others.html', title="Others Page", area_list=db.get_areas())
+        return render_template('others.html', title="Other Users", area_list=db.get_areas())
     return redirect( url_for('index') )
 
 # ROUTES (retrieve data)
