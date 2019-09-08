@@ -187,7 +187,7 @@ def export(user_id):
     area_dict = dict(map(reversed, area_dict.items()))
     # Create csv
     csv_name = "mountain-logbook-export-" + user_id + "-" + datetime.now().strftime("%d-%b-%Y") + ".csv"
-    file_path = url_for('static', filename="exports/%s" % csv_name)
+    file_path = url_for('static', filename=csv_name)
     write_file_path = file_path.strip('/')
     with open(write_file_path, mode='w') as csv_file:        
         fieldnames = user_entries[0].keys()
