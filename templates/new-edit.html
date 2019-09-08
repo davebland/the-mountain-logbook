@@ -50,7 +50,7 @@
                             <label for="select-primary-terrain" class="form-required">primary terrain</label>
                             <select class="form-control" id="select-primary-terrain" name="primary_terrain" required>
                                 {% if entry %}
-                                    <option value="{{ entry.primary_terrain }}" selected>{{ entry.primary_terrain }}</option>
+                                    <option value="{{ entry.primary_terrain }}" selected>{{ entry.primary_terrain|capitalize }}</option>
                                 {% else %}
                                     <option value="" selected disabled hidden>Select terrain...</option>
                                 {% endif %}
@@ -114,7 +114,7 @@
                             <label for="select-participation" class="form-required">participation</label>
                             <select class="form-control" id="select-participation" name="participation" required>
                                 {% if entry %}
-                                    <option value="{{ entry.participation }}" selected>{{ entry.participation }}</option>
+                                    <option value="{{ entry.participation }}" selected>{{ entry.participation|capitalize }}</option>
                                 {% else %}
                                     <option value="" selected disabled hidden>Select participation...</option>
                                 {% endif %}
@@ -185,9 +185,14 @@
         event.preventDefault();
     });
 
-    // Setup for to show only OS grid input elements to start with
-    $('#inputs-highest-point-latlong').hide();
-
+    // Setup for to show only OS grid input elements to start with unless lat/long supplied in edit
+    if ($('#input-latitude').val()) {
+        $('#inputs-highest-point-os').hide();
+        $('#switch-os-latlong').prop('checked', true);        
+    } else {
+        $('#inputs-highest-point-latlong').hide();
+    }
+    
     // Create ajax call to add new area to DB, close modal and update page
     function addNewArea(newAreaForm) {
         let newAreaName = newAreaForm.area_name.value;
@@ -205,16 +210,19 @@
     function toggleHighestPointCoords() {
         let switchChecked = $('#switch-os-latlong').prop('checked');
         if (switchChecked) {
-            // If checked hide os and show lat/long inputs
+            // If checked hide os and show lat/long inputs and remove any os
             $('#inputs-highest-point-os').hide();
             $('#inputs-highest-point-latlong').show();
+            $('#inputs-highest-point-os :input').val(null);
         } else {
             $('#inputs-highest-point-os').show();
             $('#inputs-highest-point-latlong').hide();
+            $('#inputs-highest-point-latlong :input').val(null);
         }
     }
 
-    // Feedback currently selected duration in form range input
+    // Feedback currently selected duration in form range input to start and on change
+    $('#feedback-duration-value').text($('#input-duration').val());
     $('#input-duration').change(function() {
         $('#feedback-duration-value').text($(this).val());
     })

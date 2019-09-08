@@ -34,7 +34,8 @@ header a:hover {
     font-size: 2em;
 }
 
-#modal-data-primary_terrain, #modal-data-participation {
+#modal-data-primary_terrain, 
+#modal-data-participation {
     text-transform: capitalize;
 }
 
