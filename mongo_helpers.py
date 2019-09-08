@@ -59,12 +59,11 @@ def get_entries_for_user(user_id, page = 1, db_filter = {}):
             'user_id': user_id, 
             'date': {'$gte': datetime.strptime(db_filter['filter-min-date'], '%Y-%m-%d'),
                     '$lte' : datetime.strptime(db_filter['filter-max-date'], '%Y-%m-%d')}
-            }
+                }
         if db_filter['filter-area']:
             query['area_id'] = db_filter['filter-area']
     else:
         query = {'user_id':user_id}
-    print(query)
     # Setup metrics for pages
     entries_per_page = 3
     entry_count =  mongo.db.entries.count_documents(query)

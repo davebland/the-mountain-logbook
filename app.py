@@ -26,11 +26,6 @@ if not app.config['MONGO_URI'] or not app.config['MONGO_DBNAME']:
 
 mongo = PyMongo(app)
 
-# Test route
-@app.route('/db-test')
-def db_test():
-    return render_template('db-test.html', data_set=mongo.db.users.find())
-
 # ERROR HANDLERS
 
 @app.errorhandler(mongo_errors.OperationFailure)
@@ -64,16 +59,6 @@ def get_entries(entry_id = None, user_id = None, area_id = None, page = 1):
     else:
         return "ERROR - No entry_id, area_id or user_id supplied"
 
-def filter_entries(user_id, filter_args, page = 1):
-    """ Filter the entries returned before rendering page """
-    db_filter = filter_args
-
-    return db.get_entries_for_user(user_id, page, db_filter)
-
-            
-    print(all_entries['entries'])
-    return get_entries("", session['user_id'], "", int(page))
-
 def areas_to_dict(cursor_object):
     """ Convert a cursor oject containing areas and ids to a dict """
     areas_dict = {}
@@ -91,7 +76,6 @@ def index(page = 1):
         # Get user stats
         stats = db.get_user_stats(session['user_id'])
         # Check for request data and render home page with filter or without accordingly
-        print(request.args)
         if request.args:
             return render_template('logbook-home.html', 
                                 title="Logbook Home", 
@@ -222,17 +206,17 @@ def create(create_type):
     """ Insert new data into DB """
     # If new user do not do login check
     if create_type == "user":
-            # Check if user is already registered first otherwise add new user to db
-            already_registered_user_id = db.check_user(request.form['signup-email'])
-            if already_registered_user_id:
-                flash('User %s already exists, please login instead' % request.form['signup-email'])
-                return redirect( url_for('index') )           
-            else:
-                create_user_result = db.create_user(request.form)
-                flash(create_user_result)
-                # Log new user in by setting session
-                session["user_id"] = db.check_user(request.form['signup-email'])
-                return redirect( url_for('index') )
+        # Check if user is already registered first otherwise add new user to db
+        already_registered_user_id = db.check_user(request.form['signup-email'])
+        if already_registered_user_id:
+            flash('User %s already exists, please login instead' % request.form['signup-email'])
+            return redirect( url_for('index') )           
+        else:
+            create_user_result = db.create_user(request.form)
+            flash(create_user_result)
+            # Log new user in by setting session
+            session["user_id"] = db.check_user(request.form['signup-email'])
+            return redirect( url_for('index') )
     elif login_check():
         # Connect to DB and add new entry or area according to type specified
         if create_type == "entry":
