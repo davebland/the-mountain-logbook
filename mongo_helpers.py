@@ -23,6 +23,13 @@ def get_users():
 def get_user_stats(user_id):
     """ Generate user stats for given id """
     user_data = mongo.db.users.find_one({'_id':ObjectId(user_id)})
+    user_stats = {
+        'display_name' : user_data['display_name'],
+        'signup_date' : datetime.strftime(ObjectId(user_id).generation_time, '%d %B %Y'),
+        'no_of_entries' : 0,
+        'total_dist' : 0,
+        'total_hours' : 0
+    }
     user_totals = list(mongo.db.entries.aggregate([{'$match':{'user_id':user_id}},
                                                 {'$group' : 
                                                     {'_id':'null',
@@ -30,13 +37,13 @@ def get_user_stats(user_id):
                                                     'duration_sum':{ '$sum' : '$duration' },
                                                     'distance_sum':{ '$sum' : '$distance' }
                                                 }}]))
-    user_stats = {
-        'display_name' : user_data['display_name'],
-        'signup_date' : datetime.strftime(ObjectId(user_id).generation_time, '%d %B %Y'),
-        'no_of_entries' : user_totals[0]['count'],
-        'total_dist' : user_totals[0]['distance_sum'],
-        'total_hours' : user_totals[0]['duration_sum']
-    }
+    try:
+        # If there are some entries then get stats
+        user_stats['no_of_entries'] = user_totals[0]['count']
+        user_stats['total_dist'] = user_totals[0]['distance_sum']
+        user_stats['total_hours'] = user_totals[0]['duration_sum']
+    except:
+        None
     return user_stats
 
 def create_user(form_data):
