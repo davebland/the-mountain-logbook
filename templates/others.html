@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <label for="select-form-area-name">Select area</label>
                     <select class="form-control" id="select-form-area-name" name="area_id" onchange="getAreaEntries()" required>
-                        <option selected disabled hidden>Select an area...</option>
+                        <option value="" selected disabled hidden>Select an area...</option>
                         <!-- If area list exists populate the select, otherwise display an error message -->
                         {% if area_list %}
                             {% for area in area_list %}
@@ -42,7 +42,7 @@
                 </thead>
                 <tbody id="table-body">                                
                     <!-- JS inserted table rows -->                          
-                    <tr id="table-no-entries-row"><td colspan="3">No entries found</td></tr>                    
+                    <tr id="table-no-entries-row"><td colspan="4">No entries found</td></tr>                    
                 </tbody>
             </table>
         </div>

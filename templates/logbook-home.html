@@ -61,14 +61,14 @@
 <!-- Table Filter Controls -->
         <div class="col-auto">
                 <fieldset class="border p-2">
-                        <legend class="m-0"><small class="text-muted">Date From/To</small></legend>
+                        <legend id="filter-controls-date-title" class="m-0"><small class="text-muted">Date From/To</small></legend>
                         <div class="form-inline">
                                 {% if set_filters %}
-                                <input type="date" class="form-control mr-2" id="filter-controls-min-date" name="filter-min-date" aria-describedby="filter-controls-date-title" value="{{set_filters['filter-min-date']}}" placeholder="Date From">  
-                                <input type="date" class="form-control mr-2" id="filter-controls-max-date" name="filter-max-date" aria-describedby="filter-controls-date-title" value="{{set_filters['filter-max-date']}}" placeholder="Date To">
+                                <input type="date" class="form-control mr-2" id="filter-controls-min-date" name="filter-min-date" aria-describedby="filter-controls-date-title" value="{{set_filters['filter-min-date']}}">  
+                                <input type="date" class="form-control mr-2" id="filter-controls-max-date" name="filter-max-date" aria-describedby="filter-controls-date-title" value="{{set_filters['filter-max-date']}}">
                                 {% else %}
-                                <input type="date" class="form-control mr-2" id="filter-controls-min-date" name="filter-min-date" aria-describedby="filter-controls-date-title" value="2019-01-01" placeholder="Date From">  
-                                <input type="date" class="form-control mr-2" id="filter-controls-max-date" name="filter-max-date" aria-describedby="filter-controls-date-title" value="" placeholder="Date To">
+                                <input type="date" class="form-control mr-2" id="filter-controls-min-date" name="filter-min-date" aria-describedby="filter-controls-date-title" value="2019-01-01">  
+                                <input type="date" class="form-control mr-2" id="filter-controls-max-date" name="filter-max-date" aria-describedby="filter-controls-date-title" value="">
                                 {% endif %}
                         </div>
                 </fieldset>
@@ -91,7 +91,7 @@
         </div>
         <div class="col-md-2 text-center">
                 <button type="submit" class="btn btn-success">Filter</button>
-                <a href="{{ url_for('index') }}"><button type="button" class="btn btn-secondary">Reset</button></a>             
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">Reset</a>             
         </div>
 </form>
 <div class="row">
@@ -124,7 +124,7 @@
                                                 <td>{{ entry.name }}</td>                                        
                                                 <td>
                                                         <!-- Edit and delete buttons -->
-                                                        <a href="{{ url_for('edit_entry', entry_id=entry._id) }}"><button type="button" class="btn btn-warning logbook-button"><i class="material-icons">edit</i></button></a>
+                                                        <a href="{{ url_for('edit_entry', entry_id=entry._id) }}" class="btn btn-warning logbook-button"><i class="material-icons">edit</i></a>
                                                         <button type="button" class="btn btn-danger logbook-button" onclick="deleteEntry(`{{ url_for('delete', delete_type='entry', entity_id=entry._id) }}`)"><i class="material-icons">delete_forever</i></button>                                          
                                                 </td>
                                         </tr>
@@ -138,17 +138,17 @@
 </div>
 <div class="row mb-2">
         <div class="col">
-                <a href="{{ url_for('export', user_id=session['user_id']) }}" target="_blank"><button type="button" class="btn btn-outline-warning logbook-button"><i class="material-icons">save_alt</i></button></a>
+                <a href="{{ url_for('export', user_id=session['user_id']) }}" target="_blank" class="btn btn-outline-warning logbook-button"><i class="material-icons">save_alt</i></a>
                 <small class="text-muted">Export all to CSV</small>
         </div>
         <div class="col text-right">
               <!-- Pagination Controls -->
                 <small class="text-muted">Page: {{ user_entries.current_page }}</small>
                 {% if user_entries.previous_page %}                
-                <a href="{{ url_for('index', page=user_entries.previous_page) }}"><button class="btn btn-outline-dark logbook-button"><i class="material-icons">navigate_before</i></button></a>
+                <a href="{{ url_for('index', page=user_entries.previous_page) }}" class="btn btn-outline-dark logbook-button"><i class="material-icons">navigate_before</i></a>
                 {% endif %}
                 {% if user_entries.next_page %}                
-                <a href="{{ url_for('index', page=user_entries.next_page) }}"><button class="btn btn-outline-dark logbook-button"><i class="material-icons">navigate_next</i></button></a>
+                <a href="{{ url_for('index', page=user_entries.next_page) }}" class="btn btn-outline-dark logbook-button"><i class="material-icons">navigate_next</i></a>
                 {% endif %}  
         </div>
 </div>
@@ -237,8 +237,7 @@
                         </div>
                         <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-                                <a id="button-edit-entry-modal" href=""><button type="button"
-                                                class="btn btn-warning">Edit</button></a>
+                                <a id="button-edit-entry-modal" href="" class="btn btn-warning">Edit</a>
                         </div>
                 </div>
         </div>

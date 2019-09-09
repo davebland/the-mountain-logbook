@@ -13,14 +13,14 @@
                 <div class="form-group">
                     <!-- Entry Name -->
                     <label for="input-entry-name" class="form-required">entry name</label>
-                    <input type="text" class="form-control form-control-lg" id="input-entry-name" name="name" size="100%" placeholder="Inspired title for your entry..." value="{{ entry.name }}" required>
+                    <input type="text" class="form-control form-control-lg" id="input-entry-name" name="name" placeholder="Inspired title for your entry..." value="{{ entry.name }}" required>
                 </div>                                           
                 <div class="form-row">                    
                     <div class="col-lg px-lg-4">
                         <div class="form-group">
                             <!-- Date -->
                             <label for="input-date" class="form-required">date</label>
-                            <input type="date" class="form-control" id="input-date" name="date" placeholder="date" value="{{ entry.date }}" required>
+                            <input type="date" class="form-control" id="input-date" name="date" value="{{ entry.date }}" required>
                         </div>
                         <!-- Area -->
                         <div class="form-group">
@@ -106,7 +106,7 @@
                         </div>
                         <div class="form-group">
                             <!-- Weather -->
-                            <label for="input-eather">weather</label>
+                            <label for="input-weather">weather</label>
                             <input type="text" class="form-control" id="input-weather" name="weather" placeholder="A short description..." value="{{ entry.weather }}">                    
                         </div>
                         <div class="form-group">
@@ -134,11 +134,11 @@
                 <div class="form-group">
                     <!-- Notes -->                    
                     <label for="textarea-notes">notes</label>
-                    <textarea class="form-control" id="textarea-notes" name="notes" rows="15" cols="100%">{{ entry.notes }}</textarea>
+                    <textarea class="form-control" id="textarea-notes" name="notes" rows="15">{{ entry.notes }}</textarea>
                 </div>
                 <div class="form-row">
                     <div class="col">
-                        <a href="{{ url_for('index') }}"><button type="button" class="btn btn-danger">Back</button></a>
+                        <a href="{{ url_for('index') }}" class="btn btn-danger">Back</a>
                     </div>
                     <div class="col text-right">
                         <button type="submit" class="btn btn-success">Submit</button>
