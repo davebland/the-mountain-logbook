@@ -2,7 +2,7 @@
 <!-- General Error Page -->
 {% block main %}
 <div class="row">
-    <div class="col-md-8 col-lg-6 bg-light mx-1 mx-md-auto rounded">
+    <div class="col-md-8 col-lg-6 bg-light mx-1 mx-md-auto rounded py-3">
         <h2 class="text-center">Sorry, an error occured</h2>
         <!-- Flashed or other message Area -->                       
         {% with error_messages = get_flashed_messages() %}                
@@ -14,6 +14,7 @@
                         </div> 
                 {% endif %}
         {% endwith %}
+        <a href="{{ url_for('index') }}" class="btn btn-info pt-0"><i class="material-icons">arrow_left</i> Home</a>
     </div>
 </div>
 {% endblock %}

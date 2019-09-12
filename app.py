@@ -1,14 +1,13 @@
+import os
+import asyncio
+import csv
+from datetime import datetime
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_pymongo import PyMongo
 from pymongo import errors as mongo_errors
-from datetime import datetime
-from dotenv import load_dotenv
-import os
 import mongo_helpers as db
 import email_notifications as mail
-import asyncio
-import csv
-
 
 # APP SETUP
 app = Flask(__name__)
@@ -28,11 +27,11 @@ mongo = PyMongo(app)
 
 # ERROR HANDLERS
 
-@app.errorhandler(mongo_errors.OperationFailure)
-def handle_mongo_op_failure(e):
-    """ Return 503 error with custom page """
+@app.errorhandler(Exception)
+def handle_errors(e):
+    """ Return 500 error with custom page """
     flash(e)
-    return render_template('error.html'), 503
+    return render_template('error.html'), 500
 
 # ROUTE HELPER FUNCTIONS
 
@@ -278,4 +277,4 @@ def delete(delete_type, entity_id):
 
 # Set flask parameters and run
 if __name__ == '__main__':
-    app.run(host=os.getenv('IP', "0.0.0.0"), port=int(os.getenv('PORT', "5000")), debug=True)
+    app.run(host=os.getenv('IP', "0.0.0.0"), port=int(os.getenv('PORT', "5000")), debug=False)

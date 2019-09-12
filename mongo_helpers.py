@@ -1,10 +1,10 @@
 # DB HELPERS FOR MONGO
 
-from app import mongo, session
+import math
+from datetime import datetime
 from bson.objectid import ObjectId
 from bson.json_util import dumps
-from datetime import datetime
-import math
+from app import mongo, session
 
 # USERS
 
@@ -72,7 +72,7 @@ def get_entries_for_user(user_id, page = 1, db_filter = {}):
     else:
         query = {'user_id':user_id}
     # Setup metrics for pages
-    entries_per_page = 3
+    entries_per_page = 6
     entry_count =  mongo.db.entries.count_documents(query)
     max_pages = math.ceil(entry_count / entries_per_page)
     if entry_count:
@@ -130,7 +130,7 @@ def create_update_entry(form_data, entry_id = None):
         'area_id' : form_data['area_id'],
         'primary_terrain' : form_data['primary_terrain'],
         'duration' : int(form_data['duration']),
-        'distance' : to_float(form_data['distance']),
+        'distance' : +to_float(form_data['distance']),
         'highest_point_name' : form_data['highest_point_name'],
         'highest_point_os_grid' : form_data['highest_point_os_grid'],
         'highest_point_os_eastings' : to_float(form_data['highest_point_os_eastings']),

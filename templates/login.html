@@ -4,15 +4,15 @@
 <div class="row">
     <div class="col-md-8 col-lg-6 bg-light mx-1 mx-md-auto rounded">
         <div class="jumbotron text-center mt-3 mb-3 bg-primary">
-                <h2 class="display-4">Welcome</h2>                
-                <h3><small>The Mountain Logbook Online</small></h3>
+            <h2 class="display-4">Welcome</h2>                
+            <h3><small>The Mountain Logbook Online</small></h3>
         </div>
         <h4 class="text-center mb-3"><strong>Login or sign-up below <i class="material-icons">arrow_downward</i></strong></h4>
         <p class="text-justify">The Mountain Logbook is an application for recording your mountain (or other!) walking trips. Keep a record of your outings for personal interest or as a way of logging that all important experience for future walking qualifications.</p>
         <p class="text-justify mb-0">Use of the Mountain Logbook is free and only requires an email address to identify your account. The only personal data we store about you is that which you enter yourself.</p>
         <h6 class="text-right pb-3">Enjoy <i class="material-icons">tag_faces</i></h6>
         <p class="text-center">
-            <em>Login with <strong>demo@daveb.me.uk</strong> for some example content.</em>
+            <em>Login with <strong id="click-demo-login">demo@the-mountain-logbook.online</strong> for example content</em>
         </p>
         <!-- Flashed or other message Area -->                       
         {% with error_messages = get_flashed_messages() %}                
@@ -59,8 +59,8 @@
                     <!-- Sign-up form -->
                     <form id="form-signup" method="POST" action="{{ url_for('create', create_type='user') }}">
                         <div class="form-group">
-                                <input type="email" class="form-control form-control-lg" id="signup-email" name="signup-email"
-                                placeholder="Enter email" required>
+                            <input type="email" class="form-control form-control-lg" id="signup-email" name="signup-email"
+                            placeholder="Enter email" required>
                         </div>
                         <div class="form-group">
                             <label for="display-name" class="sr-only">Enter display name</label>
@@ -82,5 +82,10 @@
     $('#modal-signup').on('show.bs.modal', function () {
         $('#signup-email').val($('#login-email').val());
     })
+
+    // Populate login email form field when a user clicks on demo email
+    $('#click-demo-login').click(function() {
+        $('#login-email').val($('#click-demo-login').text());
+    });
 </script>
 {% endblock %}
