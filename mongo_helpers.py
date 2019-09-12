@@ -130,7 +130,7 @@ def create_update_entry(form_data, entry_id = None):
         'area_id' : form_data['area_id'],
         'primary_terrain' : form_data['primary_terrain'],
         'duration' : int(form_data['duration']),
-        'distance' : +to_float(form_data['distance']),
+        'distance' : to_float(form_data['distance']),
         'highest_point_name' : form_data['highest_point_name'],
         'highest_point_os_grid' : form_data['highest_point_os_grid'],
         'highest_point_os_eastings' : to_float(form_data['highest_point_os_eastings']),
