@@ -13,7 +13,7 @@ See http://the-mountain-logbook.herokuapp.com/
 
 ![Screenshot](static/images/screenshot.jpg?)
 ## UX
-The application is primarily for people who will already be keeping a logbook of some kind, likely either a paper based or spreadsheet. For this reason, the user interface will use a table layout as this will be familiar and should aid user take-up.
+The application is primarily for people who will already be keeping a logbook of some kind, likely either paper based or spreadsheet. For this reason, the user interface will use a table layout as this will be familiar and should aid user take-up.
 ### User Stories
 1. On first opening the application the user can either login to an existing account using an email address or create a new account by supplying a unique email address and display name.
 2. It will not be possible to create accounts with duplicate email addresses and users will get clear feedback if an email address already exists.
@@ -29,7 +29,7 @@ The application is primarily for people who will already be keeping a logbook of
 - Responsive design for mobile or desktop
 - ‘Member since’ derived from timestamp in Mongo ObjectId
 - Pagination and filtering of entries on home page
-- Basic handling of common MongoDB errors with custom error page
+- Basic handling of errors with custom error page
 - Ajax calls to populate ‘entry details’ modal according to entry selected in table and without reloading page
 - Ajax calls to populate ‘others’ table without reloading page
 - Ability to add new areas during creation or update of an entry
@@ -65,24 +65,24 @@ The application is primarily for people who will already be keeping a logbook of
 
 ## Testing
 The testing process was continuous throughout development. Built and tested in the following broad stages:
-1. Basic flask app using template pages with initial layout.
-2. Constructed Python logic for moving data about via routes and views.
+1. Basic flask app using template pages with initial layout
+2. Constructed Python logic for moving data about via routes and views
 3. Connected to MongoDB to test working with real data
 4. Finalised styling and layout
 5. Deployed to Heroku (initial development on local machine with virtualenv)
 6. Extensive testing via front end, checking all features and clearing any bugs
 
-Tested on different browsers and for desktop/mobile screen sizes via browser dev tools. CSS and HTML validated using online tools.
+Tested on different browsers and for desktop/mobile screen sizes via browser dev tools. CSS and HTML validated using online tools. Python code tested by building each function as a 'mini project' and testing the functionality and error handling before moving onto the next piece of functionality.
 ### User Story Testing
-Tested the functionality of each story from a user point of view as well as getting another person to use the site without instruction and provide feedback.
+Tested the functionality of each story from a user point of view. Asked several other people to use the application without instruction and provide feedback. This also served to add demonstration data to the data store.
 ## Technical Challenges
 - Frontend processing of data returned in ajax calls to database (MongoDB cursor instances)
 - Filtering of entries using MongoDB aggregate function
 - Populating data in modals according to clicked element
 - Export to csv using DictWriter function
-- Asynchronous execution of notification email to speed up login time
+- Attempt on asynchronous execution of notification email to speed up login time
 ## Deployment
-App hosted on Heroku linked to GitHub repository. Environment variables set for sensitive information rather than containing this in code. Static CSS and JS files minified for optimal loading speed.
+App hosted on Heroku linked to GitHub repository. Environment variables set for sensitive information rather than contained in code. Static CSS and JS files minified for optimal loading speed.
 
 The deployment to Heroku was fairly straightforward, however I did need to specify the Python runtime to match my local machine as well as module requirements and Procfile. The application is linked to the GitHub repository as a deployment and is updated manually to latest commit via Heroku controls.
 
